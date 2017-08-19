@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tusko.cn/"/>
-  <updated>2017-08-19T02:17:37.345Z</updated>
+  <updated>2017-08-19T02:29:24.788Z</updated>
   <id>http://tusko.cn/</id>
   
   <author>
@@ -16,44 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>AlphaBeta剪枝算法</title>
-    <link href="http://tusko.cn/2017/01/03/alphabeta%E5%89%AA%E6%9E%9D%E7%AE%97%E6%B3%95/"/>
-    <id>http://tusko.cn/2017/01/03/alphabeta剪枝算法/</id>
-    <published>2017-01-02T16:00:02.000Z</published>
-    <updated>2017-08-19T02:17:37.345Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="AlphaBeta剪枝算法"><a href="#AlphaBeta剪枝算法" class="headerlink" title="AlphaBeta剪枝算法"></a>AlphaBeta剪枝算法</h4><p>&#160; &#160; &#160; &#160;极大极小值搜索算法计算的是整个博弈搜索树的复杂度，对国际跳棋而言假设每个局面只有9个走步，搜索10层的情况下就有9^10个博弈树节点需要探索，在优先的计算机资源下，无论从时间还是空间上来看，都是不可以接受的。AlphaBeta搜索算法就是用来解决来剪枝掉一些不必要的节点。 </p>
-<p>&#160; &#160; &#160; &#160;Alpha-Beta剪枝算法是建立在MiniMax算法基础上的，其特点是在博弈树上进行搜索时加上了alpha剪枝和beta剪枝。以下为alpha剪枝和beta剪枝示例：</p>
-<p><img src="/image_save/alpha剪枝.png" alt="alpha剪枝"></p>
-<p><img src="/image_save/beta剪枝.png" alt="beta剪枝"></p>
-<p>&#160; &#160; &#160; &#160;如上图，<strong>其中正方形节点取极大值，圆形节点取极小值</strong>。图（a）中节点B的估值为18,节点C取极小值，则取节点D、E、F中最小估值的。由于节点D的估值为16，则节点C取值小于等于16。但是最终节点A取极大值在节点B、C中，所以，节点A一定取的为节点B的值18。那么，节点E、F不必进行估值搜索。因此C-E，C-F分支及节点C的子节点的分支全部被alpha剪枝。</p>
-<p>&#160; &#160; &#160; &#160;图(b)中节点B估值为8，节点C取极大值，取节点D、E、F中最大估值的。节点D的估值18，则节点C的估值大于或等于18。但是节点A取极小值，所以节点A取节点B的值。节点C的其他分支被beta剪枝。</p>
-<p>&#160; &#160; &#160; &#160;Alpha-Beta 剪枝算法的效率很大程度上依赖于节点的排列，在理想状态的排序下,最大效率前提，可以使搜索节点的数量减小一半，这样就能提高搜索速率，从而使在相同时间下的搜索深度增加一倍。可能读者以为提升一层深度有什么了不起，如果了解指数爆炸我们就知道这是巨大的提升，带来的是更快的速率。</p>
-<p>&#160; &#160; &#160; &#160;算法使用了两个值，分别为alpha和beta，alpha和beta的意义分别代表最佳得分的最小下界和最大上界，即是最好的值和最差的值。最初alpha，beta被设为无穷大和无穷小，伴随着搜索的不断进行，这个上界和下界在不断博弈的情况下逐渐收敛成为一个相对较优的值。</p>
-<p>（1）任何max节点的alpha值大于其父节点的beta值，则把该节点剩余的枝剪下去，因为这说明该节点之前至少有一个节点alpha值比它的上界还要小，也就是无论如何这个值比现有最坏情况还要坏，对敌方而言，所以敌方不会选这个路径作为最好走步，反之如果选择了，则他选择的是更坏的走步。而父节点是min节点，所以这个节点显然不是min节点所想要的。或者说这个节点对对手非常有利。<br>（2）同理任何min节点的beta值小于父节点alpha值，则把该节点剩余的枝剪去。</p>
-<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">int Alpha_Beta(nDepth, nAlpha, nBeta)</div><div class="line">&#123;</div><div class="line">	int score;</div><div class="line">	if(Game Over)</div><div class="line">		return Eveluation;// 游戏结束返回估值</div><div class="line">	</div><div class="line">	if(nDepth == 0)</div><div class="line">		return Eveluation;// 叶子节点返回估值</div><div class="line">	</div><div class="line">	if(IsMini Node)// 当为取极小值的节点</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &lt; nBeta)</div><div class="line">			&#123;</div><div class="line">				nBeta = score; // 取极小值</div><div class="line">				if(nAlpha &gt;= nBeta)// alpha剪枝</div><div class="line">					return nAlpha;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &gt; nAlpha)</div><div class="line">			&#123;</div><div class="line">				nAlpha = score; // 取极大值</div><div class="line">				if(nAlpha &gt;= nBeta)// beta 剪枝</div><div class="line">					return nBeta;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return nAlpha;// 返回极大值</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;算法简介&quot;&gt;&lt;a href=&quot;#算法简介&quot; class=&quot;headerlink&quot; title=&quot;算法简介&quot;&gt;&lt;/a&gt;算法简介&lt;/h3&gt;&lt;h4 id=&quot;AlphaBeta剪枝算法&quot;&gt;&lt;a href=&quot;#AlphaBeta剪枝算法&quot; class=&quot;headerlink
-    
-    </summary>
-    
-      <category term="计算机博弈" scheme="http://tusko.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88/"/>
-    
-    
-      <category term="计算机博弈" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88/"/>
-    
-      <category term="计算机博弈算法" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
     <title>UCT搜索算法</title>
-    <link href="http://tusko.cn/2016/12/10/UCT%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/"/>
-    <id>http://tusko.cn/2016/12/10/UCT搜索算法/</id>
-    <published>2016-12-10T08:05:00.000Z</published>
-    <updated>2017-08-19T02:16:18.074Z</updated>
+    <link href="http://tusko.cn/2016/02/10/UCT%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/"/>
+    <id>http://tusko.cn/2016/02/10/UCT搜索算法/</id>
+    <published>2016-02-10T08:05:00.000Z</published>
+    <updated>2017-08-19T02:29:24.788Z</updated>
     
     <content type="html"><![CDATA[<h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="多臂匪徒"><a href="#多臂匪徒" class="headerlink" title="多臂匪徒"></a>多臂匪徒</h4><p>&#160; &#160; &#160; &#160;UCT算法是UCB策略与蒙特卡罗规划的结合体，在UCB算法中加入蒙特卡罗就形成了我们要介绍的UCT搜索。因此在介绍UCT搜索之前，我们先来了解下UCB策略和蒙特卡罗规划。</p>
 <p>&#160; &#160; &#160; &#160;首先，介绍下多臂匪徒问题。多臂匪徒问题就是说，有一个有K个拉手的老虎机，赌徒要从这些拉手中选出一个拉手，从而获得可能值为正值，0，负值的回报。在某个特定时间内，赌徒只能拉动一个拉手。当赌徒在老虎机面前时，他是没有任何头绪的。因为对他而言，每个拉手获得好的回报的概率是一样的，他也不知道该怎么选。他只能不断试探，发现拉手的规律后，推断哪个拉手获得的回报最大。为了让赌徒得到尽可能大的回报，我们需要找到一种策略，UCB策略就是这样一种可以解决多臂匪徒问题的策略。下面就是UCB策略的算法流程图：</p>
@@ -76,6 +43,39 @@
     <summary type="html">
     
       &lt;h3 id=&quot;算法简介&quot;&gt;&lt;a href=&quot;#算法简介&quot; class=&quot;headerlink&quot; title=&quot;算法简介&quot;&gt;&lt;/a&gt;算法简介&lt;/h3&gt;&lt;h4 id=&quot;多臂匪徒&quot;&gt;&lt;a href=&quot;#多臂匪徒&quot; class=&quot;headerlink&quot; title=&quot;多臂匪徒&quot;&gt;&lt;/a
+    
+    </summary>
+    
+      <category term="计算机博弈" scheme="http://tusko.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88/"/>
+    
+    
+      <category term="计算机博弈" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88/"/>
+    
+      <category term="计算机博弈算法" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AlphaBeta剪枝算法</title>
+    <link href="http://tusko.cn/2016/01/03/alphabeta%E5%89%AA%E6%9E%9D%E7%AE%97%E6%B3%95/"/>
+    <id>http://tusko.cn/2016/01/03/alphabeta剪枝算法/</id>
+    <published>2016-01-02T16:00:02.000Z</published>
+    <updated>2017-08-19T02:28:54.441Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="AlphaBeta剪枝算法"><a href="#AlphaBeta剪枝算法" class="headerlink" title="AlphaBeta剪枝算法"></a>AlphaBeta剪枝算法</h4><p>&#160; &#160; &#160; &#160;极大极小值搜索算法计算的是整个博弈搜索树的复杂度，对国际跳棋而言假设每个局面只有9个走步，搜索10层的情况下就有9^10个博弈树节点需要探索，在优先的计算机资源下，无论从时间还是空间上来看，都是不可以接受的。AlphaBeta搜索算法就是用来解决来剪枝掉一些不必要的节点。 </p>
+<p>&#160; &#160; &#160; &#160;Alpha-Beta剪枝算法是建立在MiniMax算法基础上的，其特点是在博弈树上进行搜索时加上了alpha剪枝和beta剪枝。以下为alpha剪枝和beta剪枝示例：</p>
+<p><img src="/image_save/alpha剪枝.png" alt="alpha剪枝"></p>
+<p><img src="/image_save/beta剪枝.png" alt="beta剪枝"></p>
+<p>&#160; &#160; &#160; &#160;如上图，<strong>其中正方形节点取极大值，圆形节点取极小值</strong>。图（a）中节点B的估值为18,节点C取极小值，则取节点D、E、F中最小估值的。由于节点D的估值为16，则节点C取值小于等于16。但是最终节点A取极大值在节点B、C中，所以，节点A一定取的为节点B的值18。那么，节点E、F不必进行估值搜索。因此C-E，C-F分支及节点C的子节点的分支全部被alpha剪枝。</p>
+<p>&#160; &#160; &#160; &#160;图(b)中节点B估值为8，节点C取极大值，取节点D、E、F中最大估值的。节点D的估值18，则节点C的估值大于或等于18。但是节点A取极小值，所以节点A取节点B的值。节点C的其他分支被beta剪枝。</p>
+<p>&#160; &#160; &#160; &#160;Alpha-Beta 剪枝算法的效率很大程度上依赖于节点的排列，在理想状态的排序下,最大效率前提，可以使搜索节点的数量减小一半，这样就能提高搜索速率，从而使在相同时间下的搜索深度增加一倍。可能读者以为提升一层深度有什么了不起，如果了解指数爆炸我们就知道这是巨大的提升，带来的是更快的速率。</p>
+<p>&#160; &#160; &#160; &#160;算法使用了两个值，分别为alpha和beta，alpha和beta的意义分别代表最佳得分的最小下界和最大上界，即是最好的值和最差的值。最初alpha，beta被设为无穷大和无穷小，伴随着搜索的不断进行，这个上界和下界在不断博弈的情况下逐渐收敛成为一个相对较优的值。</p>
+<p>（1）任何max节点的alpha值大于其父节点的beta值，则把该节点剩余的枝剪下去，因为这说明该节点之前至少有一个节点alpha值比它的上界还要小，也就是无论如何这个值比现有最坏情况还要坏，对敌方而言，所以敌方不会选这个路径作为最好走步，反之如果选择了，则他选择的是更坏的走步。而父节点是min节点，所以这个节点显然不是min节点所想要的。或者说这个节点对对手非常有利。<br>（2）同理任何min节点的beta值小于父节点alpha值，则把该节点剩余的枝剪去。</p>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">int Alpha_Beta(nDepth, nAlpha, nBeta)</div><div class="line">&#123;</div><div class="line">	int score;</div><div class="line">	if(Game Over)</div><div class="line">		return Eveluation;// 游戏结束返回估值</div><div class="line">	</div><div class="line">	if(nDepth == 0)</div><div class="line">		return Eveluation;// 叶子节点返回估值</div><div class="line">	</div><div class="line">	if(IsMini Node)// 当为取极小值的节点</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &lt; nBeta)</div><div class="line">			&#123;</div><div class="line">				nBeta = score; // 取极小值</div><div class="line">				if(nAlpha &gt;= nBeta)// alpha剪枝</div><div class="line">					return nAlpha;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &gt; nAlpha)</div><div class="line">			&#123;</div><div class="line">				nAlpha = score; // 取极大值</div><div class="line">				if(nAlpha &gt;= nBeta)// beta 剪枝</div><div class="line">					return nBeta;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return nAlpha;// 返回极大值</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;算法简介&quot;&gt;&lt;a href=&quot;#算法简介&quot; class=&quot;headerlink&quot; title=&quot;算法简介&quot;&gt;&lt;/a&gt;算法简介&lt;/h3&gt;&lt;h4 id=&quot;AlphaBeta剪枝算法&quot;&gt;&lt;a href=&quot;#AlphaBeta剪枝算法&quot; class=&quot;headerlink
     
     </summary>
     

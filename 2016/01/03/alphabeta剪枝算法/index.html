@@ -93,25 +93,22 @@
 
 
 
-<meta name="description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
+<meta name="description" content="算法简介AlphaBeta剪枝算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;极大极小值搜索算法计算的是整个博弈搜索树的复杂度，对国际跳棋而言假设每个局面只有9个走步，搜索10层的情况下就有9^10个博弈树节点需要探索，在优先的计算机资源下，无论从时间还是空间上来看，都是不可以接受的。AlphaBeta搜索算法就是用来解决来剪枝掉一些不必要的节点。 
+&amp;#160; &amp;#160; &amp;#16">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极大值极小值算法">
-<meta property="og:url" content="http://tusko.cn/2015/10/06/极大值极小值算法/index.html">
+<meta property="og:title" content="AlphaBeta剪枝算法">
+<meta property="og:url" content="http://tusko.cn/2016/01/03/alphabeta剪枝算法/index.html">
 <meta property="og:site_name" content="Killua's blog">
-<meta property="og:description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
-<meta property="og:image" content="http://tusko.cn/images/极大极小值算法_1.png">
-<meta property="og:image" content="http://tusko.cn/images/二人博弈树.png">
-<meta property="og:image" content="http://tusko.cn/images/二人博弈树估值.png">
-<meta property="og:image" content="http://tusko.cn/images/极小值算法伪代码.png">
-<meta property="og:image" content="http://tusko.cn/images/极大值算法伪代码.png">
-<meta property="og:updated_time" content="2017-08-06T08:57:18.000Z">
+<meta property="og:description" content="算法简介AlphaBeta剪枝算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;极大极小值搜索算法计算的是整个博弈搜索树的复杂度，对国际跳棋而言假设每个局面只有9个走步，搜索10层的情况下就有9^10个博弈树节点需要探索，在优先的计算机资源下，无论从时间还是空间上来看，都是不可以接受的。AlphaBeta搜索算法就是用来解决来剪枝掉一些不必要的节点。 
+&amp;#160; &amp;#160; &amp;#16">
+<meta property="og:image" content="http://tusko.cn/image_save/alpha剪枝.png">
+<meta property="og:image" content="http://tusko.cn/image_save/beta剪枝.png">
+<meta property="og:updated_time" content="2017-08-19T02:28:54.441Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极大值极小值算法">
-<meta name="twitter:description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
-<meta name="twitter:image" content="http://tusko.cn/images/极大极小值算法_1.png">
+<meta name="twitter:title" content="AlphaBeta剪枝算法">
+<meta name="twitter:description" content="算法简介AlphaBeta剪枝算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;极大极小值搜索算法计算的是整个博弈搜索树的复杂度，对国际跳棋而言假设每个局面只有9个走步，搜索10层的情况下就有9^10个博弈树节点需要探索，在优先的计算机资源下，无论从时间还是空间上来看，都是不可以接受的。AlphaBeta搜索算法就是用来解决来剪枝掉一些不必要的节点。 
+&amp;#160; &amp;#160; &amp;#16">
+<meta name="twitter:image" content="http://tusko.cn/image_save/alpha剪枝.png">
 
 
 
@@ -139,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://tusko.cn/2015/10/06/极大值极小值算法/"/>
+  <link rel="canonical" href="http://tusko.cn/2016/01/03/alphabeta剪枝算法/"/>
 
 
 
 
 
-  <title> 极大值极小值算法 | Killua's blog </title>
+  <title> AlphaBeta剪枝算法 | Killua's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -320,7 +317,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2015/10/06/极大值极小值算法/">
+  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2016/01/03/alphabeta剪枝算法/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Killua">
@@ -344,7 +341,7 @@
             
             
               
-                极大值极小值算法
+                AlphaBeta剪枝算法
               
             
           </h2>
@@ -359,8 +356,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-06T15:38:46+08:00">
-                2015-10-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-03T00:00:02+08:00">
+                2016-01-03
               </time>
             
 
@@ -399,7 +396,7 @@
 
           
           
-             <span id="/2015/10/06/极大值极小值算法/" class="leancloud_visitors" data-flag-title="极大值极小值算法">
+             <span id="/2016/01/03/alphabeta剪枝算法/" class="leancloud_visitors" data-flag-title="AlphaBeta剪枝算法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -428,21 +425,16 @@
       
 
       
-        <h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="极大值极小值算法"><a href="#极大值极小值算法" class="headerlink" title="极大值极小值算法"></a>极大值极小值算法</h4><p>&#160; &#160; &#160; &#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。</p>
-<p>&#160; &#160; &#160; &#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发式搜索。这种启发式搜索只搜索博弈树中的一部分，然后采用启发方式引导博弈往利于己方获胜的方向发展。计算机通常会研究并发现一系列规则来形成启发方式，然后选择出一条可以解决问题的最佳路径。</p>
-<p>&#160; &#160; &#160; &#160;极大极小搜索是一种在有限深度内搜索的启发式搜索。这里，我们用一个形象的例子来说明极大极小搜索。甲、乙两位玩家玩一个不清楚规则的游戏。在游戏过程中，甲方希望获得尽可能高的分数，而乙方恰恰希望甲方获得尽可能低的分数。这个游戏过程即是说：甲方在玩游戏时应尽量让自己的分数变大，而乙方则尽量让甲方分数变低。游戏中甲、乙双方使分数极大极小的过程就是极大极小搜索。</p>
-<p>&#160; &#160; &#160; &#160;极大极小值算法是根据零和博弈的特点，在与对手的博弈中，模拟整个博弈的过程。在己方的所有决策中找出相对于自己最大收益的决策；假设我方能知道对方的所有决策，根据我方判断，在对手的决策所有决策中找到使己方最小收益的决策。</p>
-<p>以下为一棵极大极小值搜索树:</p>
-<p><img src="/images/极大极小值算法_1.png" alt="极大极小值搜索树"></p>
-<p>&#160; &#160; &#160; &#160;如上图所示，它是一棵以当前局面为根节点而展开的5层博弈树，我们把偶数层记为Max层，把奇数层记为Min层，当博弈树扩展到叶子节点后，自底向上，我们倒推每个节点的值。如果父节点是在Max层，通过比较后，将子节点中的最大值赋给它；而如果是在Min层，通过比较后，将它节点中的最小值赋给它。递归进行，最终可以得知根节点的哪个子节点能让自己的局面优势最大或者说让对方的哪个局面优势最小。</p>
-<p>以下是一棵二人博弈树:<br><img src="/images/二人博弈树.png" alt="二人博弈树"></p>
-<p>&#160; &#160; &#160; &#160;根节点为A，其子节点B、C、D分别为我方产生一种行为后形成的另一种局面，节点E、F、G、H、I分别是对方在其父节点上产生一种行为后形成的局面。<br>&#160; &#160; &#160; &#160;通过极大极小值算法对该博弈树进行搜索之前，首先需要对此博弈树的叶子节点进行估值，假设其叶子节点估值如下：</p>
-<p><img src="/images/二人博弈树估值.png" alt="二人博弈树估值"></p>
-<p>&#160; &#160; &#160; &#160;根据极大极小值算法的原理，在第三层为对方产生行为后形成的局面，取极小值。节点B取节点E、F、G中估值最小的，所以节点B的估值为节点G的估值，为-11；节点D的估值为节点H、I中估值最小的，为-999；在第二层中为我方产生行为后形成的局面，则取极大值。此时，节点B估值为-11，节点C估值为-100，节点D估值为-999。则取节点B、C、D中估值最大的，所以节点A取节点B的估值。最后，我方取的最终行为是产生节点B局面的行为。<br>&#160; &#160; &#160; &#160;另外，极大极小值算法是基于静态估值函数的，且其博弈树的深度是有限的，到设定的深度后需返回其叶子节点的估值。</p>
-<p>极小值算法伪代码:<br><img src="/images/极小值算法伪代码.png" alt="极小值算法伪代码"></p>
-<p>极大值算法伪代码:<br><img src="/images/极大值算法伪代码.png" alt="极大值算法伪代码"></p>
-<h4 id="负极大值算法"><a href="#负极大值算法" class="headerlink" title="负极大值算法"></a>负极大值算法</h4><p>&#160; &#160; &#160; &#160;当极大极小搜索应用于双人棋类博弈时，负极大搜索算法是其的简单变形。根据博弈的定义，对于同一个盘面，甲方对其评估值总是乙方对其评估值的相反数。因此，当前盘面的落子一方需要从所有下一个盘面评估值的相反数中取极大值，而下一个盘面评估值必须按照对手来评估。并且，该搜索步骤对于甲、乙双方均适用。负极大搜索算法与极小极大搜索算法具有相同的复杂度，只是简化了代码量，并没有对搜索节点数目进行缩减，下面我们讨论的负极大值搜索算法就对树的节点进行了剪枝，减小了搜索复杂度。</p>
-
+        <h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="AlphaBeta剪枝算法"><a href="#AlphaBeta剪枝算法" class="headerlink" title="AlphaBeta剪枝算法"></a>AlphaBeta剪枝算法</h4><p>&#160; &#160; &#160; &#160;极大极小值搜索算法计算的是整个博弈搜索树的复杂度，对国际跳棋而言假设每个局面只有9个走步，搜索10层的情况下就有9^10个博弈树节点需要探索，在优先的计算机资源下，无论从时间还是空间上来看，都是不可以接受的。AlphaBeta搜索算法就是用来解决来剪枝掉一些不必要的节点。 </p>
+<p>&#160; &#160; &#160; &#160;Alpha-Beta剪枝算法是建立在MiniMax算法基础上的，其特点是在博弈树上进行搜索时加上了alpha剪枝和beta剪枝。以下为alpha剪枝和beta剪枝示例：</p>
+<p><img src="/image_save/alpha剪枝.png" alt="alpha剪枝"></p>
+<p><img src="/image_save/beta剪枝.png" alt="beta剪枝"></p>
+<p>&#160; &#160; &#160; &#160;如上图，<strong>其中正方形节点取极大值，圆形节点取极小值</strong>。图（a）中节点B的估值为18,节点C取极小值，则取节点D、E、F中最小估值的。由于节点D的估值为16，则节点C取值小于等于16。但是最终节点A取极大值在节点B、C中，所以，节点A一定取的为节点B的值18。那么，节点E、F不必进行估值搜索。因此C-E，C-F分支及节点C的子节点的分支全部被alpha剪枝。</p>
+<p>&#160; &#160; &#160; &#160;图(b)中节点B估值为8，节点C取极大值，取节点D、E、F中最大估值的。节点D的估值18，则节点C的估值大于或等于18。但是节点A取极小值，所以节点A取节点B的值。节点C的其他分支被beta剪枝。</p>
+<p>&#160; &#160; &#160; &#160;Alpha-Beta 剪枝算法的效率很大程度上依赖于节点的排列，在理想状态的排序下,最大效率前提，可以使搜索节点的数量减小一半，这样就能提高搜索速率，从而使在相同时间下的搜索深度增加一倍。可能读者以为提升一层深度有什么了不起，如果了解指数爆炸我们就知道这是巨大的提升，带来的是更快的速率。</p>
+<p>&#160; &#160; &#160; &#160;算法使用了两个值，分别为alpha和beta，alpha和beta的意义分别代表最佳得分的最小下界和最大上界，即是最好的值和最差的值。最初alpha，beta被设为无穷大和无穷小，伴随着搜索的不断进行，这个上界和下界在不断博弈的情况下逐渐收敛成为一个相对较优的值。</p>
+<p>（1）任何max节点的alpha值大于其父节点的beta值，则把该节点剩余的枝剪下去，因为这说明该节点之前至少有一个节点alpha值比它的上界还要小，也就是无论如何这个值比现有最坏情况还要坏，对敌方而言，所以敌方不会选这个路径作为最好走步，反之如果选择了，则他选择的是更坏的走步。而父节点是min节点，所以这个节点显然不是min节点所想要的。或者说这个节点对对手非常有利。<br>（2）同理任何min节点的beta值小于父节点alpha值，则把该节点剩余的枝剪去。</p>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">int Alpha_Beta(nDepth, nAlpha, nBeta)</div><div class="line">&#123;</div><div class="line">	int score;</div><div class="line">	if(Game Over)</div><div class="line">		return Eveluation;// 游戏结束返回估值</div><div class="line">	</div><div class="line">	if(nDepth == 0)</div><div class="line">		return Eveluation;// 叶子节点返回估值</div><div class="line">	</div><div class="line">	if(IsMini Node)// 当为取极小值的节点</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &lt; nBeta)</div><div class="line">			&#123;</div><div class="line">				nBeta = score; // 取极小值</div><div class="line">				if(nAlpha &gt;= nBeta)// alpha剪枝</div><div class="line">					return nAlpha;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &gt; nAlpha)</div><div class="line">			&#123;</div><div class="line">				nAlpha = score; // 取极大值</div><div class="line">				if(nAlpha &gt;= nBeta)// beta 剪枝</div><div class="line">					return nBeta;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return nAlpha;// 返回极大值</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -480,8 +472,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/30/极大极小值井字棋/" rel="next" title="极大极小值算法-井字棋实现">
-                <i class="fa fa-chevron-left"></i> 极大极小值算法-井字棋实现
+              <a href="/2015/10/06/极大值极小值算法/" rel="next" title="极大值极小值算法">
+                <i class="fa fa-chevron-left"></i> 极大值极小值算法
               </a>
             
           </div>
@@ -490,8 +482,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/01/03/alphabeta剪枝算法/" rel="prev" title="AlphaBeta剪枝算法">
-                AlphaBeta剪枝算法 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/02/10/UCT搜索算法/" rel="prev" title="UCT搜索算法">
+                UCT搜索算法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -660,7 +652,7 @@ var jiathis_config = {data_track_clickback:'true'};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法简介"><span class="nav-number">1.</span> <span class="nav-text">算法简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#极大值极小值算法"><span class="nav-number">1.1.</span> <span class="nav-text">极大值极小值算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负极大值算法"><span class="nav-number">1.2.</span> <span class="nav-text">负极大值算法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法简介"><span class="nav-number">1.</span> <span class="nav-text">算法简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AlphaBeta剪枝算法"><span class="nav-number">1.1.</span> <span class="nav-text">AlphaBeta剪枝算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪代码"><span class="nav-number">2.</span> <span class="nav-text">伪代码</span></a></li></ol></div>
             
 
           </div>

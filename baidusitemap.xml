@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>http://tusko.cn2017/01/03/alphabeta%E5%89%AA%E6%9E%9D%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2017-08-19T02:17:37.345Z</lastmod>
+    <loc>http://tusko.cn2016/02/10/UCT%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2017-08-19T02:29:24.788Z</lastmod>
     <data>
         <display>
-        <title>AlphaBeta剪枝算法</title>
-        <pubTime>2017-01-02T16:00:02.000Z</pubTime>
+        <title>UCT搜索算法</title>
+        <pubTime>2016-02-10T08:05:00.000Z</pubTime>
         
         <tag>计算机博弈</tag>
          
@@ -26,12 +26,12 @@
 
     
   <url>
-    <loc>http://tusko.cn2016/12/10/UCT%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2017-08-19T02:16:18.074Z</lastmod>
+    <loc>http://tusko.cn2016/01/03/alphabeta%E5%89%AA%E6%9E%9D%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2017-08-19T02:28:54.441Z</lastmod>
     <data>
         <display>
-        <title>UCT搜索算法</title>
-        <pubTime>2016-12-10T08:05:00.000Z</pubTime>
+        <title>AlphaBeta剪枝算法</title>
+        <pubTime>2016-01-02T16:00:02.000Z</pubTime>
         
         <tag>计算机博弈</tag>
          

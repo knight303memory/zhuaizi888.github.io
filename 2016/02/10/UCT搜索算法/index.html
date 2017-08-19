@@ -93,25 +93,23 @@
 
 
 
-<meta name="description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
+<meta name="description" content="算法简介多臂匪徒&amp;#160; &amp;#160; &amp;#160; &amp;#160;UCT算法是UCB策略与蒙特卡罗规划的结合体，在UCB算法中加入蒙特卡罗就形成了我们要介绍的UCT搜索。因此在介绍UCT搜索之前，我们先来了解下UCB策略和蒙特卡罗规划。
+&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先，介绍下多臂匪徒问题。多臂匪徒问题就是说，有一个有K个拉手的老虎机，赌徒要从这些拉手中选出一个拉手，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极大值极小值算法">
-<meta property="og:url" content="http://tusko.cn/2015/10/06/极大值极小值算法/index.html">
+<meta property="og:title" content="UCT搜索算法">
+<meta property="og:url" content="http://tusko.cn/2016/02/10/UCT搜索算法/index.html">
 <meta property="og:site_name" content="Killua's blog">
-<meta property="og:description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
-<meta property="og:image" content="http://tusko.cn/images/极大极小值算法_1.png">
-<meta property="og:image" content="http://tusko.cn/images/二人博弈树.png">
-<meta property="og:image" content="http://tusko.cn/images/二人博弈树估值.png">
-<meta property="og:image" content="http://tusko.cn/images/极小值算法伪代码.png">
-<meta property="og:image" content="http://tusko.cn/images/极大值算法伪代码.png">
-<meta property="og:updated_time" content="2017-08-06T08:57:18.000Z">
+<meta property="og:description" content="算法简介多臂匪徒&amp;#160; &amp;#160; &amp;#160; &amp;#160;UCT算法是UCB策略与蒙特卡罗规划的结合体，在UCB算法中加入蒙特卡罗就形成了我们要介绍的UCT搜索。因此在介绍UCT搜索之前，我们先来了解下UCB策略和蒙特卡罗规划。
+&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先，介绍下多臂匪徒问题。多臂匪徒问题就是说，有一个有K个拉手的老虎机，赌徒要从这些拉手中选出一个拉手，">
+<meta property="og:image" content="http://tusko.cn/image_save/多臂匪徒.png">
+<meta property="og:image" content="http://tusko.cn/image_save/ucb公式.png">
+<meta property="og:image" content="http://tusko.cn/image_save/ucb公式.png">
+<meta property="og:updated_time" content="2017-08-19T02:29:24.788Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极大值极小值算法">
-<meta name="twitter:description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
-<meta name="twitter:image" content="http://tusko.cn/images/极大极小值算法_1.png">
+<meta name="twitter:title" content="UCT搜索算法">
+<meta name="twitter:description" content="算法简介多臂匪徒&amp;#160; &amp;#160; &amp;#160; &amp;#160;UCT算法是UCB策略与蒙特卡罗规划的结合体，在UCB算法中加入蒙特卡罗就形成了我们要介绍的UCT搜索。因此在介绍UCT搜索之前，我们先来了解下UCB策略和蒙特卡罗规划。
+&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先，介绍下多臂匪徒问题。多臂匪徒问题就是说，有一个有K个拉手的老虎机，赌徒要从这些拉手中选出一个拉手，">
+<meta name="twitter:image" content="http://tusko.cn/image_save/多臂匪徒.png">
 
 
 
@@ -139,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://tusko.cn/2015/10/06/极大值极小值算法/"/>
+  <link rel="canonical" href="http://tusko.cn/2016/02/10/UCT搜索算法/"/>
 
 
 
 
 
-  <title> 极大值极小值算法 | Killua's blog </title>
+  <title> UCT搜索算法 | Killua's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -320,7 +318,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2015/10/06/极大值极小值算法/">
+  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2016/02/10/UCT搜索算法/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Killua">
@@ -344,7 +342,7 @@
             
             
               
-                极大值极小值算法
+                UCT搜索算法
               
             
           </h2>
@@ -359,8 +357,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-06T15:38:46+08:00">
-                2015-10-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-02-10T16:05:00+08:00">
+                2016-02-10
               </time>
             
 
@@ -399,7 +397,7 @@
 
           
           
-             <span id="/2015/10/06/极大值极小值算法/" class="leancloud_visitors" data-flag-title="极大值极小值算法">
+             <span id="/2016/02/10/UCT搜索算法/" class="leancloud_visitors" data-flag-title="UCT搜索算法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -428,21 +426,23 @@
       
 
       
-        <h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="极大值极小值算法"><a href="#极大值极小值算法" class="headerlink" title="极大值极小值算法"></a>极大值极小值算法</h4><p>&#160; &#160; &#160; &#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。</p>
-<p>&#160; &#160; &#160; &#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发式搜索。这种启发式搜索只搜索博弈树中的一部分，然后采用启发方式引导博弈往利于己方获胜的方向发展。计算机通常会研究并发现一系列规则来形成启发方式，然后选择出一条可以解决问题的最佳路径。</p>
-<p>&#160; &#160; &#160; &#160;极大极小搜索是一种在有限深度内搜索的启发式搜索。这里，我们用一个形象的例子来说明极大极小搜索。甲、乙两位玩家玩一个不清楚规则的游戏。在游戏过程中，甲方希望获得尽可能高的分数，而乙方恰恰希望甲方获得尽可能低的分数。这个游戏过程即是说：甲方在玩游戏时应尽量让自己的分数变大，而乙方则尽量让甲方分数变低。游戏中甲、乙双方使分数极大极小的过程就是极大极小搜索。</p>
-<p>&#160; &#160; &#160; &#160;极大极小值算法是根据零和博弈的特点，在与对手的博弈中，模拟整个博弈的过程。在己方的所有决策中找出相对于自己最大收益的决策；假设我方能知道对方的所有决策，根据我方判断，在对手的决策所有决策中找到使己方最小收益的决策。</p>
-<p>以下为一棵极大极小值搜索树:</p>
-<p><img src="/images/极大极小值算法_1.png" alt="极大极小值搜索树"></p>
-<p>&#160; &#160; &#160; &#160;如上图所示，它是一棵以当前局面为根节点而展开的5层博弈树，我们把偶数层记为Max层，把奇数层记为Min层，当博弈树扩展到叶子节点后，自底向上，我们倒推每个节点的值。如果父节点是在Max层，通过比较后，将子节点中的最大值赋给它；而如果是在Min层，通过比较后，将它节点中的最小值赋给它。递归进行，最终可以得知根节点的哪个子节点能让自己的局面优势最大或者说让对方的哪个局面优势最小。</p>
-<p>以下是一棵二人博弈树:<br><img src="/images/二人博弈树.png" alt="二人博弈树"></p>
-<p>&#160; &#160; &#160; &#160;根节点为A，其子节点B、C、D分别为我方产生一种行为后形成的另一种局面，节点E、F、G、H、I分别是对方在其父节点上产生一种行为后形成的局面。<br>&#160; &#160; &#160; &#160;通过极大极小值算法对该博弈树进行搜索之前，首先需要对此博弈树的叶子节点进行估值，假设其叶子节点估值如下：</p>
-<p><img src="/images/二人博弈树估值.png" alt="二人博弈树估值"></p>
-<p>&#160; &#160; &#160; &#160;根据极大极小值算法的原理，在第三层为对方产生行为后形成的局面，取极小值。节点B取节点E、F、G中估值最小的，所以节点B的估值为节点G的估值，为-11；节点D的估值为节点H、I中估值最小的，为-999；在第二层中为我方产生行为后形成的局面，则取极大值。此时，节点B估值为-11，节点C估值为-100，节点D估值为-999。则取节点B、C、D中估值最大的，所以节点A取节点B的估值。最后，我方取的最终行为是产生节点B局面的行为。<br>&#160; &#160; &#160; &#160;另外，极大极小值算法是基于静态估值函数的，且其博弈树的深度是有限的，到设定的深度后需返回其叶子节点的估值。</p>
-<p>极小值算法伪代码:<br><img src="/images/极小值算法伪代码.png" alt="极小值算法伪代码"></p>
-<p>极大值算法伪代码:<br><img src="/images/极大值算法伪代码.png" alt="极大值算法伪代码"></p>
-<h4 id="负极大值算法"><a href="#负极大值算法" class="headerlink" title="负极大值算法"></a>负极大值算法</h4><p>&#160; &#160; &#160; &#160;当极大极小搜索应用于双人棋类博弈时，负极大搜索算法是其的简单变形。根据博弈的定义，对于同一个盘面，甲方对其评估值总是乙方对其评估值的相反数。因此，当前盘面的落子一方需要从所有下一个盘面评估值的相反数中取极大值，而下一个盘面评估值必须按照对手来评估。并且，该搜索步骤对于甲、乙双方均适用。负极大搜索算法与极小极大搜索算法具有相同的复杂度，只是简化了代码量，并没有对搜索节点数目进行缩减，下面我们讨论的负极大值搜索算法就对树的节点进行了剪枝，减小了搜索复杂度。</p>
-
+        <h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="多臂匪徒"><a href="#多臂匪徒" class="headerlink" title="多臂匪徒"></a>多臂匪徒</h4><p>&#160; &#160; &#160; &#160;UCT算法是UCB策略与蒙特卡罗规划的结合体，在UCB算法中加入蒙特卡罗就形成了我们要介绍的UCT搜索。因此在介绍UCT搜索之前，我们先来了解下UCB策略和蒙特卡罗规划。</p>
+<p>&#160; &#160; &#160; &#160;首先，介绍下多臂匪徒问题。多臂匪徒问题就是说，有一个有K个拉手的老虎机，赌徒要从这些拉手中选出一个拉手，从而获得可能值为正值，0，负值的回报。在某个特定时间内，赌徒只能拉动一个拉手。当赌徒在老虎机面前时，他是没有任何头绪的。因为对他而言，每个拉手获得好的回报的概率是一样的，他也不知道该怎么选。他只能不断试探，发现拉手的规律后，推断哪个拉手获得的回报最大。为了让赌徒得到尽可能大的回报，我们需要找到一种策略，UCB策略就是这样一种可以解决多臂匪徒问题的策略。下面就是UCB策略的算法流程图：</p>
+<p><img src="/image_save/多臂匪徒.png" alt="多臂匪徒"></p>
+<h4 id="蒙特卡罗应用于博弈树"><a href="#蒙特卡罗应用于博弈树" class="headerlink" title="蒙特卡罗应用于博弈树"></a>蒙特卡罗应用于博弈树</h4><p>&#160; &#160; &#160; &#160;蒙特卡罗规划是以蒙特卡罗方法的一种规划。在蒙特卡规划罗建立的博弈树中，从初始状态开始，重复给出抽样，然后扩展到树中的每一个节点。在不围棋中，即是说在选点时，如果对可选点中找出一些较好的节点进行上万，上百万次地模拟，如果采用合适的评估函数 ，那么在这些节点就会聚集大量模拟。在计算机博弈中，蒙特卡罗规划通常用来解决棋子落点问题。蒙特卡罗规划的伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1： while 模拟时间未用完 do</div><div class="line">2：      从当前状态的子节点中选择一个节点</div><div class="line">3：      if 该节点是第一次被访问 then</div><div class="line">4：         利用蒙特卡罗评估，得出胜负结果</div><div class="line">5：          更新相关节点的方向次数和获胜次数</div><div class="line">6：      else </div><div class="line">7：          回到2</div><div class="line">8：      end if</div><div class="line">9： end while</div><div class="line">10:利用合适的方式选择最后的决策结果</div></pre></td></tr></table></figure>
+<h4 id="UCT算法原理"><a href="#UCT算法原理" class="headerlink" title="UCT算法原理"></a>UCT算法原理</h4><h5 id="UCT与蒙特卡罗区别"><a href="#UCT与蒙特卡罗区别" class="headerlink" title="UCT与蒙特卡罗区别"></a>UCT与蒙特卡罗区别</h5><p>&#160; &#160; &#160; UCT算法使<strong>UCB策略与蒙特卡罗规划相结合</strong>。它跟蒙特卡罗规则的区别：</p>
+<ol>
+<li>UCT算法对于可下子点的选择不是随机的，而是根据UCB值来选择的。如果可下点没有被访问，其UCB值无穷大，因为要使这些没有被访问的节点有机会被访问，以便遗漏掉好的可下点。如果可下点被访问过，根据UCB公式计算出UCB值。最终，我们选择UCB值最大的值作为可下点。</li>
+<li>模拟结束后选择可下点时，不是根据根据胜率来进行判断，而是根据可下点的访问次数，哪个点被访问的次数最多，哪个点就是我们选择的最终结果。</li>
+</ol>
+<p>&#160; &#160; &#160; UCT算法通过迭代来逐渐扩展博弈树。逐渐扩展是指，对某一个节点来说，它并不是直接扩展子节点，然后计算结果，而是在扩展节点时先对有可能成为子节点的节点进行评估，然后根据评估结果对子节点排序，最后根据排序顺序扩展子节点。这个评估结果的值就是 上面提到的UCB值。</p>
+<p>&#160; &#160; &#160; UCB值兼顾探勘(exploitation)和探测(exploration)，这体现在UCB值既要考虑胜率高的节点又要考虑很少被访问的节点。UCB探勘胜率高的好节点，来拓展搜索的深度，进一步确认该节点是好节点；探测很少被访问到的节点，来扩展搜索的宽度，寻找一开始没找到的好节点。</p>
+<p>&#160; &#160; &#160; 由此可知，节点的胜率越高或者越少被访问，那么这个节点UCB值就越高。UCB公式如下：</p>
+<h5 id="UCB公式"><a href="#UCB公式" class="headerlink" title="UCB公式"></a>UCB公式</h5><p><img src="/image_save/ucb公式.png" alt="ucb公式"></p>
+<p>&#160; &#160; &#160;在这个公式中， Wi表示子节点i的胜利次数，Ni表示子节点 i的访问次数，Np表示节点 p 的访问次數，Cbias是一個常数。最后节点p 会选择分数最高的子节点。此公式左边是探勘的部分，分数越高表示此节点胜率越高，之后被访问的几率也越高。右边部分是探索的部分，当节点 p 访问次数增加后，其访问次数越低的子节点在此部分就会得到越高的评估值，使其有机会被访问到。常数 Cbias是用來決定要重探勘还是重探索。</p>
+<h5 id="UCT流程图"><a href="#UCT流程图" class="headerlink" title="UCT流程图"></a>UCT流程图</h5><p><img src="/image_save/ucb公式.png" alt="uct流程图"></p>
+<h3 id="UCT搜索伪代码"><a href="#UCT搜索伪代码" class="headerlink" title="UCT搜索伪代码"></a>UCT搜索伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">PlayRandGame: 双方根据规则随机交替落子</div><div class="line">UpdateTree:更新UctTree的节点访问次数及相关收益</div><div class="line">ExpandNode:扩展子节点</div><div class="line">UCT核心伪代码如下:</div><div class="line">UctNode UctPlay(UctTree tree)</div><div class="line">&#123;</div><div class="line">	UctNode *current = &amp;tree.m_node;//从UCT树中取出当前局面作当前节点</div><div class="line">	while(!OverTimeLimit())</div><div class="line">	&#123;//若未超过时间限制</div><div class="line">		if (current.HasChild())</div><div class="line">		&#123;//当前节点是叶子点</div><div class="line">			UctState state = PlayRandGame(*current);//进行蒙特卡罗模拟</div><div class="line">			UpdateTree(state);//根据随机模拟结果更新UctTree访问及收益</div><div class="line">			if (current.m_visitor &gt; N)</div><div class="line">			&#123;   //若该节点访问次数到一定次数N</div><div class="line">				ExpandNode(*current);//展开子节点</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		else</div><div class="line">		&#123;//当前节点不是叶子节点</div><div class="line">			current = FindBestChild(*current);//取UCB最大的子节点作当前节点</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return tree.FindBestNode();返回树中访问次数最多的节点</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -480,8 +480,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/30/极大极小值井字棋/" rel="next" title="极大极小值算法-井字棋实现">
-                <i class="fa fa-chevron-left"></i> 极大极小值算法-井字棋实现
+              <a href="/2016/01/03/alphabeta剪枝算法/" rel="next" title="AlphaBeta剪枝算法">
+                <i class="fa fa-chevron-left"></i> AlphaBeta剪枝算法
               </a>
             
           </div>
@@ -489,10 +489,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/01/03/alphabeta剪枝算法/" rel="prev" title="AlphaBeta剪枝算法">
-                AlphaBeta剪枝算法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -660,7 +656,7 @@ var jiathis_config = {data_track_clickback:'true'};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法简介"><span class="nav-number">1.</span> <span class="nav-text">算法简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#极大值极小值算法"><span class="nav-number">1.1.</span> <span class="nav-text">极大值极小值算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负极大值算法"><span class="nav-number">1.2.</span> <span class="nav-text">负极大值算法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法简介"><span class="nav-number">1.</span> <span class="nav-text">算法简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多臂匪徒"><span class="nav-number">1.1.</span> <span class="nav-text">多臂匪徒</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#蒙特卡罗应用于博弈树"><span class="nav-number">1.2.</span> <span class="nav-text">蒙特卡罗应用于博弈树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UCT算法原理"><span class="nav-number">1.3.</span> <span class="nav-text">UCT算法原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#UCT与蒙特卡罗区别"><span class="nav-number">1.3.1.</span> <span class="nav-text">UCT与蒙特卡罗区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UCB公式"><span class="nav-number">1.3.2.</span> <span class="nav-text">UCB公式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UCT流程图"><span class="nav-number">1.3.3.</span> <span class="nav-text">UCT流程图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UCT搜索伪代码"><span class="nav-number">2.</span> <span class="nav-text">UCT搜索伪代码</span></a></li></ol></div>
             
 
           </div>
