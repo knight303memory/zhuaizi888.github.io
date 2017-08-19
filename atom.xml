@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Killua&#39;s blog</title>
-  <subtitle>C++ 计算机博弈 Dota2</subtitle>
+  
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tusko.cn/"/>
