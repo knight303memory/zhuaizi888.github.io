@@ -1,0 +1,1002 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="KeQhpgiOqD" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机博弈,计算机博弈算法,编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Killua's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="项目说明&amp;#160; &amp;#160; &amp;#160; &amp;#160;在玩家之间玩井字棋，基本上只会出现平局的结果，那么如何让计算机也能模拟人那样，思考并择优下棋，便涉及到计算机博弈的相关知识了，主要知识如下:
+
+棋盘表示
+博弈树
+估值与搜索算法
+
+棋盘表示对于井字棋，采用3*3的二维数组.因为数组根据下标定位，访问数组任一点的复杂度为O(1).
+12#define COM -1   #define MA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="极大极小值算法-井字棋实现">
+<meta property="og:url" content="http://tusko.cn/2015/08/30/极大极小值井字棋/index.html">
+<meta property="og:site_name" content="Killua's blog">
+<meta property="og:description" content="项目说明&amp;#160; &amp;#160; &amp;#160; &amp;#160;在玩家之间玩井字棋，基本上只会出现平局的结果，那么如何让计算机也能模拟人那样，思考并择优下棋，便涉及到计算机博弈的相关知识了，主要知识如下:
+
+棋盘表示
+博弈树
+估值与搜索算法
+
+棋盘表示对于井字棋，采用3*3的二维数组.因为数组根据下标定位，访问数组任一点的复杂度为O(1).
+12#define COM -1   #define MA">
+<meta property="og:image" content="http://tusko.cn/images/井字棋博弈树.png">
+<meta property="og:updated_time" content="2017-08-06T08:55:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="极大极小值算法-井字棋实现">
+<meta name="twitter:description" content="项目说明&amp;#160; &amp;#160; &amp;#160; &amp;#160;在玩家之间玩井字棋，基本上只会出现平局的结果，那么如何让计算机也能模拟人那样，思考并择优下棋，便涉及到计算机博弈的相关知识了，主要知识如下:
+
+棋盘表示
+博弈树
+估值与搜索算法
+
+棋盘表示对于井字棋，采用3*3的二维数组.因为数组根据下标定位，访问数组任一点的复杂度为O(1).
+12#define COM -1   #define MA">
+<meta name="twitter:image" content="http://tusko.cn/images/井字棋博弈树.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '112V5OZSBL',
+      apiKey: '60f33d6586ee164056577ca2fa6670de',
+      indexName: 'killua',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://tusko.cn/2015/08/30/极大极小值井字棋/"/>
+
+
+
+
+
+  <title> 极大极小值算法-井字棋实现 | Killua's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d5a48a4f243ddad8c54139e46a1cb11b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Killua's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description">C++ 计算机博弈 Dota2</h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2015/08/30/极大极小值井字棋/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Killua">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Killua's blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Killua's blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                极大极小值算法-井字棋实现
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-08-30T11:59:41+08:00">
+                2015-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机博弈/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机博弈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2015/08/30/极大极小值井字棋/" class="leancloud_visitors" data-flag-title="极大极小值算法-井字棋实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="项目说明"><a href="#项目说明" class="headerlink" title="项目说明"></a>项目说明</h3><p>&#160; &#160; &#160; &#160;在玩家之间玩井字棋，基本上只会出现平局的结果，那么如何让计算机也能模拟人那样，思考并择优下棋，便涉及到计算机博弈的相关知识了，主要知识如下:</p>
+<ol>
+<li>棋盘表示</li>
+<li>博弈树</li>
+<li>估值与搜索算法</li>
+</ol>
+<h4 id="棋盘表示"><a href="#棋盘表示" class="headerlink" title="棋盘表示"></a>棋盘表示</h4><p>对于井字棋，采用3*3的二维数组.<br>因为数组根据下标定位，访问数组任一点的复杂度为O(1).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#define COM -1   </div><div class="line">#define MAN 1</div></pre></td></tr></table></figure>
+<p>其中0,1,-1分别表示棋盘上的空位,人下棋,计算机下棋.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//棋盘  </div><div class="line">int board[3][3] = &#123; &#123; 0,0,0 &#125;,  </div><div class="line">                    &#123; 0,0,0 &#125;,  </div><div class="line">                    &#123; 0,0,0 &#125;  </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="博弈树"><a href="#博弈树" class="headerlink" title="博弈树"></a>博弈树</h4><p>其次,假设有两人对弈,我们将其中一位叫做甲,另一位叫做乙.假定现在该甲走棋,甲可以有40种走法(不论好坏),而对甲的任一走法,乙也可以有与之相对的若干种走法.然后又轮到甲走棋,对乙的走法甲又有若干种方法应对…如此往复</p>
+<p>而所有这些走法罗列出来,在计算机中构成一棵博弈树,节点根部为棋局的初始局面,根的子节点为甲所有可能的走法构成的新局面,而这些子节点的子节点则是与之相对的乙所有可能的走法构成的局面.而这些节点的末梢,是结束的棋局,即甲胜或者乙胜或者是平局.示例图如下:</p>
+<p><img src="/images/井字棋博弈树.png" alt="井字棋博弈树"></p>
+<p>再者,计算机是不会像人那样思考的,要实现计算机的只能,必须依靠算法实现.最常见的算法便是搜索算法,即搜索所有可能出现的局面,在其中选择一个能获胜的局面下棋.但这样是不现实的,因为每一步棋产生的局面实在太多,如19路围棋,其走法用最顶级的计算机来算,算到地球毁灭都不一定算得完.而其他棋类也有类似的情况,计算机没有足够资源在可行时间内穷尽所有走法.</p>
+<p>传统的搜索算法不可行,那么计算机要通过什么样的方式得到最优局面呢?</p>
+<p>是剪枝算法,在搜索中依据一个函数对不必要搜索节点进行过滤,剪枝.这个函数即评估函数,这种搜索算法称为启发式搜索.</p>
+<p>而评估函数的好坏直接决定搜索的效率快慢.</p>
+<p>博弈树中最基础的搜索算法,是基于深度优先搜索的极大值极小值算法.这里的极大极小值算法是相对而言的,在某一局面中,若甲胜取极大,甲负取极小,则甲要选择评估函数值尽量大的局面,而乙正好相反.</p>
+<p><strong>关于极大值极小值算法,可以参考[这篇文章].</strong></p>
+<h4 id="井字棋的评估函数"><a href="#井字棋的评估函数" class="headerlink" title="井字棋的评估函数"></a>井字棋的评估函数</h4><p>评估函数没有定式,是否合理准确只有通过实战检验.假设一个新同学读学长写的代码场景,新同学可能会问,为什么这个估值为什么是0.5,而另一个程序是0.8呢?为什么你的程序这样评估局面,而网上的程序是那样子的?这就是仁者见仁,智者见智了,评估函数的实现与开发者的对棋牌规则了解程度、想法、心情不同而有所差异.但是只有抓住耗子的猫才是好猫~</p>
+<p><strong>这里给出一种井字棋的评估函数:</strong><br>将当前局面填满自己的子,然后以有双方连成3棋子的行,列,斜相减得到的值来评估局面的好坏.代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">//评估函数  </div><div class="line">int evaluteMap() &#123;  </div><div class="line">  </div><div class="line">    bool flag = true;  </div><div class="line">    int i, j;  </div><div class="line">  </div><div class="line">    if (isWin() == COM)  </div><div class="line">        return MAX_NUM;//如果计算机赢了，返回最大值   </div><div class="line">    if (isWin() == MAN)  </div><div class="line">        return -MAX_NUM;//如果计算机输了，返回最小值   </div><div class="line"> </div><div class="line">    int count = 0;//该变量用来表示评估函数的值  </div><div class="line">                  //将棋盘中的空格填满自己的棋子，既将棋盘数组中的0变为1  </div><div class="line">    for (i = 0; i &lt; 3; i++)  </div><div class="line">        for (j = 0; j &lt; 3; j++)  </div><div class="line">        &#123;  </div><div class="line">            if (board[i][j] == 0)  </div><div class="line">                tempBoard[i][j] = COM;  </div><div class="line">            else  </div><div class="line">                tempBoard[i][j] = board[i][j];  </div><div class="line">        &#125;  </div><div class="line">    //电脑一方  </div><div class="line">    //计算每一行中有多少行的棋子连成3个的  </div><div class="line">    for (i = 0; i &lt; 3; i++)  </div><div class="line">        count += (tempBoard[i][0] + tempBoard[i][1] + tempBoard[i][2]) / 3;  </div><div class="line">    for (i = 0; i &lt; 3; i++)  </div><div class="line">        count += (tempBoard[0][i] + tempBoard[1][i] + tempBoard[2][i]) / 3;  </div><div class="line">    count += (tempBoard[0][0] + tempBoard[1][1] + tempBoard[2][2]) / 3;  </div><div class="line">    count += (tempBoard[2][0] + tempBoard[1][1] + tempBoard[0][2]) / 3;  </div><div class="line">  </div><div class="line">    //将棋盘中的空格填满对方的棋子，既将棋盘数组中的0变为-1  </div><div class="line">    for (i = 0; i &lt; 3; i++)  </div><div class="line">        for (j = 0; j &lt; 3; j++)  </div><div class="line">        &#123;  </div><div class="line">            if (board[i][j] == 0)  </div><div class="line">                tempBoard[i][j] = MAN;  </div><div class="line">            else tempBoard[i][j] = board[i][j];  </div><div class="line">        &#125;  </div><div class="line">    //对方  </div><div class="line">    //计算每一行中有多少行的棋子连成3个的  </div><div class="line">    for (i = 0; i &lt; 3; i++)  </div><div class="line">        count += (tempBoard[i][0] + tempBoard[i][1] + tempBoard[i][2]) / 3;  </div><div class="line">    for (i = 0; i &lt; 3; i++)  </div><div class="line">        count += (tempBoard[0][i] + tempBoard[1][i] + tempBoard[2][i]) / 3;  </div><div class="line">    count += (tempBoard[0][0] + tempBoard[1][1] + tempBoard[2][2]) / 3;  </div><div class="line">    count += (tempBoard[2][0] + tempBoard[1][1] + tempBoard[0][2]) / 3;  </div><div class="line">  </div><div class="line">    return count;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;conio.h&gt; </div><div class="line">#define COM -1 </div><div class="line">#define MAN 1</div><div class="line">#define STEP 9 </div><div class="line">#define DRAW 0 </div><div class="line">#define ROW 3 </div><div class="line">#define COL 3</div><div class="line">#define MAX_NUM 1000;</div><div class="line"></div><div class="line"></div><div class="line">struct Move</div><div class="line">&#123;</div><div class="line">	int x;</div><div class="line">	int y;</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line">//棋盘</div><div class="line">int board[3][3] = &#123; &#123; 0,0,0 &#125;,</div><div class="line">					&#123; 0,0,0 &#125;,</div><div class="line">					&#123; 0,0,0 &#125;</div><div class="line">&#125;;</div><div class="line">int tempBoard[3][3] = &#123; &#123; 0,0,0 &#125;,</div><div class="line">						&#123; 0,0,0 &#125;,</div><div class="line">						&#123; 0,0,0 &#125;</div><div class="line">&#125;;</div><div class="line">//玩家</div><div class="line">int player = MAN;</div><div class="line">//最好的一步</div><div class="line">Move bestMove;</div><div class="line">//当前深度</div><div class="line">int currentDepth;</div><div class="line">//谁先走</div><div class="line">bool MAN_first = true;</div><div class="line"></div><div class="line"></div><div class="line">//判断输赢</div><div class="line">int isWin() &#123;</div><div class="line">	int i, j;</div><div class="line"></div><div class="line">	for (int i = 0; i &lt; 3; i++)</div><div class="line">	&#123;</div><div class="line">		if (board[i][0] + board[i][1] + board[i][2] == 3)</div><div class="line">			return 1;</div><div class="line">		else if (board[i][0] + board[i][1] + board[i][2] == -3)</div><div class="line">			return -1;</div><div class="line">	&#125;</div><div class="line">	for (int j = 0; j &lt; 3; j++)</div><div class="line">	&#123;</div><div class="line">		if (board[0][j] + board[1][j] + board[2][j] == 3)</div><div class="line">			return 1;</div><div class="line">		else if (board[0][j] + board[1][j] + board[2][j] == -3)</div><div class="line">			return -1;</div><div class="line">	&#125;</div><div class="line">	if (board[0][0] + board[1][1] + board[2][2] == 3 || board[0][2] + board[1][1] + board[2][0] == 3)</div><div class="line">		return 1;</div><div class="line">	else if (board[0][0] + board[1][1] + board[2][2] == -3 || board[0][2] + board[1][1] + board[2][0] == -3)</div><div class="line">		return -1;</div><div class="line">	else  return 0;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">//评估函数</div><div class="line">int evaluteMap() &#123;</div><div class="line"></div><div class="line">	bool flag = true;</div><div class="line">	int i, j;</div><div class="line"></div><div class="line">	if (isWin() == COM)</div><div class="line">		return MAX_NUM;//如果计算机赢了，返回最大值 </div><div class="line">	if (isWin() == MAN)</div><div class="line">		return -MAX_NUM;//如果计算机输了，返回最小值 </div><div class="line"></div><div class="line"></div><div class="line">	int count = 0;//该变量用来表示评估函数的值</div><div class="line">				  //将棋盘中的空格填满自己的棋子，既将棋盘数组中的0变为1</div><div class="line">	for (i = 0; i &lt; 3; i++)</div><div class="line">		for (j = 0; j &lt; 3; j++)</div><div class="line">		&#123;</div><div class="line">			if (board[i][j] == 0)</div><div class="line">				tempBoard[i][j] = COM;</div><div class="line">			else</div><div class="line">				tempBoard[i][j] = board[i][j];</div><div class="line">		&#125;</div><div class="line">	//电脑一方</div><div class="line">	//计算每一行中有多少行的棋子连成3个的</div><div class="line">	for (i = 0; i &lt; 3; i++)</div><div class="line">		count += (tempBoard[i][0] + tempBoard[i][1] + tempBoard[i][2]) / 3;</div><div class="line">	for (i = 0; i &lt; 3; i++)</div><div class="line">		count += (tempBoard[0][i] + tempBoard[1][i] + tempBoard[2][i]) / 3;</div><div class="line">	count += (tempBoard[0][0] + tempBoard[1][1] + tempBoard[2][2]) / 3;</div><div class="line">	count += (tempBoard[2][0] + tempBoard[1][1] + tempBoard[0][2]) / 3;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	//将棋盘中的空格填满对方的棋子，既将棋盘数组中的0变为-1</div><div class="line">	for (i = 0; i &lt; 3; i++)</div><div class="line">		for (j = 0; j &lt; 3; j++)</div><div class="line">		&#123;</div><div class="line">			if (board[i][j] == 0)</div><div class="line">				tempBoard[i][j] = MAN;</div><div class="line">			else tempBoard[i][j] = board[i][j];</div><div class="line">		&#125;</div><div class="line">	//对方</div><div class="line">	//计算每一行中有多少行的棋子连成3个的</div><div class="line">	for (i = 0; i &lt; 3; i++)</div><div class="line">		count += (tempBoard[i][0] + tempBoard[i][1] + tempBoard[i][2]) / 3;</div><div class="line">	for (i = 0; i &lt; 3; i++)</div><div class="line">		count += (tempBoard[0][i] + tempBoard[1][i] + tempBoard[2][i]) / 3;</div><div class="line">	count += (tempBoard[0][0] + tempBoard[1][1] + tempBoard[2][2]) / 3;</div><div class="line">	count += (tempBoard[2][0] + tempBoard[1][1] + tempBoard[0][2]) / 3;</div><div class="line">	</div><div class="line">	return count;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void makeMove(Move curMove)</div><div class="line">&#123;</div><div class="line">	board[curMove.x][curMove.y] = player;</div><div class="line">	player = (player == COM) ? MAN : COM;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void unMakeMove(Move curMove) &#123;</div><div class="line">	board[curMove.x][curMove.y] = 0;</div><div class="line">	player = (player == COM) ? MAN : COM;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//得到有空位的集合</div><div class="line">int getMoveList(Move moveList[]) &#123;</div><div class="line">	int moveCount = 0;</div><div class="line">	int i, j;</div><div class="line">	for (i = 0; i &lt; COL; i++)</div><div class="line">	&#123;</div><div class="line">		for (j = 0; j &lt; ROW; j++)</div><div class="line">		&#123;</div><div class="line">			if (board[i][j] == 0)</div><div class="line">			&#123;</div><div class="line">				moveList[moveCount].x = i;</div><div class="line">				moveList[moveCount].y = j;</div><div class="line">				moveCount++;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return moveCount; //返回一共多少个空的位置 </div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">int miniMaxsearch(int depth)</div><div class="line">&#123;</div><div class="line">	int value;  //估值 </div><div class="line">	int bestValue = 0; //最好的估值</div><div class="line">	int moveCount = 0;</div><div class="line">	int i; int m, n;</div><div class="line">	Move moveList[9];//保存可以下子的位置</div><div class="line">	if (isWin() == COM || isWin() == MAN)</div><div class="line">	&#123;</div><div class="line">		return evaluteMap();  //一般是返回极大极小值</div><div class="line">	&#125;</div><div class="line">	//如果搜索深度耗尽 ， 返回估值 </div><div class="line">	if (depth == 0)</div><div class="line">	&#123;</div><div class="line">		return evaluteMap();</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line">	//根据不同的玩家 进行赋值 </div><div class="line">	if (COM == player) &#123;</div><div class="line">		bestValue = -MAX_NUM;</div><div class="line">	&#125;</div><div class="line">	else if (MAN == player)</div><div class="line">	&#123;</div><div class="line">		bestValue = MAX_NUM;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	//一共多少步</div><div class="line">	moveCount = getMoveList(moveList);</div><div class="line"></div><div class="line">	for (i = 0; i &lt; moveCount; i++)</div><div class="line">	&#123;</div><div class="line">		Move curMove = moveList[i];</div><div class="line"></div><div class="line">		makeMove(curMove);</div><div class="line">		value = miniMaxsearch(depth - 1);</div><div class="line">		unMakeMove(curMove);</div><div class="line"></div><div class="line">		if (player == COM)</div><div class="line">		&#123;</div><div class="line">			if (value &gt; bestValue)</div><div class="line">			&#123;</div><div class="line">				bestValue = value;</div><div class="line">				if (depth == currentDepth)</div><div class="line">				&#123;</div><div class="line">					bestMove = curMove;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		else if (player == MAN)</div><div class="line">		&#123;</div><div class="line">			if (value &lt; bestValue)</div><div class="line">			&#123;</div><div class="line">				bestValue = value;</div><div class="line">				if (depth == currentDepth)</div><div class="line">				&#123;</div><div class="line">					bestMove = curMove;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	 </div><div class="line">	return bestValue;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">//打印棋盘 电脑X  ，玩家O </div><div class="line">void printBoard() &#123;</div><div class="line">	int i, j;</div><div class="line">	for (i = 0; i &lt; COL; i++)</div><div class="line">	&#123;</div><div class="line">		printf(&quot;-------------\n&quot;);</div><div class="line">		for (j = 0; j &lt; ROW; j++)</div><div class="line">		&#123;</div><div class="line">			if (board[i][j] == COM)</div><div class="line">			&#123;</div><div class="line">				printf(&quot;| X &quot;);</div><div class="line">			&#125;</div><div class="line">			else if (board[i][j] == MAN)</div><div class="line">			&#123;</div><div class="line">				printf(&quot;| O &quot;);</div><div class="line">			&#125;</div><div class="line">			else</div><div class="line">			&#123;</div><div class="line">				printf(&quot;|   &quot;);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line">		printf(&quot;|\n&quot;);</div><div class="line">	&#125;</div><div class="line">	printf(&quot;-------------\n&quot;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void com_play() &#123;</div><div class="line">	miniMaxsearch(currentDepth);</div><div class="line">	board[bestMove.x][bestMove.y] = COM;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">void man_play() &#123;</div><div class="line">	int x, y;</div><div class="line">	printf(&quot;请输入位置坐标  e.g ：（0 0）为左上角 （2，2）为右下角 \n&quot;);</div><div class="line">	scanf(&quot;%d&quot;, &amp;x);</div><div class="line">	scanf(&quot;%d&quot;, &amp;y);</div><div class="line"></div><div class="line">	while (x &lt; 0 || x &gt; 2 || y &lt; 0 || y &gt; 2)</div><div class="line">	&#123;</div><div class="line">		printf(&quot;您输入的坐标错误，请重新输入:x:(0~2) , y:(0~2)\n&quot;);</div><div class="line">		scanf(&quot;%d&quot;, &amp;x);</div><div class="line">		scanf(&quot;%d&quot;, &amp;y);</div><div class="line">	&#125;</div><div class="line">	while (board[x][y] != 0)</div><div class="line">	&#123;</div><div class="line">		printf(&quot;该位置已有棋，请重新输入:\n&quot;);</div><div class="line">		scanf(&quot;%d&quot;, &amp;x);</div><div class="line">		scanf(&quot;%d&quot;, &amp;y);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	board[x][y] = MAN;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void setFirst() &#123;</div><div class="line">	char c;</div><div class="line">	printf(&quot;\nDo you want to play first? y -你先走  , n-电脑先走&quot;);</div><div class="line">	for (c = getche(); c != &apos;Y&apos;&amp;&amp;c != &apos;y&apos;&amp;&amp;c != &apos;N&apos;&amp;&amp;c != &apos;n&apos;; c = getche());</div><div class="line">	if (c == &apos;n&apos; || c == &apos;N&apos;) &#123;</div><div class="line">		MAN_first = false;</div><div class="line">	&#125;</div><div class="line">	printf(&quot;\n&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void main()</div><div class="line">&#123;</div><div class="line">	currentDepth = 9;</div><div class="line">	int step = 1;</div><div class="line">	setFirst();</div><div class="line">	printBoard();</div><div class="line"></div><div class="line">	if (MAN_first) &#123;</div><div class="line">		player = MAN;</div><div class="line">		for (step = 1; step &lt;= STEP; )</div><div class="line">		&#123;</div><div class="line">			man_play();</div><div class="line">			printBoard();</div><div class="line">			if (player == isWin()) &#123;</div><div class="line">				printf(&quot;您获胜了！！&quot;);</div><div class="line">				break;</div><div class="line">			&#125;</div><div class="line">			step++;</div><div class="line">			currentDepth--;</div><div class="line">			if (step == 10) &#123;</div><div class="line">				printf(&quot;平局 ~~~&quot;);</div><div class="line">				break;</div><div class="line">			&#125;</div><div class="line">			player = (player == COM) ? MAN : COM;</div><div class="line">			com_play();</div><div class="line">			printBoard();</div><div class="line">			if (player == isWin()) &#123;</div><div class="line">				printf(&quot;很遗憾，电脑赢啦！！！&quot;);</div><div class="line">				break;</div><div class="line">			&#125;</div><div class="line">			step++;</div><div class="line">			currentDepth--;</div><div class="line">			player = (player == COM) ? MAN : COM;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		player = COM;</div><div class="line">		for (step = 1; step &lt;= STEP; )</div><div class="line">		&#123;</div><div class="line">			com_play();</div><div class="line"></div><div class="line">			printBoard();</div><div class="line">			if (player == isWin()) &#123;</div><div class="line">				printf(&quot;很遗憾，电脑赢啦！！！&quot;);</div><div class="line">				break;</div><div class="line">			&#125;</div><div class="line">			step++;</div><div class="line">			currentDepth--;</div><div class="line">			if (step == 10) &#123;</div><div class="line">				printf(&quot;平局 ~~~&quot;);</div><div class="line">				break;</div><div class="line">			&#125;</div><div class="line">			player = (player == COM) ? MAN : COM;</div><div class="line">			man_play();</div><div class="line">			printBoard();</div><div class="line">			if (player == isWin()) &#123;</div><div class="line">				printf(&quot;您获胜了！！&quot;);</div><div class="line">				break;</div><div class="line">			&#125;</div><div class="line">			step++;</div><div class="line">			currentDepth--;</div><div class="line">			player = (player == COM) ? MAN : COM;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	getch();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机博弈/" rel="tag"># 计算机博弈</a>
+          
+            <a href="/tags/计算机博弈算法/" rel="tag"># 计算机博弈算法</a>
+          
+            <a href="/tags/编程/" rel="tag"># 编程</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/17/基于经验的井字棋/" rel="next" title="基于经验的井字棋">
+                <i class="fa fa-chevron-left"></i> 基于经验的井字棋
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/06/极大值极小值算法/" rel="prev" title="极大值极小值算法">
+                极大值极小值算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_cqq"></a>
+	<a class="jiathis_button_fav"></a>
+	<a href="http://www.jiathis.com/share?uid=2139644" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2139644" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Killua" />
+          <p class="site-author-name" itemprop="name">Killua</p>
+          <p class="site-description motion-element" itemprop="description">与其感慨前路难行，不如马上出发     tusko0303@outlook.com</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhuaizi888" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5317520507/profile?topnav=1&wvr=6" target="_blank" title="WeiBo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  WeiBo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目说明"><span class="nav-number">1.</span> <span class="nav-text">项目说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#棋盘表示"><span class="nav-number">1.1.</span> <span class="nav-text">棋盘表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#博弈树"><span class="nav-number">1.2.</span> <span class="nav-text">博弈树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#井字棋的评估函数"><span class="nav-number">1.3.</span> <span class="nav-text">井字棋的评估函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序实现"><span class="nav-number">2.</span> <span class="nav-text">程序实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Killua</span>
+
+</div>
+
+<span id="showDays"></span>
+
+<div class="powered-by">
+由 <a class="theme-link" href="http://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+ 
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139644"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("3exqakHAEoqn7Y4lsqIApTAN-gzGzoHsz", "FNQ0yN4uueiu5WF23JH9qyGV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+</body>
+</html>
