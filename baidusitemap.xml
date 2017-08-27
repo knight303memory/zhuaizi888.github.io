@@ -4,8 +4,76 @@
 
     
   <url>
+    <loc>http://tusko.cn2016/10/10/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%9E%B6%E6%9E%84%E5%8F%91%E5%B1%95%E5%8F%B2-%E4%B8%8A/</loc>
+    <lastmod>2017-08-27T16:22:07.646Z</lastmod>
+    <data>
+        <display>
+        <title>转载：游戏服务端架构发展史(上)</title>
+        <pubTime>2016-10-10T07:16:00.000Z</pubTime>
+        
+        <tag>游戏</tag>
+         
+        <tag>转载</tag>
+         
+        <tag>服务器</tag>
+         
+         
+           
+             
+              <breadCrumb title="游戏" url="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://tusko.cn2016/10/05/%E6%B8%B8%E6%88%8F%E7%A0%94%E5%8F%91%E5%BC%95%E6%93%8E%E5%AF%B9%E6%AF%94/</loc>
+    <lastmod>2017-08-27T16:21:24.476Z</lastmod>
+    <data>
+        <display>
+        <title>转载：游戏研发引擎对比</title>
+        <pubTime>2016-10-05T06:02:00.000Z</pubTime>
+        
+        <tag>游戏</tag>
+         
+        <tag>转载</tag>
+         
+         
+           
+             
+              <breadCrumb title="游戏" url="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://tusko.cn2016/10/10/%E6%B8%B8%E6%88%8F%E7%B1%BB%E5%9E%8B%E5%B0%8F%E8%AE%B0/</loc>
+    <lastmod>2017-08-27T16:16:54.393Z</lastmod>
+    <data>
+        <display>
+        <title>游戏类型小记</title>
+        <pubTime>2016-10-10T07:16:00.000Z</pubTime>
+        
+        <tag>游戏</tag>
+         
+        <tag>转载</tag>
+         
+         
+           
+             
+              <breadCrumb title="游戏" url="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://tusko.cn2016/02/10/UCT%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2017-08-19T02:29:24.788Z</lastmod>
+    <lastmod>2017-08-27T16:15:12.624Z</lastmod>
     <data>
         <display>
         <title>UCT搜索算法</title>
@@ -27,7 +95,7 @@
     
   <url>
     <loc>http://tusko.cn2016/01/03/alphabeta%E5%89%AA%E6%9E%9D%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2017-08-19T02:28:54.441Z</lastmod>
+    <lastmod>2017-08-19T11:29:40.923Z</lastmod>
     <data>
         <display>
         <title>AlphaBeta剪枝算法</title>

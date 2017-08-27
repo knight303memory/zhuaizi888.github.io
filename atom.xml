@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tusko.cn/"/>
-  <updated>2017-08-19T02:29:24.788Z</updated>
+  <updated>2017-08-27T16:22:07.646Z</updated>
   <id>http://tusko.cn/</id>
   
   <author>
@@ -16,17 +16,170 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>转载：游戏服务端架构发展史(上)</title>
+    <link href="http://tusko.cn/2016/10/10/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%9E%B6%E6%9E%84%E5%8F%91%E5%B1%95%E5%8F%B2-%E4%B8%8A/"/>
+    <id>http://tusko.cn/2016/10/10/游戏服务端架构发展史-上/</id>
+    <published>2016-10-10T07:16:00.000Z</published>
+    <updated>2017-08-27T16:22:07.646Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="游戏服务端架构发展史（上）"><a href="#游戏服务端架构发展史（上）" class="headerlink" title="游戏服务端架构发展史（上）"></a>游戏服务端架构发展史（上）</h3><p>《游戏服务端架构发展史》转载请著名出处：<a href="http://www.skywind.me/blog/archives/1265" target="_blank" rel="external">http://www.skywind.me/blog/archives/1265</a></p>
+<h4 id="类型1：卡牌，跑酷等弱交互服务端"><a href="#类型1：卡牌，跑酷等弱交互服务端" class="headerlink" title="类型1：卡牌，跑酷等弱交互服务端"></a>类型1：卡牌，跑酷等弱交互服务端</h4><p>卡牌跑酷类因为交互弱，玩家和玩家之间不需要实时面对面PK，打一下对方的离线数据，计算下排行榜，买卖下道具即可，所以实现往往使用简单的 HTTP服务器：</p>
+<p><img src="/image_save/弱交互型服务端.png" alt="弱交互型服务端"></p>
+<p>登录时可以使用非对称加密（RSA, DH），服务器根据客户端uid，当前时间戳还有服务端私钥，计算哈希得到的加密 key 并发送给客户端。之后双方都用 HTTP通信，并用那个key进行RC4加密。客户端收到key和时间戳后保存在内存，用于之后通信，服务端不需要保存 key，因为每次都可以根据客户端传上来的 uid 和 时间戳 以及服务端自己的私钥计算得到。用模仿 TLS的行为，来保证多次 HTTP请求间的客户端身份，并通过时间戳保证同一人两次登录密钥不同。</p>
+<p>每局开始时，访问一下，请求一下关卡数据，玩完了又提交一下，验算一下是否合法，获得什么奖励，数据库用单台 MySQL或者 MongoDB即可，后端的 Redis做缓存（可选）。如果要实现通知，那么让客户端定时15秒轮询一下服务器，如果有消息就取下来，如果没消息可以逐步放长轮询时间，比如30秒；如果有消息，就缩短轮询时间到10秒，5秒，即便两人聊天，延迟也能自适应。</p>
+<p>此类服务器用来实现一款三国类策略或者卡牌及酷跑的游戏已经绰绰有余，这类游戏因为逻辑简单，玩家之间交互不强，使用 HTTP来开发的话，开发速度快，调试只需要一个浏览器就可以把逻辑调试清楚了。</p>
+<h4 id="类型2：第一代游戏服务器-1978"><a href="#类型2：第一代游戏服务器-1978" class="headerlink" title="类型2：第一代游戏服务器 1978"></a>类型2：第一代游戏服务器 1978</h4><p>978年，英国著名的财经学校University of Essex的学生 Roy Trubshaw编写了世界上第一个MUD程序《MUD1》，在University of Essex于1980年接入 ARPANET之后加入了不少外部的玩家，甚至包括国外的玩家。《MUD1》程序的源代码在 ARPANET共享之后出现了众多的改编版本，至此MUD才在全世界广泛流行起来。不断完善的 MUD1的基础上产生了开源的 MudOS（1991），成为众多网游的鼻祖：</p>
+<p><img src="/image_save/MUDOS1978.png" alt="MUDOS1978"></p>
+<p>MUDOS采用 C语言开发，因为玩家和玩家之间有比较强的交互（聊天，交易，PK），MUDOS使用单线程无阻塞套接字来服务所有玩家，所有玩家的请求都发到同一个线程去处理，主线程每隔1秒钟更新一次所有对象（网络收发，更新对象状态机，处理超时，刷新地图，刷新NPC）。</p>
+<p>游戏世界采用房间的形式组织起来，每个房间有东南西北四个方向可以移动到下一个房间，由于欧美最早的网游都是地牢迷宫形式的，因此场景的基本单位被成为 “房间”。MUDOS使用一门称为LPC的脚本语言来描述整个世界（包括房间拓扑，配置，NPC，以及各种剧情）。游戏里面的高级玩家（巫师），可以不断的通过修改脚本来为游戏添加房间以及增加剧情。早年 MUD1上线时只有17个房间，Roy Trubshaw毕业以后交给他的师弟 Richard Battle，在 Richard Battle手上，不断的添加各种玩法到一百多个房间，终于让 MUD发扬光大。</p>
+<p>用户使用 Telnet之类的客户端用 Tcp协议连接到 MUDOS上，使用纯文字进行游戏，每条指令用回车进行分割。比如 1995年国内第一款 MUD游戏《侠客行》，你敲入：”go east”，游戏就会提示你：“后花园 – 这里是归云庄的后花园，种满了花草，几个庄丁正在浇花。此地乃是含羞草生长之地。这里唯一的出口是 north。这里有：花待 阿牧（A mu），还有二位庄丁（Zhuang Ding）”，然后你继续用文字操作，查看阿牧的信息：“look a mu”，系统提示：“花待 阿牧（A mu）他是陆乘风的弟子，受命在此看管含羞草。他看起来三十多岁，生得眉清目秀，端正大方，一表人才。他的武艺看上去【不是很高】，出手似乎【极轻】”。然后你可以选择击败他获得含羞草，但是你吃了含羞草却又可能会中毒死亡。在早期网上资源贫乏的时候，这样的游戏有很强的代入感。</p>
+<p>用户数据保存在文件中，每个用户登录时，从文本文件里把用户的数据全部加载进来，操作全部在内存里面进行，无需马上刷回磁盘。用户退出了，或者每隔5分钟检查到数据改动了，都会保存会磁盘。这样的系统在当时每台服务器承载个4000人同时游戏，不是特别大的问题。从1991年的 MUDOS发布后，全球各地都在为他改进，扩充，退出新版本，随着 Windows图形机能的增强。1997游戏《UO》在 MUDOS的基础上为角色增加的x,y坐标，为每个房间增加了地图，并且为每个角色增加了动画，形成了第一代的图形网络游戏。</p>
+<p>因为游戏内容基本可以通过 LPC脚本进行定制，所以MUDOS也成为名副其实的第一款服务端引擎，引擎一次性开发出来，然后制作不同游戏内容。后续国内的《万王之王》等游戏，很多都是跟《UO》一样，直接在 MUDOS上进行二次开发，加入房间的地图还有角色的坐标等要素，该架构一直为国内的第一代 MMORPG提供了稳固的支持，直到 2003年，还有游戏基于 MUDOS开发。</p>
+<p>虽然后面图形化增加了很多东西，但是这些MMORPG后端的本质还是 MUDOS。随着游戏内容的越来越复杂，架构变得越来越吃不消了，各种负载问题慢慢浮上水面，于是有了我们的第二代游戏服务器。</p>
+<h4 id="类型3：第二代游戏服务器-2003"><a href="#类型3：第二代游戏服务器-2003" class="headerlink" title="类型3：第二代游戏服务器 2003"></a>类型3：第二代游戏服务器 2003</h4><p>2000年后，网游已经脱离最初的文字MUD，进入全面图形化年代。最先承受不住的其实是很多小文件，用户上下线，频繁的读取写入用户数据，导致负载越来越大。随着在线人数的增加和游戏数据的增加，服务器变得不抗重负。同时早期 EXT磁盘分区比较脆弱，稍微停电，容易发生大面积数据丢失。因此第一步就是拆分文件存储到数据库去：</p>
+<p><img src="/image_save/第二代游戏服务端初型.png" alt="第二代游戏服务端初型"></p>
+<p>此时游戏服务端已经脱离陈旧的 MUDOS体系，各个公司在参考 MUDOS结构的情况下，开始自己用 C在重新开发自己的游戏服务端。并且脚本也抛弃了 LPC，采用扩展性更好的 Python或者 Lua来代替。由于主逻辑使用单线程模型，随着游戏内容的增加，传统单服务器的结构进一步成为瓶颈。于是有人开始拆分游戏世界，变为下面的模型：</p>
+<p><img src="/image_save/第二代游戏服务端二型.png" alt="第二代游戏服务端二型"></p>
+<p>游戏服务器压力拆分后得意缓解，但是两台游戏服务器同时访问数据库，大量重复访问，大量数据交换，使得数据库成为下一个瓶颈。于是形成了数据库前端代理（DB Proxy），游戏服务器不直接访问数据库而是访问代理，再有代理访问数据库，同时提供内存级别的cache。早年 MySQL4之前没有提供存储过程，这个前端代理一般和 MySQL跑在同一台上，它转化游戏服务器发过来的高级数据操作指令，拆分成具体的数据库操作，一定程度上代替了存储过程：</p>
+<p><img src="/image_save/第二代游戏服务端三型.png" alt="第二代游戏服务端三型"></p>
+<p>但是这样的结构并没有持续太长时间，因为玩家切换场景经常要切换连接，中间的状态容易错乱。而且游戏服务器多了以后，相互之间数据交互又会变得比较麻烦，于是人们拆分了网络功能，独立出一个网关服务 Gate（有的地方叫 Session，有的地方叫 LinkSvr之类的，名字不同而已）：</p>
+<p><img src="/image_save/第二代游戏服务端四型.png" alt="第二代游戏服务端四型"></p>
+<p>把网络功能单独提取出来，让用户统一去连接一个网关服务器，再有网关服务器转发数据到后端游戏服务器。而游戏服务器之间数据交换也统一连接到网管进行交换。这样类型的服务器基本能稳定的为玩家提供游戏服务，一台网关服务1-2万人，后面的游戏服务器每台服务5k-1w，依游戏类型和复杂度不同而已，图中隐藏了很多不重要的服务器，如登录和管理。这是目前应用最广的一个模型，到今天任然很多新项目会才用这样的结构来搭建。</p>
+<p>人都是有惯性的，按照先前的经验，似乎把 MUDOS拆分的越开性能越好。于是大家继续想，网关可以拆分呀，基础服务如聊天交易，可以拆分呀，还可以提供web接口，数据库可以拆分呀，于是有了下面的模型：</p>
+<p><img src="/image_save/第二代游戏服务端五型.png" alt="第二代游戏服务端五型"></p>
+<p>这样的模型好用么？确实有成功游戏使用类似这样的架构，并且发挥了它的性能优势，比如一些大型 MMORPG。但是有两个挑战：每增加一级服务器，状态机复杂度可能会翻倍，导致研发和找bug的成本上升；并且对开发组挑战比较大，一旦项目时间吃紧，开发人员经验不足，很容易弄挂。</p>
+<p>比如我见过某上海一线游戏公司的一个 RPG上来就要上这样的架构，我看了下他们团队成员的经验，问了下他们的上线日期，劝他们用前面稍微简单一点的模型。人家自信得很，认为有成功项目是这么做的，他们也要这么做，自己很想实现一套。于是他们义无反顾的开始编码，项目做了一年多，然后，就没有然后了。</p>
+<p>现今在游戏成功率不高的情况下，一开始上一套比较复杂的架构需要考虑投资回报率，比如你的游戏上线半年内 PCU会去到多少？如果一个 APRG游戏，每组服务器5千人都到不了的话，那么选择一套更为贴近实际情况的结构更为经济。即使后面你的项目真的超过5千人朝着1万人目标奔的话，相信那个时候你的项目已经挣大钱了 ，你数着钱加着班去逐步迭代，一次次拆分它，相信心里也是乐开花的。</p>
+<p>上面这些类型基本都是从拆分 MUDOS开始，将 MUDOS中的各个部件从单机一步步拆成分布式。虽然今天任然很多新项目在用上面某一种类似的结构。因为他们本质上都是对 MUDOS的分解，故将他们归纳为第二代游戏服务器。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;游戏服务端架构发展史（上）&quot;&gt;&lt;a href=&quot;#游戏服务端架构发展史（上）&quot; class=&quot;headerlink&quot; title=&quot;游戏服务端架构发展史（上）&quot;&gt;&lt;/a&gt;游戏服务端架构发展史（上）&lt;/h3&gt;&lt;p&gt;《游戏服务端架构发展史》转载请著名出处：&lt;a hre
+    
+    </summary>
+    
+      <category term="游戏" scheme="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
+    
+    
+      <category term="游戏" scheme="http://tusko.cn/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+      <category term="转载" scheme="http://tusko.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
+    
+      <category term="服务器" scheme="http://tusko.cn/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>游戏类型小记</title>
+    <link href="http://tusko.cn/2016/10/10/%E6%B8%B8%E6%88%8F%E7%B1%BB%E5%9E%8B%E5%B0%8F%E8%AE%B0/"/>
+    <id>http://tusko.cn/2016/10/10/游戏类型小记/</id>
+    <published>2016-10-10T07:16:00.000Z</published>
+    <updated>2017-08-27T16:16:54.393Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="RPG-Role-playing-Game∶角色扮演游戏"><a href="#RPG-Role-playing-Game∶角色扮演游戏" class="headerlink" title="RPG = Role-playing Game∶角色扮演游戏"></a>RPG = Role-playing Game∶角色扮演游戏</h4><p>&#160; &#160; &#160; &#160;由玩家扮演游戏中的一个或数个角色，有完整的故事情节的游戏。玩家可能会与冒险类游戏混淆，其实区分很简单，RPG游戏更强调的是剧情发展和个人体验，一般来说，RPG可分为日式和美式两种，主要区别在于文化背景和战斗方式。日式RPG多采用回合制或半即时制战斗，如《最终幻想》系列，大多国产中文RPG也可归为日式RPG之列，如大家熟悉的《仙剑》、《剑侠》等；美式RPG如《暗黑破坏神》系列。更详细的，可以根据战斗进行方式分类，将RPG分为动作角色扮演游戏（A.RPG，战斗方式为即时动作，典型就是《暗黑破坏神》）和战略角色扮演游戏 （S.RPG，战斗方式好象下棋，即我们常说的战棋类游戏，如《轩辕伏魔录》。</p>
+<h4 id="ACT-Action-Game∶动作游戏"><a href="#ACT-Action-Game∶动作游戏" class="headerlink" title="ACT = Action Game∶动作游戏"></a>ACT = Action Game∶动作游戏</h4><p>&#160; &#160; &#160; &#160;玩家控制游戏人物用各种武器消灭敌人以过关的游戏，不追求故事情节，如熟悉的《超级玛里》、可爱的《星之卡比》、华丽的《波斯王子》等等。电脑上的动作游戏大多脱胎于早期的街机游戏和动作游戏如《魂斗罗》、《三国志》等，设计主旨是面向普通玩家，以纯粹的娱乐休闲为目的，一般有少部分简单的解谜成份，操作简单，易于上手，紧张刺激，属于”大众化”游戏。 </p>
+<h4 id="AVG-Adventure-Game-∶冒险游戏"><a href="#AVG-Adventure-Game-∶冒险游戏" class="headerlink" title="AVG = Adventure Game ∶冒险游戏"></a>AVG = Adventure Game ∶冒险游戏</h4><p>&#160; &#160; &#160; &#160;由玩家控制游戏人物进行虚拟冒险的游戏。与RPG不同的是，AVG的特色是故事情节往往是以完成一个任务或解开某些迷题的形式出现的，而且在游戏过程中刻意强调谜题的重要性。AVG也可再细分为动作类和解迷类两种，动作类AVG可以包含一些格斗或射击成分如《生化危机》系列、《古墓丽影》系列、《恐龙危机》等；而解迷类AVG则纯粹依靠解谜拉动剧情的发展，难度系数较大，代表是超经典的《神秘岛》系列。 </p>
+<h4 id="SLG-Strategy-Game∶策略游戏"><a href="#SLG-Strategy-Game∶策略游戏" class="headerlink" title="SLG = Strategy Game∶策略游戏"></a>SLG = Strategy Game∶策略游戏</h4><p>&#160; &#160; &#160; &#160;玩家运用策略与电脑或其它玩家较量，以取得各种形式胜利的游戏，或统一全国，或开拓外星殖民地。策略游戏可分为回合制和即时制两种，回合制策略游戏如大家喜欢的《三国志》系列、《樱花大战》系列；即时制策略游戏如《命令与征服》系列、《帝国》系列、《沙丘》等。后来有些媒体将模拟经营，即SIM（simulation）类游戏，如《模拟人生》、《模拟城市》、《过山车大亨》、《主题公园》和养成类游戏（TCG，如《世界足球经理》，《零波丽育成计划》等）也归到了SLG下。 </p>
+<h4 id="RTS-Real-Time-Strategy-Game：即时战略游戏"><a href="#RTS-Real-Time-Strategy-Game：即时战略游戏" class="headerlink" title="RTS = Real-Time Strategy Game：即时战略游戏"></a>RTS = Real-Time Strategy Game：即时战略游戏</h4><p>&#160; &#160; &#160; &#160;本来属于策略游戏SLG的一个分支，但由于其在世界上的迅速风靡，使之慢慢发展成了一个单独的类型，知名度甚至超过了SLG，有点象现在国际足联和国际奥委会的关系。代表作有《魔兽争霸》系列、《帝国时代》系列、《星际争霸》等等。后来，从其上又衍生出了所谓”即时战术游戏”，多以控制一个小队完成任务的方式，突出战术的作用，以《盟军敢死队》为代表。 </p>
+<h4 id="FGT-Fighting-Game∶格斗游戏"><a href="#FGT-Fighting-Game∶格斗游戏" class="headerlink" title="FGT = Fighting Game∶格斗游戏"></a>FGT = Fighting Game∶格斗游戏</h4><p>&#160; &#160; &#160; &#160;由玩家操纵各种角色与电脑或另一玩家所控制的角色进行格斗的游戏。按呈画技术可再分为2D和3D两种，2D格斗游戏有著名的《街霸》系列、《侍魂》系列、《拳皇》系列等；3D格斗游戏如《铁拳》、《高达格斗》等。此类游戏谈不上什么剧情，最多有个简单的场景设定，或背景展示，场景、人物、操控等也比较单一，但操作难度较大，主要依靠玩家迅速的判断和微操作取胜。 </p>
+<h4 id="STG-SHOTING-GAME∶射击类游戏"><a href="#STG-SHOTING-GAME∶射击类游戏" class="headerlink" title="STG = SHOTING GAME∶射击类游戏"></a>STG = SHOTING GAME∶射击类游戏</h4><p>&#160; &#160; &#160; &#160;这里所说的射击类，并非是类似《VR战警》的模拟射击（枪战），而是指纯的飞机射击，由玩家控制各种飞行物(主要是飞机)完成任务或过关的游戏。此类游戏分为两种，一叫科幻飞行模拟游戏（Science-Simulation Game），非现实的，想象空间为内容，如《自由空间》、《星球大战》系列等；另一种叫真实飞行模拟游戏（Real- Simulation Game），以现实世界为基础，以真实性取胜，追求拟真，达到身临其境的感觉。如《王牌空战》系列、《苏-27》等等。另外，还有一些模拟其他的游戏也可归为STG，比如模拟潜艇的《猎杀潜航》，模拟坦克的《钢铁雄师》等。STG也可以按照视角版面分为：纵版、横版、主观视角。<br>&#160; &#160; &#160; &#160;纵版：最为常见，像街机中的《雷电》、《鲛鲛鲛》、《空牙》等，都堪称经典之作。<br>&#160; &#160; &#160; &#160;横版：横轴射击，如《沙罗曼蛇》系列、《战区88》都是这类。<br>主观视角：仿真，模拟战机就属此类。 </p>
+<h4 id="FPS-First-Personal-Shooting-Game：第一人称视角射击游戏"><a href="#FPS-First-Personal-Shooting-Game：第一人称视角射击游戏" class="headerlink" title="FPS = First Personal Shooting Game：第一人称视角射击游戏"></a>FPS = First Personal Shooting Game：第一人称视角射击游戏</h4><p>&#160; &#160; &#160; &#160;严格来说它是属于动作游戏的一个分支，但和RTS一样，由于其在世界上的迅速风靡，使之展成了一个单独的类型，典型的有DOOM系列、QUAKE系列、《虚幻》、《半条命》、《CS》……不胜枚举。 </p>
+<h4 id="PZL-Puzzle-Game∶益智类游戏"><a href="#PZL-Puzzle-Game∶益智类游戏" class="headerlink" title="PZL = Puzzle Game∶益智类游戏"></a>PZL = Puzzle Game∶益智类游戏</h4><p>&#160; &#160; &#160; &#160;Puzzle的原意是指以前用来培养儿童智力的拼图游戏，引申为各类有趣的益智游戏，总的来说适合休闲，最经典的嘛~就是大家耳熟能详的《俄罗斯方块》啦。 </p>
+<h4 id="RCG-Racing-Game∶竞速游戏-也有称作为RAC的"><a href="#RCG-Racing-Game∶竞速游戏-也有称作为RAC的" class="headerlink" title="RCG = Racing Game∶竞速游戏 [也有称作为RAC的]"></a>RCG = Racing Game∶竞速游戏 [也有称作为RAC的]</h4><p>&#160; &#160; &#160; &#160;在电脑上模拟各类赛车运动的游戏，通常是在比赛场景下进行，非常讲究图像音效技术，往往是代表电脑游戏的尖端技术。惊险刺激，真实感强，深受车迷喜爱，代表作有《极品飞车》、《山脊赛车》、《摩托英豪》等。另一种说法称之为”Driving Game”。目前，RCG内涵越来越丰富，出现了另一些其他模式的竞速游戏，如赛艇的，赛马等。 </p>
+<h4 id="SPT-Sports-Game∶体育类游戏"><a href="#SPT-Sports-Game∶体育类游戏" class="headerlink" title="SPT = Sports Game∶体育类游戏"></a>SPT = Sports Game∶体育类游戏</h4><p>&#160; &#160; &#160; &#160;在电脑上模拟各类竞技体育运动的游戏，花样繁多，模拟度高，广受欢迎，如《FIFA》系列、《NBA Live》系列、《实况足球》系列等。 </p>
+<h4 id="TCG-育成游戏"><a href="#TCG-育成游戏" class="headerlink" title="TCG = 育成游戏"></a>TCG = 育成游戏</h4><p>&#160; &#160; &#160; &#160;以前GB系列泛用，现在一般大家都用 EDU（education）来指代该类游戏，以便于和“ Online Trading Card Game”区分开。<br>顾名思义，就是玩家模拟培养的游戏，如《明星志愿》、《美少女梦工厂》、《零波丽育成计划》等等。 </p>
+<h4 id="CAG-Card-Game∶卡片游戏"><a href="#CAG-Card-Game∶卡片游戏" class="headerlink" title="CAG = Card Game∶卡片游戏"></a>CAG = Card Game∶卡片游戏</h4><p>&#160; &#160; &#160; &#160;玩家操纵角色通过卡片战斗模式来进行的游戏。丰富的卡片种类使得游戏富于多变化性，给玩家无限的乐趣，代表作有著名的《信长的野望》系列、《游戏王》系列，包括卡片网游《武侠Online》，从广意上说《王国之心》也可以归于此类。 </p>
+<h4 id="TAB-Table-Game∶桌面游戏"><a href="#TAB-Table-Game∶桌面游戏" class="headerlink" title="TAB = Table Game∶桌面游戏"></a>TAB = Table Game∶桌面游戏</h4><p>&#160; &#160; &#160; &#160;顾名思义，是从以前的桌面游戏脱胎到电脑上的游戏，如各类强手棋（即掷骰子决定移动格数的游戏），经典的象《大富翁》系列；棋牌类游戏也属于TAB，如《拖拉机》、《红心大战》、《麻将》等等。 </p>
+<h4 id="MSC-Music-Game∶音乐游戏"><a href="#MSC-Music-Game∶音乐游戏" class="headerlink" title="MSC=Music Game∶音乐游戏"></a>MSC=Music Game∶音乐游戏</h4><p>&#160; &#160; &#160; &#160;培养玩家音乐敏感性，增强音乐感知的游戏。伴随美妙的音乐，有的要求玩家翩翩起舞，有的要求玩家手指体操，例如大家都熟悉的跳舞机，就是个典型，目前的人气网游《劲乐团》也属其列。 </p>
+<h4 id="LVG-Love-Game∶恋爱游戏"><a href="#LVG-Love-Game∶恋爱游戏" class="headerlink" title="LVG=Love Game∶恋爱游戏"></a>LVG=Love Game∶恋爱游戏</h4><p>&#160; &#160; &#160; &#160;玩家回到初恋的年代，回味感人的点点滴滴，模拟恋爱的游戏。恋爱不是游戏，但偏偏有恋爱游戏，目前的恋爱类游戏主要是为男性玩家服务的，也有个别女性向的。可以训练追求的技术，（和学会忍耐？）代表作有日本的《心跳回忆》系列、《思君》，国人的《青涩宝贝》、《秋忆》等。 </p>
+<h4 id="ETC-etc-Game∶其他类游戏"><a href="#ETC-etc-Game∶其他类游戏" class="headerlink" title="ETC = etc. Game∶其他类游戏"></a>ETC = etc. Game∶其他类游戏</h4><p>&#160; &#160; &#160; &#160;指无法归结到已知种类中的游戏，常见于种类丰富的电视游戏，如音乐游戏、某些游戏的周边设定集（如《心跳回忆》屏保壁纸集）等，电脑游戏中较少出现，即使有也多是移植自电视游戏。其实你判定不了的就把它丢这里吧。 </p>
+<h4 id="WAG-Wap-Game∶手机游戏"><a href="#WAG-Wap-Game∶手机游戏" class="headerlink" title="WAG=Wap Game∶手机游戏"></a>WAG=Wap Game∶手机游戏</h4><p>&#160; &#160; &#160; &#160;手机上的游戏。目前游戏随处可以玩，连手机也必带休闲游戏，网民最喜欢手机游戏的种类，益智类比率最高，其次依次为动作类、战略类、模拟类、射击类。列举几个手机游戏例子：《金属咆哮》、《FF7 前传》等. </p>
+<h4 id="MUD-泥巴游戏"><a href="#MUD-泥巴游戏" class="headerlink" title="MUD = 泥巴游戏"></a>MUD = 泥巴游戏</h4><p>&#160; &#160; &#160; &#160;主要是依靠文字进行游戏的游戏，图形辅助。1978年，英国埃塞克斯大学的罗伊·特鲁布肖用DEC-10编写了世界上第一款MUD游戏——“MUD1”，是第一款真正意义上的实时多人交互网络游戏，这是一个纯文字的多人世界。（这可能就是MUD的命名来源吧？）其他代表作：《侠客行》、《子午线59》、《万王之王》。<br>MMORPG=Massively Multiplayer Online Role Playing Game∶大型多人在线角色扮演游戏<br>这个地球人都知道。举几个典型的例子：《网络创世纪》、《无尽的任务》、《A3》、《魔兽》、《轩辕Ⅱ》等！</p>
+<h4 id="MOBA-multiplayer-online-battle-arena多人在线战斗擂台游戏"><a href="#MOBA-multiplayer-online-battle-arena多人在线战斗擂台游戏" class="headerlink" title="MOBA = multiplayer online battle arena多人在线战斗擂台游戏"></a>MOBA = multiplayer online battle arena多人在线战斗擂台游戏</h4><p>&#160; &#160; &#160; &#160;玩家被分为两队，通常每个玩家只能控制其中一队中的一名角色，以打垮对方队伍的阵地建筑为胜利条件。<br>但有些多人在线战斗竞技场游戏1个玩家可以控制2至3名角色[1][2]，或2位玩家控制1名角色[3]，例如风暴英雄中的失落的维京人、雷克萨与丘加利。</p>
+<h4 id="MMO-Massively-Multiplayer-Online大型多人在线"><a href="#MMO-Massively-Multiplayer-Online大型多人在线" class="headerlink" title="MMO = Massively Multiplayer Online大型多人在线"></a>MMO = Massively Multiplayer Online大型多人在线</h4>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;RPG-Role-playing-Game∶角色扮演游戏&quot;&gt;&lt;a href=&quot;#RPG-Role-playing-Game∶角色扮演游戏&quot; class=&quot;headerlink&quot; title=&quot;RPG = Role-playing Game∶角色扮演游戏&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="游戏" scheme="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
+    
+    
+      <category term="游戏" scheme="http://tusko.cn/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+      <category term="转载" scheme="http://tusko.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>转载：游戏研发引擎对比</title>
+    <link href="http://tusko.cn/2016/10/05/%E6%B8%B8%E6%88%8F%E7%A0%94%E5%8F%91%E5%BC%95%E6%93%8E%E5%AF%B9%E6%AF%94/"/>
+    <id>http://tusko.cn/2016/10/05/游戏研发引擎对比/</id>
+    <published>2016-10-05T06:02:00.000Z</published>
+    <updated>2017-08-27T16:21:24.476Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="游戏研发引擎对比"><a href="#游戏研发引擎对比" class="headerlink" title="游戏研发引擎对比"></a>游戏研发引擎对比</h3><p>&#160; &#160; &#160; &#160;GameLook报道/随着手游的快速增长和游戏业的发展，选择合适的引擎已经变得越来越困难。很明显，对于开发商们来说，有着成功游戏开发历史的引擎是首选，但随着家用机与手游设备的变化，我们选择游戏研发引擎时必须从多个方面分析，以下是开发商们不可不知的10款引擎：</p>
+<h4 id="Unity3D"><a href="#Unity3D" class="headerlink" title="Unity3D"></a>Unity3D</h4><p>Unity3D对于游戏开发者们来说是一个真正可以负担的起的引擎，具有其他引擎难以匹敌的用户量。更为重要的是，你只需要付费一次，而且，不管你的游戏如何成功，都不用担心Unity会分走你的收入。这对于很多开发商来说当然是非常具有吸引力对，尤其是初创公司和新入行的开发者们。以下是Unity引擎的优点和缺点：</p>
+<p>优点：业内最具竞争力的授权条款；易于使用而且兼容所有游戏平台；开发者社区支持强大；学习门槛非常第；开发商使用率最高。</p>
+<p>缺点：工具数量有限，所以开发商必须给自己创作工具；做复杂和多样化的效果比较耗时。</p>
+<h4 id="虚幻引擎-UDK"><a href="#虚幻引擎-UDK" class="headerlink" title="虚幻引擎(UDK)"></a>虚幻引擎(UDK)</h4><p>数年以来，虚幻引擎一直是做高端EA游戏最受欢迎的引擎。《战争机器》、《蝙蝠侠：阿卡汉姆疯人院》（Batman: Arkham Asylum）、《质量效应》以及很多大作都是出自该引擎之手，以下是虚幻引擎的优点和缺点：</p>
+<p>优点：开发商使用率较高，开发商社区支持支持强大，有视频教程和大量资源。最佳的引擎支持并且随时更新其他引擎平台的功能，每次更新都会增加新工具，而且管理相对容易，有些工具甚至小学生都会使用。兼容大多数平台，比如iOS、Android、Linux、Mac、Windows和大多数游戏主机。</p>
+<p>缺点：授权条款只适合大作，商业授权价格为99美元，在游戏收入超过5万美元之后，必须支付25%的分成。也有一些开发者抱怨有些工具不好用，学习门槛较高。</p>
+<h4 id="CryEngine-3"><a href="#CryEngine-3" class="headerlink" title="CryEngine 3"></a>CryEngine 3</h4><p>该游戏引擎以优质的画面输出获得了大量开发者认可，如果你要做视觉出色的游戏，这款引擎绝对是最理想的选择。不过，该引擎也有自己的问题。</p>
+<p>优点：CryEngine 3可以让你的游戏更美丽，Flowgraph工具的美术编程能力非常强悍。该引擎具备最强悍的音频工具，所以音频策划和程序猿们非常喜欢。该游戏引擎还提供目前最为简单易用的AI代码技术，对于初入行的开发者，该引擎的UI触手可及。</p>
+<p>缺点：免费榜缺乏客户支持；推出时间相对较晚，开发者社区还不够强大；学习门槛对于初入行这比较高。</p>
+<h4 id="HeroEngine"><a href="#HeroEngine" class="headerlink" title="HeroEngine"></a>HeroEngine</h4><p>该引擎在MMO和在线游戏领域获得了非常高的人气，代表作《星球大战：旧共和国》。对于新入行的开发者以及初创公司来说，授权费用较高，不过，如果你有一个非常具备潜力的项目，该引擎还是非常值得考虑的。以下是使用该引擎之前需要考虑的优点与缺点：</p>
+<p>优点：提供多个开放世界地图，而且可以实现无缝转换；提供相对完善的AI；地图工具简单易用，并且集成了多个工具；脚本强大，足够帮助开发者研发复杂的项目、获得需要的资源；可以通过HeroCloud支持客户服务器。</p>
+<p>缺点：脚本引擎强大但不够直观；HeroEngine和HeroCloud对于初创公司来说成本较高；新开发者学习门槛较高。</p>
+<h4 id="Rage-Engine"><a href="#Rage-Engine" class="headerlink" title="Rage Engine"></a>Rage Engine</h4><p>该引擎的用途非常多，比较知名的游戏包括GTA Ⅲ、GTA：Vice City、GTA：San Andreas和很多知名大作。以下是该引擎的一些优点和缺点：</p>
+<p>优点：兼容与处理较大世界观和天气特效方面非常出色；复杂的AI设计方面领先其他引擎；非常适合多种玩法的游戏；网络编程速度非常快；非常具有吸引力的画质水平。</p>
+<p>缺点：和其他顶级引擎相比界面比较差；对于键盘和鼠标控制优化做的不足。</p>
+<h4 id="Project-Anarchy"><a href="#Project-Anarchy" class="headerlink" title="Project Anarchy"></a>Project Anarchy</h4><p>该引擎是一套完整的端到端游戏引擎和尖端移动设备工具组，受到很多游戏开发者赞誉，但同样具有一些缺点。</p>
+<p>优点：提供免费的手游研发工具（主要平台，比如iOS、Android和Tizen）；拥有非常强悍的程序调试工具；非常活跃的开发者社区与论坛；编辑器非常强大；音频输出能力非常好；优秀的Havok AI；vForge为开发者提供大量的定制化选择。</p>
+<p>缺点：不支持Mac和Linux开发环境；没有新手教学；对于初创公司来说成本较高。</p>
+<h4 id="GameSalad"><a href="#GameSalad" class="headerlink" title="GameSalad"></a>GameSalad</h4><p>这款引擎据说是不用写代码就能做游戏。这并不是个噱头，该引擎的确支持这样的功能。不过GameSalad一些功能也并不好用。</p>
+<p>优点：如果你想独立开发一款iPhone游戏，该引擎非常适合你；对于快速实现游戏想法来说，GameSalad是个不错的引擎；兼容流行的手游研发平台，比如Cocona和Moai。</p>
+<p>缺点：研发工具限制性比较强；缺乏大量的iOS功能；不兼容所有的平台。</p>
+<h4 id="App-Game-Kit"><a href="#App-Game-Kit" class="headerlink" title="App Game Kit"></a>App Game Kit</h4><p>该引擎是真正的跨平台研发工具，非常易用、简单，而且比较灵活。以下是该引擎的优缺点：</p>
+<p>优点：可以为多平台写代码，包括Android、iOS、Windows、Mac和Linux；集成Design Environment，可以在任何设备调试；加入了IAP、AdMob以及Push等工具；AGK脚本非常强大。</p>
+<p>缺点：使用者较少，所以学习起来相对较慢；BUG比较多；传感器或者GPS支持比较差。</p>
+<h4 id="Cocos2D"><a href="#Cocos2D" class="headerlink" title="Cocos2D"></a>Cocos2D</h4><p>很多策划认为Cocos2D对于新入行的开发者来说不仅具备大量功能，而且非常容易上手。虽然该引擎比较复杂，但值得一提的是其功能和灵活性，以下是该引擎的优缺点：</p>
+<p>优点：强大而且灵活；理论上来讲，你可以为自己的游戏加入所有的iOS功能；提供成熟的框架和多种工具；开源、免费，社区支持强大。</p>
+<p>缺点：和同类引擎相比比较复杂；学习门槛相对较高；特别适合Mac或者iOS平台，不过并不是跨平台引擎。</p>
+<p>如今人们在各种平台都玩游戏，比如主机、移动设备甚至是智能电视，所以，开发商在选择引擎的时候，需要找到适合自己技术并且能够满足目标市场要求的引擎，因此合适的引擎对于开发商们来说尤其重要，特别是新入行的开发者们。</p>
+<p>转载自 <a href="http://www.gamelook.com.cn/2014/08/176661" target="_blank" rel="external">GameLook</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;游戏研发引擎对比&quot;&gt;&lt;a href=&quot;#游戏研发引擎对比&quot; class=&quot;headerlink&quot; title=&quot;游戏研发引擎对比&quot;&gt;&lt;/a&gt;游戏研发引擎对比&lt;/h3&gt;&lt;p&gt;&amp;#160; &amp;#160; &amp;#160; &amp;#160;GameLook报道/随着手游的快速增
+    
+    </summary>
+    
+      <category term="游戏" scheme="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
+    
+    
+      <category term="游戏" scheme="http://tusko.cn/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+      <category term="转载" scheme="http://tusko.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
+    
+  </entry>
+  
+  <entry>
     <title>UCT搜索算法</title>
     <link href="http://tusko.cn/2016/02/10/UCT%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/"/>
     <id>http://tusko.cn/2016/02/10/UCT搜索算法/</id>
     <published>2016-02-10T08:05:00.000Z</published>
-    <updated>2017-08-19T02:29:24.788Z</updated>
+    <updated>2017-08-27T16:15:12.624Z</updated>
     
     <content type="html"><![CDATA[<h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="多臂匪徒"><a href="#多臂匪徒" class="headerlink" title="多臂匪徒"></a>多臂匪徒</h4><p>&#160; &#160; &#160; &#160;UCT算法是UCB策略与蒙特卡罗规划的结合体，在UCB算法中加入蒙特卡罗就形成了我们要介绍的UCT搜索。因此在介绍UCT搜索之前，我们先来了解下UCB策略和蒙特卡罗规划。</p>
 <p>&#160; &#160; &#160; &#160;首先，介绍下多臂匪徒问题。多臂匪徒问题就是说，有一个有K个拉手的老虎机，赌徒要从这些拉手中选出一个拉手，从而获得可能值为正值，0，负值的回报。在某个特定时间内，赌徒只能拉动一个拉手。当赌徒在老虎机面前时，他是没有任何头绪的。因为对他而言，每个拉手获得好的回报的概率是一样的，他也不知道该怎么选。他只能不断试探，发现拉手的规律后，推断哪个拉手获得的回报最大。为了让赌徒得到尽可能大的回报，我们需要找到一种策略，UCB策略就是这样一种可以解决多臂匪徒问题的策略。下面就是UCB策略的算法流程图：</p>
 <p><img src="/image_save/多臂匪徒.png" alt="多臂匪徒"></p>
 <h4 id="蒙特卡罗应用于博弈树"><a href="#蒙特卡罗应用于博弈树" class="headerlink" title="蒙特卡罗应用于博弈树"></a>蒙特卡罗应用于博弈树</h4><p>&#160; &#160; &#160; &#160;蒙特卡罗规划是以蒙特卡罗方法的一种规划。在蒙特卡规划罗建立的博弈树中，从初始状态开始，重复给出抽样，然后扩展到树中的每一个节点。在不围棋中，即是说在选点时，如果对可选点中找出一些较好的节点进行上万，上百万次地模拟，如果采用合适的评估函数 ，那么在这些节点就会聚集大量模拟。在计算机博弈中，蒙特卡罗规划通常用来解决棋子落点问题。蒙特卡罗规划的伪代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1： while 模拟时间未用完 do</div><div class="line">2：      从当前状态的子节点中选择一个节点</div><div class="line">3：      if 该节点是第一次被访问 then</div><div class="line">4：         利用蒙特卡罗评估，得出胜负结果</div><div class="line">5：          更新相关节点的方向次数和获胜次数</div><div class="line">6：      else </div><div class="line">7：          回到2</div><div class="line">8：      end if</div><div class="line">9： end while</div><div class="line">10:利用合适的方式选择最后的决策结果</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> while 模拟时间未用完 do</div><div class="line">      从当前状态的子节点中选择一个节点</div><div class="line">      if 该节点是第一次被访问 then</div><div class="line">         利用蒙特卡罗评估，得出胜负结果</div><div class="line">          更新相关节点的方向次数和获胜次数</div><div class="line">      else </div><div class="line">          回到2</div><div class="line">      end if</div><div class="line"> end while</div><div class="line">利用合适的方式选择最后的决策结果</div></pre></td></tr></table></figure>
 <h4 id="UCT算法原理"><a href="#UCT算法原理" class="headerlink" title="UCT算法原理"></a>UCT算法原理</h4><h5 id="UCT与蒙特卡罗区别"><a href="#UCT与蒙特卡罗区别" class="headerlink" title="UCT与蒙特卡罗区别"></a>UCT与蒙特卡罗区别</h5><p>&#160; &#160; &#160; UCT算法使<strong>UCB策略与蒙特卡罗规划相结合</strong>。它跟蒙特卡罗规则的区别：</p>
 <ol>
 <li>UCT算法对于可下子点的选择不是随机的，而是根据UCB值来选择的。如果可下点没有被访问，其UCB值无穷大，因为要使这些没有被访问的节点有机会被访问，以便遗漏掉好的可下点。如果可下点被访问过，根据UCB公式计算出UCB值。最终，我们选择UCB值最大的值作为可下点。</li>
@@ -37,7 +190,7 @@
 <p>&#160; &#160; &#160; 由此可知，节点的胜率越高或者越少被访问，那么这个节点UCB值就越高。UCB公式如下：</p>
 <h5 id="UCB公式"><a href="#UCB公式" class="headerlink" title="UCB公式"></a>UCB公式</h5><p><img src="/image_save/ucb公式.png" alt="ucb公式"></p>
 <p>&#160; &#160; &#160;在这个公式中， Wi表示子节点i的胜利次数，Ni表示子节点 i的访问次数，Np表示节点 p 的访问次數，Cbias是一個常数。最后节点p 会选择分数最高的子节点。此公式左边是探勘的部分，分数越高表示此节点胜率越高，之后被访问的几率也越高。右边部分是探索的部分，当节点 p 访问次数增加后，其访问次数越低的子节点在此部分就会得到越高的评估值，使其有机会被访问到。常数 Cbias是用來決定要重探勘还是重探索。</p>
-<h5 id="UCT流程图"><a href="#UCT流程图" class="headerlink" title="UCT流程图"></a>UCT流程图</h5><p><img src="/image_save/ucb公式.png" alt="uct流程图"></p>
+<h5 id="UCT流程图"><a href="#UCT流程图" class="headerlink" title="UCT流程图"></a>UCT流程图</h5><p><img src="/image_save/uct流程图.png" alt="uct流程图"></p>
 <h3 id="UCT搜索伪代码"><a href="#UCT搜索伪代码" class="headerlink" title="UCT搜索伪代码"></a>UCT搜索伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">PlayRandGame: 双方根据规则随机交替落子</div><div class="line">UpdateTree:更新UctTree的节点访问次数及相关收益</div><div class="line">ExpandNode:扩展子节点</div><div class="line">UCT核心伪代码如下:</div><div class="line">UctNode UctPlay(UctTree tree)</div><div class="line">&#123;</div><div class="line">	UctNode *current = &amp;tree.m_node;//从UCT树中取出当前局面作当前节点</div><div class="line">	while(!OverTimeLimit())</div><div class="line">	&#123;//若未超过时间限制</div><div class="line">		if (current.HasChild())</div><div class="line">		&#123;//当前节点是叶子点</div><div class="line">			UctState state = PlayRandGame(*current);//进行蒙特卡罗模拟</div><div class="line">			UpdateTree(state);//根据随机模拟结果更新UctTree访问及收益</div><div class="line">			if (current.m_visitor &gt; N)</div><div class="line">			&#123;   //若该节点访问次数到一定次数N</div><div class="line">				ExpandNode(*current);//展开子节点</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		else</div><div class="line">		&#123;//当前节点不是叶子节点</div><div class="line">			current = FindBestChild(*current);//取UCB最大的子节点作当前节点</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return tree.FindBestNode();返回树中访问次数最多的节点</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
@@ -60,7 +213,7 @@
     <link href="http://tusko.cn/2016/01/03/alphabeta%E5%89%AA%E6%9E%9D%E7%AE%97%E6%B3%95/"/>
     <id>http://tusko.cn/2016/01/03/alphabeta剪枝算法/</id>
     <published>2016-01-02T16:00:02.000Z</published>
-    <updated>2017-08-19T02:28:54.441Z</updated>
+    <updated>2017-08-19T11:29:40.923Z</updated>
     
     <content type="html"><![CDATA[<h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="AlphaBeta剪枝算法"><a href="#AlphaBeta剪枝算法" class="headerlink" title="AlphaBeta剪枝算法"></a>AlphaBeta剪枝算法</h4><p>&#160; &#160; &#160; &#160;极大极小值搜索算法计算的是整个博弈搜索树的复杂度，对国际跳棋而言假设每个局面只有9个走步，搜索10层的情况下就有9^10个博弈树节点需要探索，在优先的计算机资源下，无论从时间还是空间上来看，都是不可以接受的。AlphaBeta搜索算法就是用来解决来剪枝掉一些不必要的节点。 </p>
 <p>&#160; &#160; &#160; &#160;Alpha-Beta剪枝算法是建立在MiniMax算法基础上的，其特点是在博弈树上进行搜索时加上了alpha剪枝和beta剪枝。以下为alpha剪枝和beta剪枝示例：</p>
@@ -71,7 +224,7 @@
 <p>&#160; &#160; &#160; &#160;Alpha-Beta 剪枝算法的效率很大程度上依赖于节点的排列，在理想状态的排序下,最大效率前提，可以使搜索节点的数量减小一半，这样就能提高搜索速率，从而使在相同时间下的搜索深度增加一倍。可能读者以为提升一层深度有什么了不起，如果了解指数爆炸我们就知道这是巨大的提升，带来的是更快的速率。</p>
 <p>&#160; &#160; &#160; &#160;算法使用了两个值，分别为alpha和beta，alpha和beta的意义分别代表最佳得分的最小下界和最大上界，即是最好的值和最差的值。最初alpha，beta被设为无穷大和无穷小，伴随着搜索的不断进行，这个上界和下界在不断博弈的情况下逐渐收敛成为一个相对较优的值。</p>
 <p>（1）任何max节点的alpha值大于其父节点的beta值，则把该节点剩余的枝剪下去，因为这说明该节点之前至少有一个节点alpha值比它的上界还要小，也就是无论如何这个值比现有最坏情况还要坏，对敌方而言，所以敌方不会选这个路径作为最好走步，反之如果选择了，则他选择的是更坏的走步。而父节点是min节点，所以这个节点显然不是min节点所想要的。或者说这个节点对对手非常有利。<br>（2）同理任何min节点的beta值小于父节点alpha值，则把该节点剩余的枝剪去。</p>
-<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">int Alpha_Beta(nDepth, nAlpha, nBeta)</div><div class="line">&#123;</div><div class="line">	int score;</div><div class="line">	if(Game Over)</div><div class="line">		return Eveluation;// 游戏结束返回估值</div><div class="line">	</div><div class="line">	if(nDepth == 0)</div><div class="line">		return Eveluation;// 叶子节点返回估值</div><div class="line">	</div><div class="line">	if(IsMini Node)// 当为取极小值的节点</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &lt; nBeta)</div><div class="line">			&#123;</div><div class="line">				nBeta = score; // 取极小值</div><div class="line">				if(nAlpha &gt;= nBeta)// alpha剪枝</div><div class="line">					return nAlpha;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &gt; nAlpha)</div><div class="line">			&#123;</div><div class="line">				nAlpha = score; // 取极大值</div><div class="line">				if(nAlpha &gt;= nBeta)// beta 剪枝</div><div class="line">					return nBeta;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return nAlpha;// 返回极大值</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">int Alpha_Beta(nDepth, nAlpha, nBeta)</div><div class="line">&#123;</div><div class="line">	int score;</div><div class="line">	if(Game Over)</div><div class="line">		return Eveluation;// 游戏结束返回估值</div><div class="line">	</div><div class="line">	if(nDepth == 0)</div><div class="line">		return Eveluation;// 叶子节点返回估值</div><div class="line">	</div><div class="line">	if(IsMini Node)// 当为取极小值的节点</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &lt; nBeta)</div><div class="line">			&#123;</div><div class="line">				nBeta = score; // 取极小值</div><div class="line">				if(nAlpha &gt;= nBeta)// beta剪枝</div><div class="line">					return nAlpha;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		for(each possible move m)</div><div class="line">		&#123;</div><div class="line">			make move m;</div><div class="line">			score = Alpha_Beta(nDepth-1, nAlpha, nBeta);// 递归搜索子节点</div><div class="line">			unmake move m;</div><div class="line">			if(score &gt; nAlpha)</div><div class="line">			&#123;</div><div class="line">				nAlpha = score; // 取极大值</div><div class="line">				if(nAlpha &gt;= nBeta)// alpha 剪枝</div><div class="line">					return nBeta;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return nAlpha;// 返回极大值</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     

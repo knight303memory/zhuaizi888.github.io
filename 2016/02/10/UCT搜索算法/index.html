@@ -103,8 +103,8 @@
 &amp;#160; &amp;#160; &amp;#160; &amp;#160;首先，介绍下多臂匪徒问题。多臂匪徒问题就是说，有一个有K个拉手的老虎机，赌徒要从这些拉手中选出一个拉手，">
 <meta property="og:image" content="http://tusko.cn/image_save/多臂匪徒.png">
 <meta property="og:image" content="http://tusko.cn/image_save/ucb公式.png">
-<meta property="og:image" content="http://tusko.cn/image_save/ucb公式.png">
-<meta property="og:updated_time" content="2017-08-19T02:29:24.788Z">
+<meta property="og:image" content="http://tusko.cn/image_save/uct流程图.png">
+<meta property="og:updated_time" content="2017-08-27T16:15:12.624Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UCT搜索算法">
 <meta name="twitter:description" content="算法简介多臂匪徒&amp;#160; &amp;#160; &amp;#160; &amp;#160;UCT算法是UCB策略与蒙特卡罗规划的结合体，在UCB算法中加入蒙特卡罗就形成了我们要介绍的UCT搜索。因此在介绍UCT搜索之前，我们先来了解下UCB策略和蒙特卡罗规划。
@@ -430,7 +430,7 @@
 <p>&#160; &#160; &#160; &#160;首先，介绍下多臂匪徒问题。多臂匪徒问题就是说，有一个有K个拉手的老虎机，赌徒要从这些拉手中选出一个拉手，从而获得可能值为正值，0，负值的回报。在某个特定时间内，赌徒只能拉动一个拉手。当赌徒在老虎机面前时，他是没有任何头绪的。因为对他而言，每个拉手获得好的回报的概率是一样的，他也不知道该怎么选。他只能不断试探，发现拉手的规律后，推断哪个拉手获得的回报最大。为了让赌徒得到尽可能大的回报，我们需要找到一种策略，UCB策略就是这样一种可以解决多臂匪徒问题的策略。下面就是UCB策略的算法流程图：</p>
 <p><img src="/image_save/多臂匪徒.png" alt="多臂匪徒"></p>
 <h4 id="蒙特卡罗应用于博弈树"><a href="#蒙特卡罗应用于博弈树" class="headerlink" title="蒙特卡罗应用于博弈树"></a>蒙特卡罗应用于博弈树</h4><p>&#160; &#160; &#160; &#160;蒙特卡罗规划是以蒙特卡罗方法的一种规划。在蒙特卡规划罗建立的博弈树中，从初始状态开始，重复给出抽样，然后扩展到树中的每一个节点。在不围棋中，即是说在选点时，如果对可选点中找出一些较好的节点进行上万，上百万次地模拟，如果采用合适的评估函数 ，那么在这些节点就会聚集大量模拟。在计算机博弈中，蒙特卡罗规划通常用来解决棋子落点问题。蒙特卡罗规划的伪代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1： while 模拟时间未用完 do</div><div class="line">2：      从当前状态的子节点中选择一个节点</div><div class="line">3：      if 该节点是第一次被访问 then</div><div class="line">4：         利用蒙特卡罗评估，得出胜负结果</div><div class="line">5：          更新相关节点的方向次数和获胜次数</div><div class="line">6：      else </div><div class="line">7：          回到2</div><div class="line">8：      end if</div><div class="line">9： end while</div><div class="line">10:利用合适的方式选择最后的决策结果</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> while 模拟时间未用完 do</div><div class="line">      从当前状态的子节点中选择一个节点</div><div class="line">      if 该节点是第一次被访问 then</div><div class="line">         利用蒙特卡罗评估，得出胜负结果</div><div class="line">          更新相关节点的方向次数和获胜次数</div><div class="line">      else </div><div class="line">          回到2</div><div class="line">      end if</div><div class="line"> end while</div><div class="line">利用合适的方式选择最后的决策结果</div></pre></td></tr></table></figure>
 <h4 id="UCT算法原理"><a href="#UCT算法原理" class="headerlink" title="UCT算法原理"></a>UCT算法原理</h4><h5 id="UCT与蒙特卡罗区别"><a href="#UCT与蒙特卡罗区别" class="headerlink" title="UCT与蒙特卡罗区别"></a>UCT与蒙特卡罗区别</h5><p>&#160; &#160; &#160; UCT算法使<strong>UCB策略与蒙特卡罗规划相结合</strong>。它跟蒙特卡罗规则的区别：</p>
 <ol>
 <li>UCT算法对于可下子点的选择不是随机的，而是根据UCB值来选择的。如果可下点没有被访问，其UCB值无穷大，因为要使这些没有被访问的节点有机会被访问，以便遗漏掉好的可下点。如果可下点被访问过，根据UCB公式计算出UCB值。最终，我们选择UCB值最大的值作为可下点。</li>
@@ -441,7 +441,7 @@
 <p>&#160; &#160; &#160; 由此可知，节点的胜率越高或者越少被访问，那么这个节点UCB值就越高。UCB公式如下：</p>
 <h5 id="UCB公式"><a href="#UCB公式" class="headerlink" title="UCB公式"></a>UCB公式</h5><p><img src="/image_save/ucb公式.png" alt="ucb公式"></p>
 <p>&#160; &#160; &#160;在这个公式中， Wi表示子节点i的胜利次数，Ni表示子节点 i的访问次数，Np表示节点 p 的访问次數，Cbias是一個常数。最后节点p 会选择分数最高的子节点。此公式左边是探勘的部分，分数越高表示此节点胜率越高，之后被访问的几率也越高。右边部分是探索的部分，当节点 p 访问次数增加后，其访问次数越低的子节点在此部分就会得到越高的评估值，使其有机会被访问到。常数 Cbias是用來決定要重探勘还是重探索。</p>
-<h5 id="UCT流程图"><a href="#UCT流程图" class="headerlink" title="UCT流程图"></a>UCT流程图</h5><p><img src="/image_save/ucb公式.png" alt="uct流程图"></p>
+<h5 id="UCT流程图"><a href="#UCT流程图" class="headerlink" title="UCT流程图"></a>UCT流程图</h5><p><img src="/image_save/uct流程图.png" alt="uct流程图"></p>
 <h3 id="UCT搜索伪代码"><a href="#UCT搜索伪代码" class="headerlink" title="UCT搜索伪代码"></a>UCT搜索伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">PlayRandGame: 双方根据规则随机交替落子</div><div class="line">UpdateTree:更新UctTree的节点访问次数及相关收益</div><div class="line">ExpandNode:扩展子节点</div><div class="line">UCT核心伪代码如下:</div><div class="line">UctNode UctPlay(UctTree tree)</div><div class="line">&#123;</div><div class="line">	UctNode *current = &amp;tree.m_node;//从UCT树中取出当前局面作当前节点</div><div class="line">	while(!OverTimeLimit())</div><div class="line">	&#123;//若未超过时间限制</div><div class="line">		if (current.HasChild())</div><div class="line">		&#123;//当前节点是叶子点</div><div class="line">			UctState state = PlayRandGame(*current);//进行蒙特卡罗模拟</div><div class="line">			UpdateTree(state);//根据随机模拟结果更新UctTree访问及收益</div><div class="line">			if (current.m_visitor &gt; N)</div><div class="line">			&#123;   //若该节点访问次数到一定次数N</div><div class="line">				ExpandNode(*current);//展开子节点</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		else</div><div class="line">		&#123;//当前节点不是叶子节点</div><div class="line">			current = FindBestChild(*current);//取UCB最大的子节点作当前节点</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return tree.FindBestNode();返回树中访问次数最多的节点</div></pre></td></tr></table></figure>
       
     </div>
@@ -489,6 +489,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/05/游戏研发引擎对比/" rel="prev" title="转载：游戏研发引擎对比">
+                转载：游戏研发引擎对比 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -576,7 +580,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -585,7 +589,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -594,7 +598,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
