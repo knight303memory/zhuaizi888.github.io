@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://tusko.cn/2017/11/11/Qt信号槽/index.html">
 <meta property="og:site_name" content="Killua's blog">
 <meta property="og:description" content="Qt信号槽机制引用转载 http://blog.csdn.net/qter_wd007/article/details/5598264&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;http://blog.csdn.net/qq_16952303/article/details/">
-<meta property="og:updated_time" content="2017-11-11T08:23:19.000Z">
+<meta property="og:updated_time" content="2017-11-11T08:45:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Qt信号槽（转引）">
 <meta name="twitter:description" content="Qt信号槽机制引用转载 http://blog.csdn.net/qter_wd007/article/details/5598264&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;http://blog.csdn.net/qq_16952303/article/details/">
@@ -470,6 +470,10 @@
 <li>信号与槽不能有缺省参数。</li>
 <li>信号与槽也不能携带模板类参数。</li>
 </ol>
+<h4 id="Qt4中的信号槽"><a href="#Qt4中的信号槽" class="headerlink" title="Qt4中的信号槽"></a>Qt4中的信号槽</h4><p>&#160; &#160; &#160; Qt4中的信号槽是通过SIGNAL,SLOT两个宏,将参数转换成字符串.Qt编译前,会从源码的头文件中提取由signal和slot声明的信号和槽的函数，将其组成一张信号和槽对应的字符串表。</p>
+<p>&#160; &#160; &#160; connect函数的作用是，将信号关联的槽字符串,同这张表的信息进行对比。这样信号发出的时候,就可以知道调用哪一个槽函数了。</p>
+<p>&#160; &#160; &#160;没有编译期的检查:Qt4中的信号槽会被宏转化成字符串处理,而字符串的比较机制是在程序运行的时候检测的.而且,转换成字符串后,信号槽的参数数据类型就会丢失.这就导致,有的时候,信号槽在编译的时候没有问题,在运行的时候,反而出错。</p>
+<p>&#160; &#160; &#160;无法使用相容类型的参数:因为信号槽的机制使用的是字符串的匹配的方法,所以,槽函数的参数类型的名字,必须和信号参数类型的名字一致,同时,还必须和头文件中声明的类型名字一致,也就是字符串意义上的严格相同.如果使用了typdef或者namespace这样的类型,虽然实际的类型是一样的,但是由于字符串的名字不一样,所以Qt4中是会有错误的.如下伪代码示例(实际类型都是int,但因为按照字符串处理,所以Qt4中,编译前不能通过。</p>
 
       
     </div>
@@ -684,7 +688,7 @@ var jiathis_config = {data_track_clickback:'true'};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Qt信号槽机制"><span class="nav-number">1.</span> <span class="nav-text">Qt信号槽机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-信号（signal）"><span class="nav-number">1.1.</span> <span class="nav-text">1.信号（signal）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-槽（slot）"><span class="nav-number">1.2.</span> <span class="nav-text">2.槽（slot）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-信号与槽的关联"><span class="nav-number">1.3.</span> <span class="nav-text">3.信号与槽的关联</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需要注意的问题"><span class="nav-number">1.4.</span> <span class="nav-text">需要注意的问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Qt信号槽机制"><span class="nav-number">1.</span> <span class="nav-text">Qt信号槽机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-信号（signal）"><span class="nav-number">1.1.</span> <span class="nav-text">1.信号（signal）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-槽（slot）"><span class="nav-number">1.2.</span> <span class="nav-text">2.槽（slot）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-信号与槽的关联"><span class="nav-number">1.3.</span> <span class="nav-text">3.信号与槽的关联</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需要注意的问题"><span class="nav-number">1.4.</span> <span class="nav-text">需要注意的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Qt4中的信号槽"><span class="nav-number">1.5.</span> <span class="nav-text">Qt4中的信号槽</span></a></li></ol></li></ol></div>
             
 
           </div>
