@@ -75,7 +75,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="计算机博弈,算法,计算机博弈算法," />
+  <meta name="keywords" content="总结,Linux," />
 
 
 
@@ -93,25 +93,19 @@
 
 
 
-<meta name="description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
+<meta name="description" content="说明&amp;#160; &amp;#160; &amp;#160; &amp;#160;本文对秋招准备过程中零碎知识点总结，仅供参考
+正文硬链接与软链接【硬连接】&amp;#160; &amp;#160; &amp;#160; &amp;#160;硬连接指通过索引节点来进行连接。在Linux的文件系统中，保存在磁盘分区中的文件不管是什么类型都给它分配一个编号，称为索引节点号(Inode Index)。在Linux中，多个文件名指向同一索引节点是存在的。一般这">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极大值极小值算法">
-<meta property="og:url" content="http://tusko.cn/2016/10/06/极大值极小值算法/index.html">
+<meta property="og:title" content="Linux知识点小结">
+<meta property="og:url" content="http://tusko.cn/2017/11/11/Linux知识点小结/index.html">
 <meta property="og:site_name" content="Killua's blog">
-<meta property="og:description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
-<meta property="og:image" content="http://tusko.cn/images/极大极小值算法_1.png">
-<meta property="og:image" content="http://tusko.cn/images/二人博弈树.png">
-<meta property="og:image" content="http://tusko.cn/images/二人博弈树估值.png">
-<meta property="og:image" content="http://tusko.cn/images/极小值算法伪代码.png">
-<meta property="og:image" content="http://tusko.cn/images/极大值算法伪代码.png">
-<meta property="og:updated_time" content="2017-11-11T03:00:07.000Z">
+<meta property="og:description" content="说明&amp;#160; &amp;#160; &amp;#160; &amp;#160;本文对秋招准备过程中零碎知识点总结，仅供参考
+正文硬链接与软链接【硬连接】&amp;#160; &amp;#160; &amp;#160; &amp;#160;硬连接指通过索引节点来进行连接。在Linux的文件系统中，保存在磁盘分区中的文件不管是什么类型都给它分配一个编号，称为索引节点号(Inode Index)。在Linux中，多个文件名指向同一索引节点是存在的。一般这">
+<meta property="og:updated_time" content="2017-11-11T10:11:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极大值极小值算法">
-<meta name="twitter:description" content="算法简介极大值极小值算法&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。
-&amp;#160; &amp;#160; &amp;#160; &amp;#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发">
-<meta name="twitter:image" content="http://tusko.cn/images/极大极小值算法_1.png">
+<meta name="twitter:title" content="Linux知识点小结">
+<meta name="twitter:description" content="说明&amp;#160; &amp;#160; &amp;#160; &amp;#160;本文对秋招准备过程中零碎知识点总结，仅供参考
+正文硬链接与软链接【硬连接】&amp;#160; &amp;#160; &amp;#160; &amp;#160;硬连接指通过索引节点来进行连接。在Linux的文件系统中，保存在磁盘分区中的文件不管是什么类型都给它分配一个编号，称为索引节点号(Inode Index)。在Linux中，多个文件名指向同一索引节点是存在的。一般这">
 
 
 
@@ -139,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://tusko.cn/2016/10/06/极大值极小值算法/"/>
+  <link rel="canonical" href="http://tusko.cn/2017/11/11/Linux知识点小结/"/>
 
 
 
 
 
-  <title> 极大值极小值算法 | Killua's blog </title>
+  <title> Linux知识点小结 | Killua's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -320,7 +314,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2016/10/06/极大值极小值算法/">
+  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2017/11/11/Linux知识点小结/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Killua">
@@ -344,7 +338,7 @@
             
             
               
-                极大值极小值算法
+                Linux知识点小结
               
             
           </h2>
@@ -359,8 +353,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-06T15:38:46+08:00">
-                2016-10-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-11T16:55:26+08:00">
+                2017-11-11
               </time>
             
 
@@ -382,8 +376,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/计算机博弈/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机博弈</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -399,7 +393,7 @@
 
           
           
-             <span id="/2016/10/06/极大值极小值算法/" class="leancloud_visitors" data-flag-title="极大值极小值算法">
+             <span id="/2017/11/11/Linux知识点小结/" class="leancloud_visitors" data-flag-title="Linux知识点小结">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -428,20 +422,46 @@
       
 
       
-        <h3 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h3><h4 id="极大值极小值算法"><a href="#极大值极小值算法" class="headerlink" title="极大值极小值算法"></a>极大值极小值算法</h4><p>&#160; &#160; &#160; &#160;在计算机博弈中，极大极小搜索算法是一种简单常见、便于理解的启发式搜索。因此在介绍极大极小搜索之前，我们先来介绍启发式搜索。</p>
-<p>&#160; &#160; &#160; &#160;盲目搜索解决可以穷尽的问题。但事实上，这种理论上可以穷尽的搜索问题并不常见，我们见到更多的搜索问题状态空间往往是无法穷尽的，因此此时就会使用启发式搜索。这种启发式搜索只搜索博弈树中的一部分，然后采用启发方式引导博弈往利于己方获胜的方向发展。计算机通常会研究并发现一系列规则来形成启发方式，然后选择出一条可以解决问题的最佳路径。</p>
-<p>&#160; &#160; &#160; &#160;极大极小搜索是一种在有限深度内搜索的启发式搜索。这里，我们用一个形象的例子来说明极大极小搜索。甲、乙两位玩家玩一个不清楚规则的游戏。在游戏过程中，甲方希望获得尽可能高的分数，而乙方恰恰希望甲方获得尽可能低的分数。这个游戏过程即是说：甲方在玩游戏时应尽量让自己的分数变大，而乙方则尽量让甲方分数变低。游戏中甲、乙双方使分数极大极小的过程就是极大极小搜索。</p>
-<p>&#160; &#160; &#160; &#160;极大极小值算法是根据零和博弈的特点，在与对手的博弈中，模拟整个博弈的过程。在己方的所有决策中找出相对于自己最大收益的决策；假设我方能知道对方的所有决策，根据我方判断，在对手的决策所有决策中找到使己方最小收益的决策。</p>
-<p>以下为一棵极大极小值搜索树:</p>
-<p><img src="/images/极大极小值算法_1.png" alt="极大极小值搜索树"></p>
-<p>&#160; &#160; &#160; &#160;如上图所示，它是一棵以当前局面为根节点而展开的5层博弈树，我们把偶数层记为Max层，把奇数层记为Min层，当博弈树扩展到叶子节点后，自底向上，我们倒推每个节点的值。如果父节点是在Max层，通过比较后，将子节点中的最大值赋给它；而如果是在Min层，通过比较后，将它节点中的最小值赋给它。递归进行，最终可以得知根节点的哪个子节点能让自己的局面优势最大或者说让对方的哪个局面优势最小。</p>
-<p>以下是一棵二人博弈树:<br><img src="/images/二人博弈树.png" alt="二人博弈树"></p>
-<p>&#160; &#160; &#160; &#160;根节点为A，其子节点B、C、D分别为我方产生一种行为后形成的另一种局面，节点E、F、G、H、I分别是对方在其父节点上产生一种行为后形成的局面。<br>&#160; &#160; &#160; &#160;通过极大极小值算法对该博弈树进行搜索之前，首先需要对此博弈树的叶子节点进行估值，假设其叶子节点估值如下：</p>
-<p><img src="/images/二人博弈树估值.png" alt="二人博弈树估值"></p>
-<p>&#160; &#160; &#160; &#160;根据极大极小值算法的原理，在第三层为对方产生行为后形成的局面，取极小值。节点B取节点E、F、G中估值最小的，所以节点B的估值为节点G的估值，为-11；节点D的估值为节点H、I中估值最小的，为-999；在第二层中为我方产生行为后形成的局面，则取极大值。此时，节点B估值为-11，节点C估值为-100，节点D估值为-999。则取节点B、C、D中估值最大的，所以节点A取节点B的估值。最后，我方取的最终行为是产生节点B局面的行为。<br>&#160; &#160; &#160; &#160;另外，极大极小值算法是基于静态估值函数的，且其博弈树的深度是有限的，到设定的深度后需返回其叶子节点的估值。</p>
-<p>极小值算法伪代码:<br><img src="/images/极小值算法伪代码.png" alt="极小值算法伪代码"></p>
-<p>极大值算法伪代码:<br><img src="/images/极大值算法伪代码.png" alt="极大值算法伪代码"></p>
-<h4 id="负极大值算法"><a href="#负极大值算法" class="headerlink" title="负极大值算法"></a>负极大值算法</h4><p>&#160; &#160; &#160; &#160;当极大极小搜索应用于双人棋类博弈时，负极大搜索算法是其的简单变形。根据博弈的定义，对于同一个盘面，甲方对其评估值总是乙方对其评估值的相反数。因此，当前盘面的落子一方需要从所有下一个盘面评估值的相反数中取极大值，而下一个盘面评估值必须按照对手来评估。并且，该搜索步骤对于甲、乙双方均适用。负极大搜索算法与极小极大搜索算法具有相同的复杂度，只是简化了代码量，并没有对搜索节点数目进行缩减，下面我们讨论的负极大值搜索算法就对树的节点进行了剪枝，减小了搜索复杂度。</p>
+        <h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>&#160; &#160; &#160; &#160;本文对秋招准备过程中零碎知识点总结，仅供参考</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="硬链接与软链接"><a href="#硬链接与软链接" class="headerlink" title="硬链接与软链接"></a>硬链接与软链接</h4><p>【硬连接】<br>&#160; &#160; &#160; &#160;硬连接指通过索引节点来进行连接。在Linux的文件系统中，保存在磁盘分区中的文件不管是什么类型都给它分配一个编号，称为索引节点号(Inode Index)。在Linux中，多个文件名指向同一索引节点是存在的。一般这种连接就是硬连接。硬连接的作用是允许一个文件拥有多个有效路径名，这样用户就可以建立硬连接到重要文件，以防止“误删”的功能。其原因如上所述，因为对应该目录的索引节点有一个以上的连接。只删除一个连接并不影响索引节点本身和其它的连接，只有当最后一个连接被删除后，文件的数据块及目录的连接才会被释放。也就是说，文件真正删除的条件是与之相关的所有硬连接文件均被删除。<br>【软连接】<br>&#160; &#160; &#160; &#160;另外一种连接称之为符号连接（Symbolic Link），也叫软连接。软链接文件有类似于Windows的快捷方式。它实际上是一个特殊的文件。在符号连接中，文件实际上是一个文本文件，其中包含的有另一文件的位置信息。</p>
+<h4 id="Linux进程状态"><a href="#Linux进程状态" class="headerlink" title="Linux进程状态"></a>Linux进程状态</h4><p>R：正在运行；<br>S：睡眠；<br>T：正在检测或停止；<br>Z：已终止，但父进程无法正常终止它，成了“僵尸”进程。</p>
+<h4 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h4><p><strong>地址从低到高：</strong><br>代码段(.text)：用来存放可执行文件的机器指令。存放在只读区域，以防止被修改。<br>只读数据段(.rodata)：用来存放常量存放在只读区域，如字符串常量、全局const变量等。<br>可读写数据段(.data)：用来存放可执行文件中已初始化全局变量，即静态分配的变量和全局变量。<br>BSS段(.bss)：未初始化的全局变量和局部静态变量一般放在.bss的段里，以节省内存空间。<br>堆：用来容纳应用程序动态分配的内存区域。当程序使用malloc或new分配内存时，得到的内存来自堆。堆通常位于栈的下方。<br>栈：用于维护函数调用的上下文。栈通常分配在用户空间的最高地址处分配。<br>动态链接库映射区：如果程序调用了动态链接库，则会有这一部分。该区域是用于映射装载的动态链接库。<br>保留区：内存中受到保护而禁止访问的内存区域。</p>
+<h4 id="Shell编程"><a href="#Shell编程" class="headerlink" title="Shell编程"></a>Shell编程</h4><p>-f “filename”<br>判断是否是一个文件<br>-x “/bin/ls”<br>判断/bin/ls是否存在并有可执行权限<br>-n “\$ var”<br>判断 \$var 变量是否有值</p>
+<h4 id="进程和线程优缺点"><a href="#进程和线程优缺点" class="headerlink" title="进程和线程优缺点"></a>进程和线程优缺点</h4><p>进程优点：编程、调试简单，可靠性较高。<br>进程缺点：创建、销毁、切换速度慢，内存、资源占用大。<br>线程优点：创建、销毁、切换速度快，内存、资源占用小。<br>线程缺点：编程、调试复杂，可靠性较差。</p>
+<p>进程的优点：<br>1）顺序程序的特点：具有封闭性和可再现性;<br>2）程序的并发执行和资源共享。多道程序设计出现后，实现了程序的并发执行和资源共享，提高了系统的效率和系统的资源利用率。</p>
+<p>进程的缺点：<br>操作系统调度切换多个线程要比切换调度进程在速度上快的多。而且进程间内存无法共享，通讯也比较麻烦。<br>线程之间由于共享进程内存空间，所以交换数据非常方便;在创建或撤消进程时，由于系统都要为之分配和回收资源，导致系统的开销明显大于创建或撤消线程时的开销。</p>
+<p>线程的优点：<br>1）它是一种非常”节俭”的多任务操作方式。在Linux系统下，启动一个新的进程必须分配给它独立的地址空间，建立众多的数据表来维护它的代码段、堆栈段和数据段，这是一种”昂贵”的多任务工作方式。而运行于一个进程中的多个线程，它们彼此之间使用相同的地址空间，共享大部分数据，启动一个线程所花费的空间远远小于启动一个进程所花费的空间，而且，线程间彼此切换所需的时间也远远小于进程间切换所需要的时间。当然，在具体的系统上，这个数据可能会有较大的区别;<br>2）线程间方便的通信机制，由于同一进程下的线程之间共享数据空间，所以一个线程的数据可以直接为其它线程所用，这不仅快捷，而且方便;<br>3）使多CPU系统更加有效。操作系统会保证当线程数不大于CPU数目时，不同的线程运行于不同的CPU上;<br>4）改善程序结构。一个既长又复杂的进程可以考虑分为多个线程，成为几个独立或半独立的运行部分，这样的程序会利于理解和修改。<br>线程的缺点：<br>1）调度时, 要保存线程状态，频繁调度, 需要占用大量的机时;<br>2）程序设计上容易出错（线程同步问题）。</p>
+<p>多线程的优点：<br>无需跨进程边界;<br>程序逻辑和控制方式简单;<br>所有线程可以直接共享内存和变量等;<br>线程方式消耗的总资源比进程方式好;</p>
+<p>多线程缺点：<br>每个线程与主程序共用地址空间，受限于2GB地址空间;<br>线程之间的同步和加锁控制比较麻烦;<br>一个线程的崩溃可能影响到整个程序的稳定性;<br>到达一定的线程数程度后，即使再增加CPU也无法提高性能，例如Windows Server 2003，大约是1500个左右的线程数就快到极限了（线程堆栈设定为1M），如果设定线程堆栈为2M，还达不到1500个线程总数;<br>线程能够提高的总性能有限，而且线程多了之后，线程本身的调度也是一个麻烦事儿，需要消耗较多的CPU</p>
+<p>多进程优点：<br>每个进程互相独立，不影响主程序的稳定性，子进程崩溃没关系;<br>通过增加CPU，就可以容易扩充性能;<br>可以尽量减少线程加锁/解锁的影响，极大提高性能，就算是线程运行的模块算法效率低也没关系;<br>每个子进程都有2GB地址空间和相关资源，总体能够达到的性能上限非常大</p>
+<p>多进程缺点：<br>逻辑控制复杂，需要和主程序交互;<br>需要跨进程边界，如果有大数据量传送，就不太好，适合小数据量传送、密集运算<br>多进程调度开销比较大;<br>最好是多进程和多线程结合，即根据实际的需要，每个CPU开启一个子进程，这个子进程开启多线程可以为若干同类型的数据进行处理。当然你也可以利用多线程+多CPU+轮询方式来解决问题……<br>方法和手段是多样的，关键是自己看起来实现方便有能够满足要求，代价也合适。</p>
+<h4 id="IO模型"><a href="#IO模型" class="headerlink" title="IO模型"></a>IO模型</h4><p><strong>select / epoll</strong></p>
+<p>select的两个缺点：</p>
+<ul>
+<li>能监听端口的大小有限。默认是1024个</li>
+<li>可采用轮询的方法，效率较低</li>
+</ul>
+<p>epoll的优点</p>
+<ul>
+<li>能打开的FD的上限远大于1024（1G的内存上能监听约10万个端口）；</li>
+<li>不是轮询的方式，不会随着FD数目的增加效率下降。只有活跃可用的FD才会调用callback函数；</li>
+<li>利用mmap()文件映射内存加速与内核空间的消息传递；</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;LT(level triggered)是缺省的工作方式，并且同时支持block和no-block socket.在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不作任何操作，内核还是会继续通知你的，所以，这种模式编程出错误可能性要小一点。传统的select/poll都是这种模型的代表。</p>
+<p>&#160; &#160; &#160; &#160;ET(edge-triggered)是高速工作方式，只支持no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了(比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致了一个EWOULDBLOCK 错误）。但是请注意，如果一直不对这个fd作IO操作(从而导致它再次变成未就绪)，内核不会发送更多的通知(only once),不过在TCP协议中，ET模式的加速效用仍需要更多的benchmark确认。</p>
+<p>在非阻塞式IO中，用户进程其实是需要不断的主动询问kernel数据准备好了没有。</p>
+<p>在非阻塞状态下，recv() 接口在被调用后立即返回，返回值代表了不同的含义。如在本例中，</p>
+<ul>
+<li>recv() 返回值大于 0，表示接受数据完毕，返回值即是接受到的字节数；</li>
+<li>recv() 返回 0，表示连接已经正常断开；</li>
+<li>recv() 返回 -1，且 errno 等于 EAGAIN，表示 recv 操作还没执行完成；</li>
+<li>recv() 返回 -1，且 errno 不等于 EAGAIN，表示 recv 操作遇到系统错误 errno。</li>
+</ul>
+<p>循环调用recv()将大幅度推高CPU 占用率；此外，在这个方案中recv()更多的是起到检测“操作是否完成”的作用，实际操作系统提供了更为高效的检测“操作是否完成“作用的接口，例如select()多路复用模式，可以一次检测多个连接是否活跃。</p>
+<p>select/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。</p>
+<p>当用户进程调用了select，那么整个进程会被block，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。</p>
+<p>如果处理的连接数不是很高的话，使用select/epoll的web server不一定比使用multi-threading + blocking IO的web server性能更好，可能延迟还更大。select/epoll的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。</p>
+<p>在多路复用模型中，对于每一个socket，一般都设置成为non-blocking，但是,整个用户的process其实是一直被block的。只不过process是被select这个函数block，而不是被socket IO给block。因此select()与非阻塞IO类似。</p>
 
       
     </div>
@@ -465,11 +485,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/计算机博弈/" rel="tag"># 计算机博弈</a>
+            <a href="/tags/总结/" rel="tag"># 总结</a>
           
-            <a href="/tags/算法/" rel="tag"># 算法</a>
-          
-            <a href="/tags/计算机博弈算法/" rel="tag"># 计算机博弈算法</a>
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
           
         </div>
       
@@ -482,8 +500,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/30/极大极小值井字棋/" rel="next" title="极大极小值算法-井字棋实现">
-                <i class="fa fa-chevron-left"></i> 极大极小值算法-井字棋实现
+              <a href="/2017/11/11/Qt信号槽/" rel="next" title="Qt信号槽（转引）">
+                <i class="fa fa-chevron-left"></i> Qt信号槽（转引）
               </a>
             
           </div>
@@ -491,10 +509,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/10/游戏服务端架构发展史-上/" rel="prev" title="转载：游戏服务端架构发展史(上)">
-                转载：游戏服务端架构发展史(上) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -662,7 +676,7 @@ var jiathis_config = {data_track_clickback:'true'};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法简介"><span class="nav-number">1.</span> <span class="nav-text">算法简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#极大值极小值算法"><span class="nav-number">1.1.</span> <span class="nav-text">极大值极小值算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负极大值算法"><span class="nav-number">1.2.</span> <span class="nav-text">负极大值算法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#硬链接与软链接"><span class="nav-number">2.1.</span> <span class="nav-text">硬链接与软链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux进程状态"><span class="nav-number">2.2.</span> <span class="nav-text">Linux进程状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存结构"><span class="nav-number">2.3.</span> <span class="nav-text">内存结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell编程"><span class="nav-number">2.4.</span> <span class="nav-text">Shell编程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程和线程优缺点"><span class="nav-number">2.5.</span> <span class="nav-text">进程和线程优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO模型"><span class="nav-number">2.6.</span> <span class="nav-text">IO模型</span></a></li></ol></li></ol></div>
             
 
           </div>
