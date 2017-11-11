@@ -1,0 +1,976 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="KeQhpgiOqD" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机博弈," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Killua's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="井字棋介绍&amp;#160; &amp;#160; &amp;#160; &amp;#160;井字棋，英文名叫Tic-Tac-Toe，是一种在3*3格子上进行的连珠游戏，和五子棋类似，由于棋盘一般不画边框，格线排成井字故得名。游戏需要的工具仅为纸和笔，然后由分别代表O和X的两个游戏者轮流在格子里留下标记（一般来说先手者为X）
+项目说明这是本人做的第一个关于计算机博弈的程序，用C语言实现了人机对弈，电脑走步是参考这篇文章，使用纯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于经验的井字棋">
+<meta property="og:url" content="http://tusko.cn/2016/08/17/基于经验的井字棋/index.html">
+<meta property="og:site_name" content="Killua's blog">
+<meta property="og:description" content="井字棋介绍&amp;#160; &amp;#160; &amp;#160; &amp;#160;井字棋，英文名叫Tic-Tac-Toe，是一种在3*3格子上进行的连珠游戏，和五子棋类似，由于棋盘一般不画边框，格线排成井字故得名。游戏需要的工具仅为纸和笔，然后由分别代表O和X的两个游戏者轮流在格子里留下标记（一般来说先手者为X）
+项目说明这是本人做的第一个关于计算机博弈的程序，用C语言实现了人机对弈，电脑走步是参考这篇文章，使用纯">
+<meta property="og:image" content="http://tusko.cn/images/井字棋.jpg">
+<meta property="og:image" content="http://tusko.cn/images/井字棋1.png">
+<meta property="og:image" content="http://tusko.cn/images/井字棋2.png">
+<meta property="og:image" content="http://tusko.cn/images/井字棋3.png">
+<meta property="og:updated_time" content="2017-11-11T02:55:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于经验的井字棋">
+<meta name="twitter:description" content="井字棋介绍&amp;#160; &amp;#160; &amp;#160; &amp;#160;井字棋，英文名叫Tic-Tac-Toe，是一种在3*3格子上进行的连珠游戏，和五子棋类似，由于棋盘一般不画边框，格线排成井字故得名。游戏需要的工具仅为纸和笔，然后由分别代表O和X的两个游戏者轮流在格子里留下标记（一般来说先手者为X）
+项目说明这是本人做的第一个关于计算机博弈的程序，用C语言实现了人机对弈，电脑走步是参考这篇文章，使用纯">
+<meta name="twitter:image" content="http://tusko.cn/images/井字棋.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '112V5OZSBL',
+      apiKey: '60f33d6586ee164056577ca2fa6670de',
+      indexName: 'killua',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://tusko.cn/2016/08/17/基于经验的井字棋/"/>
+
+
+
+
+
+  <title> 基于经验的井字棋 | Killua's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d5a48a4f243ddad8c54139e46a1cb11b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Killua's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2016/08/17/基于经验的井字棋/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Killua">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Killua's blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Killua's blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于经验的井字棋
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-17T11:11:11+08:00">
+                2016-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机博弈/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机博弈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/08/17/基于经验的井字棋/" class="leancloud_visitors" data-flag-title="基于经验的井字棋">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="井字棋介绍"><a href="#井字棋介绍" class="headerlink" title="井字棋介绍"></a>井字棋介绍</h3><p>&#160; &#160; &#160; &#160;井字棋，英文名叫Tic-Tac-Toe，是一种在3*3格子上进行的连珠游戏，和五子棋类似，由于棋盘一般不画边框，格线排成井字故得名。游戏需要的工具仅为纸和笔，然后由分别代表O和X的两个游戏者轮流在格子里留下标记（一般来说先手者为X）<br><img src="/images/井字棋.jpg" alt="井字棋"></p>
+<h3 id="项目说明"><a href="#项目说明" class="headerlink" title="项目说明"></a>项目说明</h3><p>这是本人做的第一个关于计算机博弈的程序，用C语言实现了人机对弈，电脑走步是参考<a href="http://www.guokr.com/article/4754/" target="_blank" rel="external">这篇文章</a>，使用纯经验-占角策略，玩家最多与电脑平局，达到了预期效果</p>
+<h3 id="电脑策略"><a href="#电脑策略" class="headerlink" title="电脑策略"></a>电脑策略</h3><p>本节引用自<a href="http://www.guokr.com/article/4754/" target="_blank" rel="external">http://www.guokr.com/article/4754/</a>，如有侵权，请联系我</p>
+<h4 id="先手先占角"><a href="#先手先占角" class="headerlink" title="先手先占角"></a>先手先占角</h4><p>游戏开始后，先占上一个角（比如左下角吧），那么对方总共有五种本质不同的应对策略：占据靠近你的那条边，占据靠近你的那个角，占据远离你的那条边，占据远离你的那个角（即对角），以及占据正中央的位置。不可思议的是，在这五种策略中，前面四种都是陷阱——如果对方不慎选择了前面四种策略中的任意一种，他就必然输掉。</p>
+<p><img src="/images/井字棋1.png" alt="Alt text"></p>
+<p>上图显示了在这四种情况下你可以如何把对方一步步逼上绝路。假设对方走正下方，占据了一个靠近你的边（最左边的那个图），你就可以占据正中央来应对，逼迫对方不得不走右上角。这时，只需要在左上角放下一子，你就赢定了——图中出现了两条只差一子的连线，对方不可能兼顾得了。</p>
+<p>右边几个图显示了对方第一步棋的其它几种走法。选择合适的位置应对他，都可以在下一步迫使对方只剩一种走法，接下来你便可以下出“一箭双雕”的棋，让对方无法彻底封杀你。</p>
+<p>也就是说，当你占据棋盘一角后，在对方下一步棋的八个可选位置中，其中七个位置都是必输的，陷阱摆满了几乎整个棋盘。</p>
+<p><img src="/images/井字棋2.png" alt="Alt text"></p>
+<p>上图显示了在这四种情况下你可以如何把对方一步步逼上绝路。假设对方走正下方，占据了一个靠近你的边（最左边的那个图），你就可以占据正中央来应对，逼迫对方不得不走右上角。这时，只需要在左上角放下一子，你就赢定了——图中出现了两条只差一子的连线，对方不可能兼顾得了。</p>
+<p>右边几个图显示了对方第一步棋的其它几种走法。选择合适的位置应对他，都可以在下一步迫使对方只剩一种走法，接下来你便可以下出“一箭双雕”的棋，让对方无法彻底封杀你。</p>
+<p>也就是说，当你占据棋盘一角后，在对方下一步棋的八个可选位置中，其中七个位置都是必输的，陷阱摆满了几乎整个棋盘。在面对“先走一角”的诡异开局时，你的朋友说不准就会慌了手脚，没能冷静地占住中间，决定了必败的命运。</p>
+<h4 id="后手还是先占角"><a href="#后手还是先占角" class="headerlink" title="后手还是先占角"></a>后手还是先占角</h4><p><img src="/images/井字棋3.png" alt="Alt text"></p>
+<p>作为后行者，你遇到的往往是“先走中间”的经典开局。此时，千万别忘了，先占角仍然是一条金科玉律。如果你不慎走了某条边的位置，对方可就赢定了！对方可以向上面的第一幅图那样，在正右方下子应对，逼迫你把下一步棋落在正左方。此时，对方便可占据右上方的位置，同时产生出两条仅差一子的连线。右边三幅图则显示，如果你在角上应对，最终总会是一盘和棋。</p>
+<h3 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div><div class="line">440</div><div class="line">441</div><div class="line">442</div><div class="line">443</div><div class="line">444</div><div class="line">445</div><div class="line">446</div><div class="line">447</div><div class="line">448</div><div class="line">449</div><div class="line">450</div><div class="line">451</div><div class="line">452</div><div class="line">453</div><div class="line">454</div><div class="line">455</div><div class="line">456</div><div class="line">457</div><div class="line">458</div><div class="line">459</div><div class="line">460</div><div class="line">461</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &quot;stdlib.h&quot;</div><div class="line">#include &quot;time.h&quot;</div><div class="line">#include&lt;ctype.h&gt;      </div><div class="line">#include&lt;conio.h&gt; </div><div class="line">#define MAN 1 </div><div class="line">#define COM -1</div><div class="line">#define MAN_WIN 100</div><div class="line">#define COM_WIN -100</div><div class="line">#define DRAW 0 //平局 </div><div class="line">#define NONE 0  </div><div class="line">#define POSITION 9</div><div class="line">#define STEP 9</div><div class="line">#define random(x) (rand()%(x)) //产生随机数</div><div class="line"></div><div class="line">int board[10];//棋盘 初始默认值为0</div><div class="line">int win_place_sum;</div><div class="line">int angle[4] = &#123; 1,3,7,9 &#125;;</div><div class="line">int edge[4] = &#123; 2,4,6,8 &#125;;</div><div class="line"></div><div class="line">//是否赢了 </div><div class="line">int isWin(int player)</div><div class="line">&#123;</div><div class="line">if (board[1] == player &amp;&amp; board[1] == board[2] &amp;&amp; board[2] == board[3]) return(player);</div><div class="line">if (board[4] == player &amp;&amp; board[4] == board[5] &amp;&amp; board[5] == board[6]) return(player);</div><div class="line">if (board[7] == player &amp;&amp; board[7] == board[8] &amp;&amp; board[8] == board[9]) return(player);</div><div class="line">if (board[1] == player &amp;&amp; board[1] == board[4] &amp;&amp; board[4] == board[7]) return(player);</div><div class="line">if (board[2] == player &amp;&amp; board[2] == board[5] &amp;&amp; board[5] == board[8]) return(player);</div><div class="line">if (board[3] == player &amp;&amp; board[3] == board[6] &amp;&amp; board[6] == board[9]) return(player);</div><div class="line">if (board[1] == player &amp;&amp; board[1] == board[5] &amp;&amp; board[5] == board[9]) return(player);</div><div class="line">if (board[3] == player &amp;&amp; board[3] == board[5] &amp;&amp; board[5] == board[7]) return(player);</div><div class="line">//没人赢返回0</div><div class="line">return NONE;</div><div class="line">&#125;</div><div class="line">int isAngle(int position)</div><div class="line">&#123;</div><div class="line">if (position == 1 || position == 3 || position == 7 || position == 9)</div><div class="line">return position;</div><div class="line">return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int isEdge(int position)</div><div class="line">&#123;</div><div class="line">if (position == 2 || position == 4 || position == 6 || position == 8)</div><div class="line">return position;</div><div class="line">return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//两子成线，返回一个必须要下的位置 </div><div class="line">int checkWinning(int player) &#123;</div><div class="line">int i;</div><div class="line">int win_place = 10;</div><div class="line">win_place_sum = 0;</div><div class="line"></div><div class="line"></div><div class="line">for (i = 1; i &lt; 10; i++) &#123;</div><div class="line">if (board[i] == NONE) &#123;</div><div class="line">board[i] = player; //先假设该处有子进行判断 </div><div class="line">if (isWin(player) == player) &#123;</div><div class="line">board[i] = 0;</div><div class="line">win_place = i;</div><div class="line">win_place_sum++;</div><div class="line">&#125;</div><div class="line">board[i] = 0;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">return win_place;//返回下棋的位置</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">//电脑哥们进行下棋</div><div class="line">int com_play(int step , int lastPosition)</div><div class="line">&#123;</div><div class="line">int i;</div><div class="line"></div><div class="line">//随机数</div><div class="line">int ranNumber; </div><div class="line"></div><div class="line"></div><div class="line">//设置随机数种子</div><div class="line">srand((unsigned int)time(NULL));</div><div class="line"></div><div class="line"></div><div class="line">//第一步电脑走的位置</div><div class="line">int lastComPosition = 0;</div><div class="line"></div><div class="line"></div><div class="line">//能赢的地方</div><div class="line">int win_place = 10;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">int max_win_times = 0;</div><div class="line">//如果第一步，那么电脑先占角</div><div class="line">if ( ( step == 1 ) &amp;&amp; (lastPosition == 0 )) &#123;</div><div class="line">ranNumber = random(4);</div><div class="line">board[angle[ranNumber]] = COM;</div><div class="line">return angle[ranNumber];</div><div class="line">&#125;</div><div class="line">else if (step == 3)</div><div class="line">&#123;</div><div class="line"></div><div class="line">//第二步玩家走角</div><div class="line">if (isAngle(lastPosition) &gt; 0)</div><div class="line">&#123;</div><div class="line">for (i = 0; i &lt; 4; i++)</div><div class="line">&#123;</div><div class="line">if (board[angle[i]] == COM)</div><div class="line">&#123;</div><div class="line">lastComPosition = angle[i];</div><div class="line">// printf(&quot;第一步电脑走的是%d&quot;, lastComPosition);</div><div class="line">break; </div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">//如果走的是靠近边的角,就占对角</div><div class="line">if ((lastPosition + lastComPosition) != 10)</div><div class="line">&#123;</div><div class="line">if (board[10 - lastComPosition] == NONE)</div><div class="line">&#123;</div><div class="line">board[10 - lastComPosition] = COM;</div><div class="line">return 10 - lastComPosition;</div><div class="line">&#125;</div><div class="line">else</div><div class="line">&#123;</div><div class="line">printf(&quot;出错了——1&quot;);</div><div class="line">return 0;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">//如果走的是对角,那么就占其他的角</div><div class="line">else</div><div class="line">&#123;</div><div class="line">while (true)</div><div class="line">&#123;</div><div class="line">ranNumber = random(4);</div><div class="line">if (board[angle[ranNumber]] == NONE)</div><div class="line">&#123;</div><div class="line">board[angle[ranNumber]] = COM;</div><div class="line">return angle[ranNumber];</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">//第二步玩家走的是边</div><div class="line">else if( isEdge(lastPosition) &gt; 0 ) </div><div class="line">&#123;</div><div class="line">if(board[5] == NONE)</div><div class="line">&#123;</div><div class="line">board[5] = COM;</div><div class="line">return 5; </div><div class="line">&#125;</div><div class="line">else</div><div class="line">&#123;</div><div class="line">printf(&quot;中间5被占用了 ...&quot;);</div><div class="line">return 0; </div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line">//如果走的是正中间 ，那么电脑走对角</div><div class="line">else if(lastPosition == 5 )</div><div class="line">&#123;</div><div class="line">for (i = 0; i &lt; 4; i++)</div><div class="line">&#123;</div><div class="line">if (board[angle[i]] == COM)</div><div class="line">&#123;</div><div class="line">lastComPosition = angle[i];</div><div class="line">// printf(&quot;第一步电脑走的是%d&quot;, lastComPosition);</div><div class="line">break;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">if (board[10 - lastComPosition] == NONE)</div><div class="line">&#123;</div><div class="line">board[10 - lastComPosition] = COM;</div><div class="line">return 10 - lastComPosition;</div><div class="line">&#125;</div><div class="line">else</div><div class="line">&#123;</div><div class="line">printf(&quot;出错了——2&quot;);</div><div class="line">return 0;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">else if (step == 5)</div><div class="line">&#123;</div><div class="line">win_place = checkWinning(COM);//电脑两子成线</div><div class="line">if (win_place &lt; 10)</div><div class="line">&#123;</div><div class="line">board[win_place] = COM;</div><div class="line">return win_place;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">win_place = checkWinning(MAN); //玩家的棋两子成线</div><div class="line">if (win_place &lt; 10)</div><div class="line">&#123;</div><div class="line">board[win_place] = COM;</div><div class="line">return win_place;</div><div class="line">&#125;</div><div class="line">//如果没有能赢的地方,则占角</div><div class="line">else</div><div class="line">&#123;</div><div class="line">for (i = 0; i &lt; 4; i++)</div><div class="line">&#123;</div><div class="line">if (board[angle[i]] == NONE)</div><div class="line">&#123;</div><div class="line">board[angle[i]] = COM;</div><div class="line"></div><div class="line">if (checkWinning(COM) &lt; 10 &amp;&amp; max_win_times &lt; win_place_sum)</div><div class="line">&#123;</div><div class="line">max_win_times = win_place_sum; //能赢的次数</div><div class="line">win_place = angle[i];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">board[angle[i]] = NONE;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">board[win_place] = COM;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line">else if(step == 2 )</div><div class="line">&#123;</div><div class="line">if (board[5] == NONE)</div><div class="line">&#123;</div><div class="line">board[5] = COM;</div><div class="line">return 5;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">else</div><div class="line">while (true)</div><div class="line">&#123;</div><div class="line">ranNumber = random(4);</div><div class="line">if (board[angle[ranNumber]] == NONE )</div><div class="line">&#123;</div><div class="line">board[angle[ranNumber]] = COM;</div><div class="line">return angle[ranNumber];</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">else</div><div class="line">&#123;</div><div class="line">win_place = checkWinning(COM);//电脑两子成线</div><div class="line">if (win_place &lt; 10)</div><div class="line">&#123;</div><div class="line">board[win_place] = COM;</div><div class="line">return win_place;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">win_place = checkWinning(MAN); //玩家的棋两子成线</div><div class="line">if (win_place &lt; 10)</div><div class="line">&#123;</div><div class="line">board[win_place] = COM;</div><div class="line">return win_place;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">for (i = 1; i &lt;= 9; i++) &#123;</div><div class="line">if (board[i] == NONE)</div><div class="line">&#123;</div><div class="line">board[i] = COM;</div><div class="line">printf(&quot;最后一步？？&quot;);</div><div class="line">return i;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line">printf(&quot;COM-error&quot;);</div><div class="line">return 10;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">//玩家进行下棋</div><div class="line">int person_play()</div><div class="line">&#123;</div><div class="line">int row;</div><div class="line">int col;</div><div class="line">int index;</div><div class="line"></div><div class="line"></div><div class="line">do</div><div class="line">&#123;</div><div class="line">printf(&quot;亲~轮到你走一步了!!!请输入行坐标和列坐标 如  1 1 为左上角第一个点  2 2 为正中间的点   （1和1之间有个空格，否则错误）&quot;);</div><div class="line">scanf(&quot;%d&quot;, &amp;row);</div><div class="line">scanf(&quot;%d&quot;, &amp;col);</div><div class="line">index = (row - 1) * 3 + col;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">if (board[index] == NONE)</div><div class="line">&#123;</div><div class="line">board[index] = MAN;</div><div class="line">return index;</div><div class="line">&#125;</div><div class="line">printf(&quot;输入的下标不合法 ，越界或者此处已经有棋子存在 !!!! 请重新输入下标 ：）&quot;);</div><div class="line"></div><div class="line"></div><div class="line">&#125; while (true);</div><div class="line"></div><div class="line"></div><div class="line">printf(&quot;MAN-error&quot;);</div><div class="line">return 10;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">//画棋盘</div><div class="line">void display()</div><div class="line">&#123;</div><div class="line">char board_dis[10] = &#123; &quot;&quot; &#125;;</div><div class="line">int i;</div><div class="line">for (i = 1; i &lt; 10; i++)</div><div class="line">&#123;</div><div class="line">if (board[i] == COM) &#123;</div><div class="line">board_dis[i] = &apos;X&apos;;</div><div class="line">&#125;</div><div class="line">if (board[i] == MAN) &#123;</div><div class="line">board_dis[i] = &apos;O&apos;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line">for (i = 0; i &lt; 10; i++) &#123;</div><div class="line">printf(&quot;-&quot;);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n|&quot;);</div><div class="line">for (i = 1; i &lt;= 3; i++) &#123;</div><div class="line">printf(&quot;%c |&quot;, board_dis[i]);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n&quot;);</div><div class="line">for (i = 0; i &lt; 10; i++) &#123;</div><div class="line">printf(&quot;-&quot;);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n|&quot;);</div><div class="line">for (i = 4; i &lt;= 6; i++) &#123;</div><div class="line">printf(&quot;%c |&quot;, board_dis[i]);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n&quot;);</div><div class="line">for (i = 0; i &lt; 10; i++) &#123;</div><div class="line">printf(&quot;-&quot;);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n|&quot;);</div><div class="line">for (i = 7; i &lt;= 9; i++) &#123;</div><div class="line">printf(&quot;%c |&quot;, board_dis[i]);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n&quot;);</div><div class="line">for (i = 0; i &lt; 10; i++) &#123;</div><div class="line">printf(&quot;-&quot;);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void main()</div><div class="line">&#123;</div><div class="line">char c;</div><div class="line">int i;</div><div class="line">int step = 1; </div><div class="line">int lastPosition = 0;</div><div class="line"></div><div class="line"></div><div class="line">for (i = 0; i&lt;30; i++)</div><div class="line">printf(&quot;*&quot;);</div><div class="line">printf(&quot;\n*hello,welcome to this game!!*\n&quot;);</div><div class="line">for (i = 0; i&lt;30; i++)</div><div class="line">printf(&quot;*&quot;);</div><div class="line">printf(&quot;\nDo you want to play first? y -你先走  , n-电脑先走&quot;);</div><div class="line">for (c = getche(); c != &apos;Y&apos;&amp;&amp;c != &apos;y&apos;&amp;&amp;c != &apos;N&apos;&amp;&amp;c != &apos;n&apos;; c = getche());</div><div class="line">if (c == &apos;Y&apos; || c == &apos;y&apos;) </div><div class="line">&#123; </div><div class="line">display();</div><div class="line">for (step = 1; step &lt;= STEP; )</div><div class="line">&#123;</div><div class="line">lastPosition = person_play();</div><div class="line">display();</div><div class="line">if (MAN == isWin(MAN))</div><div class="line">&#123;</div><div class="line">printf(&quot;恭喜您 ， 您获胜了 &quot;);</div><div class="line">break;</div><div class="line">&#125;</div><div class="line">step++;</div><div class="line">if (step == 10) &#123;</div><div class="line">break;</div><div class="line">&#125;</div><div class="line">lastPosition = com_play(step,lastPosition);</div><div class="line">display();</div><div class="line"></div><div class="line"></div><div class="line">if (COM == isWin(COM))</div><div class="line">&#123;</div><div class="line">printf(&quot;很遗憾 ，电脑获胜了 &quot;);</div><div class="line">break;</div><div class="line">&#125;</div><div class="line">step++;</div><div class="line">&#125;</div><div class="line">if (isWin(COM) == NONE &amp;&amp; isWin(MAN) == NONE &amp;&amp; step == 10)</div><div class="line">&#123;</div><div class="line">printf(&quot;平局&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">else if (c == &apos;N&apos; || c == &apos;n&apos;)</div><div class="line">&#123;</div><div class="line">for (step = 1; step &lt;= STEP; )</div><div class="line">&#123;</div><div class="line"></div><div class="line"></div><div class="line">lastPosition = com_play(step, lastPosition);</div><div class="line">display();</div><div class="line"></div><div class="line"></div><div class="line">if (COM == isWin(COM))</div><div class="line">&#123;</div><div class="line">printf(&quot;很遗憾 ，电脑获胜了 &quot;);</div><div class="line">break;</div><div class="line">&#125;</div><div class="line">step++;</div><div class="line"></div><div class="line"></div><div class="line">if (step == 10) &#123;</div><div class="line">break;</div><div class="line">&#125;</div><div class="line">lastPosition = person_play();</div><div class="line"></div><div class="line">if (MAN == isWin(MAN))</div><div class="line">&#123;</div><div class="line">printf(&quot;恭喜您 ， 您获胜了 &quot;);</div><div class="line">break;</div><div class="line">&#125;</div><div class="line">step++;</div><div class="line"></div><div class="line">&#125;</div><div class="line">if (isWin(COM) == NONE &amp;&amp; isWin(MAN) == NONE &amp;&amp; step == 10)</div><div class="line">&#123;</div><div class="line">printf(&quot;平局&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">getch();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机博弈/" rel="tag"># 计算机博弈</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/10/UCT搜索算法/" rel="next" title="UCT搜索算法">
+                <i class="fa fa-chevron-left"></i> UCT搜索算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/30/极大极小值井字棋/" rel="prev" title="极大极小值算法-井字棋实现">
+                极大极小值算法-井字棋实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_cqq"></a>
+	<a class="jiathis_button_fav"></a>
+	<a href="http://www.jiathis.com/share?uid=2139644" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2139644" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Killua" />
+          <p class="site-author-name" itemprop="name">Killua</p>
+          <p class="site-description motion-element" itemprop="description">与其感慨前路难行，不如马上出发     tusko0303@outlook.com</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhuaizi888" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5317520507/profile?topnav=1&wvr=6" target="_blank" title="WeiBo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  WeiBo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#井字棋介绍"><span class="nav-number">1.</span> <span class="nav-text">井字棋介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目说明"><span class="nav-number">2.</span> <span class="nav-text">项目说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电脑策略"><span class="nav-number">3.</span> <span class="nav-text">电脑策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#先手先占角"><span class="nav-number">3.1.</span> <span class="nav-text">先手先占角</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后手还是先占角"><span class="nav-number">3.2.</span> <span class="nav-text">后手还是先占角</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序实现"><span class="nav-number">4.</span> <span class="nav-text">程序实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Killua</span>
+
+</div>
+
+<span id="showDays"></span>
+
+<div class="powered-by">
+由 <a class="theme-link" href="http://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+ 
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139644"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("3exqakHAEoqn7Y4lsqIApTAN-gzGzoHsz", "FNQ0yN4uueiu5WF23JH9qyGV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+</body>
+</html>

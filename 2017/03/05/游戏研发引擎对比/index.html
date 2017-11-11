@@ -1,0 +1,988 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="KeQhpgiOqD" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="转载,游戏引擎," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Killua's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="游戏研发引擎对比&amp;#160; &amp;#160; &amp;#160; &amp;#160;GameLook报道/随着手游的快速增长和游戏业的发展，选择合适的引擎已经变得越来越困难。很明显，对于开发商们来说，有着成功游戏开发历史的引擎是首选，但随着家用机与手游设备的变化，我们选择游戏研发引擎时必须从多个方面分析，以下是开发商们不可不知的10款引擎：
+Unity3DUnity3D对于游戏开发者们来说是一个真正可以负担的起">
+<meta property="og:type" content="article">
+<meta property="og:title" content="转载：游戏研发引擎对比">
+<meta property="og:url" content="http://tusko.cn/2017/03/05/游戏研发引擎对比/index.html">
+<meta property="og:site_name" content="Killua's blog">
+<meta property="og:description" content="游戏研发引擎对比&amp;#160; &amp;#160; &amp;#160; &amp;#160;GameLook报道/随着手游的快速增长和游戏业的发展，选择合适的引擎已经变得越来越困难。很明显，对于开发商们来说，有着成功游戏开发历史的引擎是首选，但随着家用机与手游设备的变化，我们选择游戏研发引擎时必须从多个方面分析，以下是开发商们不可不知的10款引擎：
+Unity3DUnity3D对于游戏开发者们来说是一个真正可以负担的起">
+<meta property="og:updated_time" content="2017-11-11T02:56:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="转载：游戏研发引擎对比">
+<meta name="twitter:description" content="游戏研发引擎对比&amp;#160; &amp;#160; &amp;#160; &amp;#160;GameLook报道/随着手游的快速增长和游戏业的发展，选择合适的引擎已经变得越来越困难。很明显，对于开发商们来说，有着成功游戏开发历史的引擎是首选，但随着家用机与手游设备的变化，我们选择游戏研发引擎时必须从多个方面分析，以下是开发商们不可不知的10款引擎：
+Unity3DUnity3D对于游戏开发者们来说是一个真正可以负担的起">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '112V5OZSBL',
+      apiKey: '60f33d6586ee164056577ca2fa6670de',
+      indexName: 'killua',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://tusko.cn/2017/03/05/游戏研发引擎对比/"/>
+
+
+
+
+
+  <title> 转载：游戏研发引擎对比 | Killua's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d5a48a4f243ddad8c54139e46a1cb11b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Killua's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2017/03/05/游戏研发引擎对比/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Killua">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Killua's blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Killua's blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                转载：游戏研发引擎对比
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-05T14:02:00+08:00">
+                2017-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/游戏/" itemprop="url" rel="index">
+                    <span itemprop="name">游戏</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/05/游戏研发引擎对比/" class="leancloud_visitors" data-flag-title="转载：游戏研发引擎对比">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="游戏研发引擎对比"><a href="#游戏研发引擎对比" class="headerlink" title="游戏研发引擎对比"></a>游戏研发引擎对比</h3><p>&#160; &#160; &#160; &#160;GameLook报道/随着手游的快速增长和游戏业的发展，选择合适的引擎已经变得越来越困难。很明显，对于开发商们来说，有着成功游戏开发历史的引擎是首选，但随着家用机与手游设备的变化，我们选择游戏研发引擎时必须从多个方面分析，以下是开发商们不可不知的10款引擎：</p>
+<h4 id="Unity3D"><a href="#Unity3D" class="headerlink" title="Unity3D"></a>Unity3D</h4><p>Unity3D对于游戏开发者们来说是一个真正可以负担的起的引擎，具有其他引擎难以匹敌的用户量。更为重要的是，你只需要付费一次，而且，不管你的游戏如何成功，都不用担心Unity会分走你的收入。这对于很多开发商来说当然是非常具有吸引力对，尤其是初创公司和新入行的开发者们。以下是Unity引擎的优点和缺点：</p>
+<p>优点：业内最具竞争力的授权条款；易于使用而且兼容所有游戏平台；开发者社区支持强大；学习门槛非常第；开发商使用率最高。</p>
+<p>缺点：工具数量有限，所以开发商必须给自己创作工具；做复杂和多样化的效果比较耗时。</p>
+<h4 id="虚幻引擎-UDK"><a href="#虚幻引擎-UDK" class="headerlink" title="虚幻引擎(UDK)"></a>虚幻引擎(UDK)</h4><p>数年以来，虚幻引擎一直是做高端EA游戏最受欢迎的引擎。《战争机器》、《蝙蝠侠：阿卡汉姆疯人院》（Batman: Arkham Asylum）、《质量效应》以及很多大作都是出自该引擎之手，以下是虚幻引擎的优点和缺点：</p>
+<p>优点：开发商使用率较高，开发商社区支持支持强大，有视频教程和大量资源。最佳的引擎支持并且随时更新其他引擎平台的功能，每次更新都会增加新工具，而且管理相对容易，有些工具甚至小学生都会使用。兼容大多数平台，比如iOS、Android、Linux、Mac、Windows和大多数游戏主机。</p>
+<p>缺点：授权条款只适合大作，商业授权价格为99美元，在游戏收入超过5万美元之后，必须支付25%的分成。也有一些开发者抱怨有些工具不好用，学习门槛较高。</p>
+<h4 id="CryEngine-3"><a href="#CryEngine-3" class="headerlink" title="CryEngine 3"></a>CryEngine 3</h4><p>该游戏引擎以优质的画面输出获得了大量开发者认可，如果你要做视觉出色的游戏，这款引擎绝对是最理想的选择。不过，该引擎也有自己的问题。</p>
+<p>优点：CryEngine 3可以让你的游戏更美丽，Flowgraph工具的美术编程能力非常强悍。该引擎具备最强悍的音频工具，所以音频策划和程序猿们非常喜欢。该游戏引擎还提供目前最为简单易用的AI代码技术，对于初入行的开发者，该引擎的UI触手可及。</p>
+<p>缺点：免费榜缺乏客户支持；推出时间相对较晚，开发者社区还不够强大；学习门槛对于初入行这比较高。</p>
+<h4 id="HeroEngine"><a href="#HeroEngine" class="headerlink" title="HeroEngine"></a>HeroEngine</h4><p>该引擎在MMO和在线游戏领域获得了非常高的人气，代表作《星球大战：旧共和国》。对于新入行的开发者以及初创公司来说，授权费用较高，不过，如果你有一个非常具备潜力的项目，该引擎还是非常值得考虑的。以下是使用该引擎之前需要考虑的优点与缺点：</p>
+<p>优点：提供多个开放世界地图，而且可以实现无缝转换；提供相对完善的AI；地图工具简单易用，并且集成了多个工具；脚本强大，足够帮助开发者研发复杂的项目、获得需要的资源；可以通过HeroCloud支持客户服务器。</p>
+<p>缺点：脚本引擎强大但不够直观；HeroEngine和HeroCloud对于初创公司来说成本较高；新开发者学习门槛较高。</p>
+<h4 id="Rage-Engine"><a href="#Rage-Engine" class="headerlink" title="Rage Engine"></a>Rage Engine</h4><p>该引擎的用途非常多，比较知名的游戏包括GTA Ⅲ、GTA：Vice City、GTA：San Andreas和很多知名大作。以下是该引擎的一些优点和缺点：</p>
+<p>优点：兼容与处理较大世界观和天气特效方面非常出色；复杂的AI设计方面领先其他引擎；非常适合多种玩法的游戏；网络编程速度非常快；非常具有吸引力的画质水平。</p>
+<p>缺点：和其他顶级引擎相比界面比较差；对于键盘和鼠标控制优化做的不足。</p>
+<h4 id="Project-Anarchy"><a href="#Project-Anarchy" class="headerlink" title="Project Anarchy"></a>Project Anarchy</h4><p>该引擎是一套完整的端到端游戏引擎和尖端移动设备工具组，受到很多游戏开发者赞誉，但同样具有一些缺点。</p>
+<p>优点：提供免费的手游研发工具（主要平台，比如iOS、Android和Tizen）；拥有非常强悍的程序调试工具；非常活跃的开发者社区与论坛；编辑器非常强大；音频输出能力非常好；优秀的Havok AI；vForge为开发者提供大量的定制化选择。</p>
+<p>缺点：不支持Mac和Linux开发环境；没有新手教学；对于初创公司来说成本较高。</p>
+<h4 id="GameSalad"><a href="#GameSalad" class="headerlink" title="GameSalad"></a>GameSalad</h4><p>这款引擎据说是不用写代码就能做游戏。这并不是个噱头，该引擎的确支持这样的功能。不过GameSalad一些功能也并不好用。</p>
+<p>优点：如果你想独立开发一款iPhone游戏，该引擎非常适合你；对于快速实现游戏想法来说，GameSalad是个不错的引擎；兼容流行的手游研发平台，比如Cocona和Moai。</p>
+<p>缺点：研发工具限制性比较强；缺乏大量的iOS功能；不兼容所有的平台。</p>
+<h4 id="App-Game-Kit"><a href="#App-Game-Kit" class="headerlink" title="App Game Kit"></a>App Game Kit</h4><p>该引擎是真正的跨平台研发工具，非常易用、简单，而且比较灵活。以下是该引擎的优缺点：</p>
+<p>优点：可以为多平台写代码，包括Android、iOS、Windows、Mac和Linux；集成Design Environment，可以在任何设备调试；加入了IAP、AdMob以及Push等工具；AGK脚本非常强大。</p>
+<p>缺点：使用者较少，所以学习起来相对较慢；BUG比较多；传感器或者GPS支持比较差。</p>
+<h4 id="Cocos2D"><a href="#Cocos2D" class="headerlink" title="Cocos2D"></a>Cocos2D</h4><p>很多策划认为Cocos2D对于新入行的开发者来说不仅具备大量功能，而且非常容易上手。虽然该引擎比较复杂，但值得一提的是其功能和灵活性，以下是该引擎的优缺点：</p>
+<p>优点：强大而且灵活；理论上来讲，你可以为自己的游戏加入所有的iOS功能；提供成熟的框架和多种工具；开源、免费，社区支持强大。</p>
+<p>缺点：和同类引擎相比比较复杂；学习门槛相对较高；特别适合Mac或者iOS平台，不过并不是跨平台引擎。</p>
+<p>如今人们在各种平台都玩游戏，比如主机、移动设备甚至是智能电视，所以，开发商在选择引擎的时候，需要找到适合自己技术并且能够满足目标市场要求的引擎，因此合适的引擎对于开发商们来说尤其重要，特别是新入行的开发者们。</p>
+<p>转载自 <a href="http://www.gamelook.com.cn/2014/08/176661" target="_blank" rel="external">GameLook</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/转载/" rel="tag"># 转载</a>
+          
+            <a href="/tags/游戏引擎/" rel="tag"># 游戏引擎</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/10/游戏服务端架构发展史-上/" rel="next" title="转载：游戏服务端架构发展史(上)">
+                <i class="fa fa-chevron-left"></i> 转载：游戏服务端架构发展史(上)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/10/游戏类型小记/" rel="prev" title="游戏类型小记">
+                游戏类型小记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_cqq"></a>
+	<a class="jiathis_button_fav"></a>
+	<a href="http://www.jiathis.com/share?uid=2139644" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2139644" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Killua" />
+          <p class="site-author-name" itemprop="name">Killua</p>
+          <p class="site-description motion-element" itemprop="description">与其感慨前路难行，不如马上出发     tusko0303@outlook.com</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhuaizi888" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5317520507/profile?topnav=1&wvr=6" target="_blank" title="WeiBo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  WeiBo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#游戏研发引擎对比"><span class="nav-number">1.</span> <span class="nav-text">游戏研发引擎对比</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Unity3D"><span class="nav-number">1.1.</span> <span class="nav-text">Unity3D</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚幻引擎-UDK"><span class="nav-number">1.2.</span> <span class="nav-text">虚幻引擎(UDK)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CryEngine-3"><span class="nav-number">1.3.</span> <span class="nav-text">CryEngine 3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HeroEngine"><span class="nav-number">1.4.</span> <span class="nav-text">HeroEngine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rage-Engine"><span class="nav-number">1.5.</span> <span class="nav-text">Rage Engine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Project-Anarchy"><span class="nav-number">1.6.</span> <span class="nav-text">Project Anarchy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GameSalad"><span class="nav-number">1.7.</span> <span class="nav-text">GameSalad</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#App-Game-Kit"><span class="nav-number">1.8.</span> <span class="nav-text">App Game Kit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cocos2D"><span class="nav-number">1.9.</span> <span class="nav-text">Cocos2D</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Killua</span>
+
+</div>
+
+<span id="showDays"></span>
+
+<div class="powered-by">
+由 <a class="theme-link" href="http://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+ 
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139644"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("3exqakHAEoqn7Y4lsqIApTAN-gzGzoHsz", "FNQ0yN4uueiu5WF23JH9qyGV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+</body>
+</html>

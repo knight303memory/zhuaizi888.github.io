@@ -75,7 +75,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="计算机博弈,计算机博弈算法," />
+  <meta name="keywords" content="计算机博弈,算法,计算机博弈算法," />
 
 
 
@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://tusko.cn/image_save/多臂匪徒.png">
 <meta property="og:image" content="http://tusko.cn/image_save/ucb公式.png">
 <meta property="og:image" content="http://tusko.cn/image_save/uct流程图.png">
-<meta property="og:updated_time" content="2017-08-27T16:15:12.624Z">
+<meta property="og:updated_time" content="2017-11-11T03:00:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UCT搜索算法">
 <meta name="twitter:description" content="算法简介多臂匪徒&amp;#160; &amp;#160; &amp;#160; &amp;#160;UCT算法是UCB策略与蒙特卡罗规划的结合体，在UCB算法中加入蒙特卡罗就形成了我们要介绍的UCT搜索。因此在介绍UCT搜索之前，我们先来了解下UCB策略和蒙特卡罗规划。
@@ -443,6 +443,7 @@
 <p>&#160; &#160; &#160;在这个公式中， Wi表示子节点i的胜利次数，Ni表示子节点 i的访问次数，Np表示节点 p 的访问次數，Cbias是一個常数。最后节点p 会选择分数最高的子节点。此公式左边是探勘的部分，分数越高表示此节点胜率越高，之后被访问的几率也越高。右边部分是探索的部分，当节点 p 访问次数增加后，其访问次数越低的子节点在此部分就会得到越高的评估值，使其有机会被访问到。常数 Cbias是用來決定要重探勘还是重探索。</p>
 <h5 id="UCT流程图"><a href="#UCT流程图" class="headerlink" title="UCT流程图"></a>UCT流程图</h5><p><img src="/image_save/uct流程图.png" alt="uct流程图"></p>
 <h3 id="UCT搜索伪代码"><a href="#UCT搜索伪代码" class="headerlink" title="UCT搜索伪代码"></a>UCT搜索伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">PlayRandGame: 双方根据规则随机交替落子</div><div class="line">UpdateTree:更新UctTree的节点访问次数及相关收益</div><div class="line">ExpandNode:扩展子节点</div><div class="line">UCT核心伪代码如下:</div><div class="line">UctNode UctPlay(UctTree tree)</div><div class="line">&#123;</div><div class="line">	UctNode *current = &amp;tree.m_node;//从UCT树中取出当前局面作当前节点</div><div class="line">	while(!OverTimeLimit())</div><div class="line">	&#123;//若未超过时间限制</div><div class="line">		if (current.HasChild())</div><div class="line">		&#123;//当前节点是叶子点</div><div class="line">			UctState state = PlayRandGame(*current);//进行蒙特卡罗模拟</div><div class="line">			UpdateTree(state);//根据随机模拟结果更新UctTree访问及收益</div><div class="line">			if (current.m_visitor &gt; N)</div><div class="line">			&#123;   //若该节点访问次数到一定次数N</div><div class="line">				ExpandNode(*current);//展开子节点</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		else</div><div class="line">		&#123;//当前节点不是叶子节点</div><div class="line">			current = FindBestChild(*current);//取UCB最大的子节点作当前节点</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return tree.FindBestNode();返回树中访问次数最多的节点</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -467,6 +468,8 @@
           
             <a href="/tags/计算机博弈/" rel="tag"># 计算机博弈</a>
           
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
             <a href="/tags/计算机博弈算法/" rel="tag"># 计算机博弈算法</a>
           
         </div>
@@ -490,8 +493,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/10/05/游戏研发引擎对比/" rel="prev" title="转载：游戏研发引擎对比">
-                转载：游戏研发引擎对比 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/08/17/基于经验的井字棋/" rel="prev" title="基于经验的井字棋">
+                基于经验的井字棋 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -580,7 +583,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -589,7 +592,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -598,7 +601,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
