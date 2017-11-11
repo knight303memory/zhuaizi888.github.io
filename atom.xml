@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tusko.cn/"/>
-  <updated>2017-11-11T05:43:25.000Z</updated>
+  <updated>2017-11-11T08:23:19.000Z</updated>
   <id>http://tusko.cn/</id>
   
   <author>
@@ -14,6 +14,174 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Qt信号槽（转引）</title>
+    <link href="http://tusko.cn/2017/11/11/Qt%E4%BF%A1%E5%8F%B7%E6%A7%BD/"/>
+    <id>http://tusko.cn/2017/11/11/Qt信号槽/</id>
+    <published>2017-11-11T06:26:47.000Z</published>
+    <updated>2017-11-11T08:23:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Qt信号槽机制"><a href="#Qt信号槽机制" class="headerlink" title="Qt信号槽机制"></a>Qt信号槽机制</h3><p>引用转载 <a href="http://blog.csdn.net/qter_wd007/article/details/5598264" target="_blank" rel="external">http://blog.csdn.net/qter_wd007/article/details/5598264</a><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<a href="http://blog.csdn.net/qq_16952303/article/details/51585577" target="_blank" rel="external">http://blog.csdn.net/qq_16952303/article/details/51585577</a></p>
+<p>&#160; &#160; &#160; &#160;在我们所了解的其它GUI工具包中，窗口小部件(widget)都有一个回调函数用于响应它们触发的动作，这个回调函数通常是一个指向某个函数的指针。在Qt中用信号和槽取代了上述机制。</p>
+<h4 id="1-信号（signal）"><a href="#1-信号（signal）" class="headerlink" title="1.信号（signal）"></a>1.信号（signal）</h4><p>&#160; &#160; &#160;当对象的状态发生改变时，信号被某一个对象发射（emit）。只有定义过这个信号的类或者其派生类能够发射这个信号。当一个信号被发射时，与其相关联的槽将被执行，就象一个正常的函数调用一样。信号-槽机制独立于任何GUI事件循环。只有当所有的槽正确返回以后，发射函数（emit）才返回。</p>
+<p>&#160; &#160; &#160; 如果存在多个槽与某个信号相关联，那么，当这个信号被发射时，这些槽将会一个接一个地被执行，但是它们执行的顺序将会是不确定的，并且我们不能指定它们执行的顺序。</p>
+<p>&#160; &#160; &#160; 信号的声明是在头文件中进行的，并且moc工具会注意不要将信号定义在实现文件中。Qt用signals关键字标识信号声明区，随后即可声明自己的信号。例如，下面定义了几个信号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">signals: </div><div class="line">void yourSignal();</div><div class="line">void yourSignal(int x);</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; 信号和槽函数的声明一般位于头文件中，同时在类声明的开始位置必须加上Q_OBJECT语句，这条语句是不可缺少的，它将告诉编译器在编译之前必须先应用moc工具进行扩展。关键字signals指出随后开始信号的声明，这里signals用的是复数形式而非单数，siganls没有public、private、protected等属性，这点不同于slots。另外，signals、slots关键字是QT自己定义的，不是C++中的关键字。</p>
+<p>&#160; &#160; &#160; 还有，信号的声明类似于函数的声明而非变量的声明，左边要有类型，右边要有括号，如果要向槽中传递参数的话，在括号中指定每个形式参数的类型，当然，形式参数的个数可以多于一个。</p>
+<p>&#160; &#160; &#160; 从形式上讲,信号的声明与普通的C++函数是一样的，但是信号没有定义函数实现。另外，信号的返回类型都是void，而C++函数的返回值可以有丰富的类型。</p>
+<p>&#160; &#160; &#160; 注意，signal 代码会由 moc自动生成，moc将其转化为标准的C++语句，C++预处理器会认为自己处理的是标准C++源文件。所以大家不要在自己的C++实现文件实现signal。</p>
+<h4 id="2-槽（slot）"><a href="#2-槽（slot）" class="headerlink" title="2.槽（slot）"></a>2.槽（slot）</h4><p>&#160; &#160; &#160; 槽是普通的C++成员函数，可以被正常调用，不同之处是它们可以与信号（signal）相关联。当与其关联的信号被发射时，这个槽就会被调用。槽可以有参数，但槽的参数不能有缺省值。</p>
+<p>&#160; &#160; &#160; 槽也和普通成员函数一样有访问权限。槽的访问权限决定了谁可以和它相连。通常，槽也分为三种类型，即public slots、private slots和protected slots。</p>
+<p>&#160; &#160; &#160; public slots：在这个代码区段内声明的槽意味着任何对象都可将信号与之相连接。这对于组件编程来说非常有用：你生成了许多对象，它们互相并不知道，把它们的信号和槽连接起来，这样信息就可以正确地传递，并且就像一个小孩子喜欢玩耍的铁路轨道上的火车模型，把它打开然后让它跑起来。</p>
+<p>&#160; &#160; &#160;   protected slots：在这个代码区段内声明的槽意味着当前类及其子类可以将信号与之相关联。这些槽只是类的实现的一部分，而不是它和外界的接口。</p>
+<p>&#160; &#160; &#160;  private slots：在这个代码区段内声明的槽意味着只有类自己可以将信号与之相关联。这就是说这些槽和这个类是非常紧密的，甚至它的子类都没有获得连接权利这样的信任。</p>
+<p>&#160; &#160; &#160;  通常，我们使用public和private声明槽是比较常见的，建议尽量不要使用protected关键字来修饰槽的属性。此外，槽也能够声明为虚函数。</p>
+<p>&#160; &#160; &#160;  槽的声明也是在头文件中进行的。例如，下面声明了几个槽：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public slots:</div><div class="line">void yourSlot();</div><div class="line">void yourSlot(int x);</div></pre></td></tr></table></figure>
+<h4 id="3-信号与槽的关联"><a href="#3-信号与槽的关联" class="headerlink" title="3.信号与槽的关联"></a>3.信号与槽的关联</h4><p>&#160; &#160; &#160;槽和普通的C++成员函数几乎是一样的－可以是虚函数；可以被重载；可以是共有的、保护的或是私有的，并且也可以被其它C++成员函数直接调用；还有，它们的参数可以是任意类型。唯一不同的是：槽还可以和信号连接在一起，在这种情况下，每当发射这个信号的时候，就会自动调用这个槽。</p>
+<p>connect()语句看起来会是如下的样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">connect(sender,SIGNAL(signal),receiver,SLOT(slot));</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160;实际上还有一个默认参数，即槽的连接方式为自动方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QMetaObject::Connection QObject::connect(const QObject * sender, const char * signal, const QObject * receiver, const char * method, Qt::ConnectionType type = Qt::AutoConnection)</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160;</p>
+<blockquote>
+<ol>
+<li>Auto Connection (default) If the signal is emitted in the thread which the receiving object has affinity then the behavior is the same as the Direct Connection. Otherwise, the behavior is the same as the Queued Connection.”</li>
+<li>Direct Connection The slot is invoked immediately, when the signal is emitted. The slot is executed in the emitter’s thread, which is not necessarily the receiver’s thread.</li>
+<li>Queued Connection The slot is invoked when control returns to the event loop of the receiver’s thread. The slot is executed in the receiver’s thread.</li>
+<li>Blocking Queued Connection The slot is invoked as for the Queued Connection, except the current thread blocks until the slot returns.<br>Note: Using this type to connect objects in the same thread will cause deadlock.</li>
+<li>Unique Connection The behavior is the same as the Auto Connection, but the connection is made only if it does not duplicate an existing connection. i.e., if the same signal is already connected to the same slot for the same pair of objects, then the connection is not made and connect() returns false</li>
+</ol>
+</blockquote>
+<p>一共是5个值:自动、直接、队列、阻塞队列、唯一</p>
+<ol>
+<li>直接连接的大概意思是：信号一旦发射，槽立即执行，并且槽是在信号发射的线程中执行的。</li>
+<li>队列连接的大概意思是：信号发射后当事件循环返回到接收线程时槽函数就执行了，也就是说这种连接方式不是立即触发槽函数的，而是要排队等的，并且是在槽函数的线程中执行。</li>
+<li>自动连接的大概意思是：信号发射对象如果和槽的执行对象在同一个线程，那么将是直连方式，否则就是队列方式。</li>
+<li>阻塞队列方式：在槽函数返回之前槽函数所在的线程都是阻塞的。</li>
+<li>唯一方式：和直连相同，但是只能一对一连接。</li>
+</ol>
+<h4 id="需要注意的问题"><a href="#需要注意的问题" class="headerlink" title="需要注意的问题"></a>需要注意的问题</h4><ol>
+<li>信号与槽的效率是非常高的，但是同真正的回调函数比较起来，由于增加了灵活性，因此在速度上还是有所损失，当然这种损失相对来说是比较小的，通过在一台i586-133的机器上测试是10微秒（运行Linux），可见这种机制所提供的简洁性、灵活性还是值得的。但如果我们要追求高效率的话，比如在实时系统中就要尽可能的少用这种机制。</li>
+<li>信号与槽机制与普通函数的调用一样，如果使用不当的话，在程序执行时也有可能产生死循环。因此，在定义槽函数时一定要注意避免间接形成无限循环，即在槽中再次发射所接收到的同样信号。</li>
+<li>如果一个信号与多个槽相关联的话，那么，当这个信号被发射时，与之相关的槽被激活的顺序将是随机的，并且我们不能指定该顺序。</li>
+<li>宏定义不能用在signal和slot的参数中。</li>
+<li>构造函数不能用在signals或者slots声明区域内。</li>
+<li>函数指针不能作为信号或槽的参数。</li>
+<li>信号与槽不能有缺省参数。</li>
+<li>信号与槽也不能携带模板类参数。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;Qt信号槽机制&quot;&gt;&lt;a href=&quot;#Qt信号槽机制&quot; class=&quot;headerlink&quot; title=&quot;Qt信号槽机制&quot;&gt;&lt;/a&gt;Qt信号槽机制&lt;/h3&gt;&lt;p&gt;引用转载 &lt;a href=&quot;http://blog.csdn.net/qter_wd007/arti
+    
+    </summary>
+    
+      <category term="Qt" scheme="http://tusko.cn/categories/Qt/"/>
+    
+    
+      <category term="总结" scheme="http://tusko.cn/tags/%E6%80%BB%E7%BB%93/"/>
+    
+      <category term="Qt" scheme="http://tusko.cn/tags/Qt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>map or hash_map</title>
+    <link href="http://tusko.cn/2017/11/11/map-or-hash-map/"/>
+    <id>http://tusko.cn/2017/11/11/map-or-hash-map/</id>
+    <published>2017-11-11T06:07:33.000Z</published>
+    <updated>2017-11-11T06:25:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="map和hashmap的区别"><a href="#map和hashmap的区别" class="headerlink" title="map和hashmap的区别"></a>map和hashmap的区别</h4><ul>
+<li>底层数据结构不同，map是红黑树，hashmap是哈希表</li>
+<li>map元素可以自动按照键值排序，hashmap的各项操作平均时间复杂度接近常数</li>
+<li>map是C++标准的一部而hashmap并不是</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;选用map还是hash_map，关键是看关键字查询操作次数，以及你所需要保证的是查询总体时间还是单个查询的时间。如果是要很多次操作， 要求其整体效率，那么使用hash_map，平均处理时间短。如果是少数次的操作，使用 hash_map可能造成不确定的O(N)，那么使用平均处理时间相对较慢、单次处理时间恒定的map，考虑整体稳定性应该要高于整体效率，因为前提在操 作次数较少。如果在一次流程中，使用hash_map的少数操作产生一个最坏情况O(N)，那么hash_map的优势也因此丧尽了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;map和hashmap的区别&quot;&gt;&lt;a href=&quot;#map和hashmap的区别&quot; class=&quot;headerlink&quot; title=&quot;map和hashmap的区别&quot;&gt;&lt;/a&gt;map和hashmap的区别&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;底层数据结构不同，map是红黑树
+    
+    </summary>
+    
+      <category term="C++" scheme="http://tusko.cn/categories/C/"/>
+    
+    
+      <category term="C++" scheme="http://tusko.cn/tags/C/"/>
+    
+      <category term="stl" scheme="http://tusko.cn/tags/stl/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Thinking in C++读书笔记</title>
+    <link href="http://tusko.cn/2017/11/11/Thinging-in-C-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    <id>http://tusko.cn/2017/11/11/Thinging-in-C-读书笔记/</id>
+    <published>2017-11-11T03:17:37.000Z</published>
+    <updated>2017-11-11T06:03:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ol>
+<li>CRC 类职责协同卡片</li>
+<li>XP 极限编程，“先写测试”“结对编程”</li>
+<li>链接器如何查找库</li>
+<li>当创建可执行程序时，链接器秘密创建某些模块，启动模块，包含了对程序的初始化例程，建立堆栈</li>
+<li>内部链接   外部链接</li>
+<li>内部链接 只对正在编译的文件创建存储空间，内部链接由static</li>
+<li>外部链接为所有编译过的文件创建单独的内存空间</li>
+<li>转换<br>a. static_cast 用于明确定义的转换，包括非强制转换，窄化变换，void*的强制变换，隐式类型转换，类层次静态定位<br>b. const_case 从const转换为非const或从volatile转换为非volatial<br>c. reinterpret_cast 最不安全的一种转换<br>d. dynamic_cast 向下类型转换  </li>
+<li>asm关键字 允许在c++中写汇编代码</li>
+<li>argv[0]程序本身的本身的路径和名字</li>
+<li>函数指针  void(*funcPtr)(); 先右后左顺序读</li>
+<li>分段编译 makefile</li>
+<li>静态存储区 栈  堆<br>a. 静态内存<br>b. 栈<br>c. 堆</li>
+<li>对void* 类型delete   不会调用析构函数</li>
+<li>int const <em> q = new int[10]  或者 const int </em> q = new int [10] 相同  对*q限制</li>
+<li>int *const q = new int [10] 对q限制</li>
+<li>自定义内存分配系统，重载new和delete， new时，需要一个内存分配表</li>
+<li>显式调用析构函数只发生在定位new</li>
+<li>构造函数和析构函数每一层函数都会调用，通常的成员函数，只是这个函数被调用</li>
+<li>对于成员对象，构造函数调用次序完全不受构造函数的初始化表达式表中的次序影响，次序由成员对象在类中的声明次序所决定</li>
+<li>派生类中改变了成员函数参数列表和返回类型，隐藏其他未重载的</li>
+<li>任何在类内部定义的函数自动地成为内敛函数</li>
+<li>对于任何函数，编译器在它的符号表中放入函数类型，当编译器看到内敛函数和对内敛函数体的进行分析没有发现错误时，就将对应于函数体的代码放入符号表</li>
+<li>构造函数和析构函数、赋值运算符布能被继承</li>
+<li>继承中重写拷贝构造函数和赋值运算符，编译器会假定我们已知道所做的一切，并且不再像在默认构造函数中自动调用基类版本</li>
+<li>静态成员函数：<br>a. 均和被继承到派生类中<br>b. 如果重新定义了一个静态成员，所有在基类中的其他重载函数会被隐藏<br>c. 静态成员函数不可以是虚函数</li>
+<li>组合通常是希望新类内部具有已存在类的功能使用，不是希望已存在类作为它的接口</li>
+<li>函数调用捆绑（函数体与函数调用相联系称为捆绑）</li>
+<li>编译器对包含虚函数的类创建了一个表，放置虚函数的地址，在每个带有虚函数的表中，编译器秘密放置一个指针，指向这个表</li>
+<li>当继承一个抽象类，必须实现所有的纯虚函数，否则继承出的类也是一个抽象类</li>
+<li>纯虚函数禁止对抽象类的函数以传值方式调用，防止对象切片</li>
+<li>如果不在构造函数初始化表达式表中显式调用基类构造函数，就调用默认构造函数</li>
+<li>要为纯虚析构函数提供一个函数体</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;headerlink&quot; title=&quot;基础知识&quot;&gt;&lt;/a&gt;基础知识&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;CRC 类职责协同卡片&lt;/li&gt;
+&lt;li&gt;XP 极限编程，“先写测试”“结对编程”&lt;/li&gt;
+&lt;li&gt;链接器如何
+    
+    </summary>
+    
+      <category term="C++" scheme="http://tusko.cn/categories/C/"/>
+    
+    
+      <category term="笔记" scheme="http://tusko.cn/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="C++" scheme="http://tusko.cn/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>C++PrimerPlus读书笔记</title>
@@ -192,71 +360,9 @@
       <category term="C++" scheme="http://tusko.cn/categories/C/"/>
     
     
-      <category term="C++" scheme="http://tusko.cn/tags/C/"/>
-    
       <category term="笔记" scheme="http://tusko.cn/tags/%E7%AC%94%E8%AE%B0/"/>
     
-  </entry>
-  
-  <entry>
-    <title>Thinking in C++读书笔记</title>
-    <link href="http://tusko.cn/2017/11/11/Thinging-in-C-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    <id>http://tusko.cn/2017/11/11/Thinging-in-C-读书笔记/</id>
-    <published>2017-11-11T03:17:37.000Z</published>
-    <updated>2017-11-11T06:03:16.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ol>
-<li>CRC 类职责协同卡片</li>
-<li>XP 极限编程，“先写测试”“结对编程”</li>
-<li>链接器如何查找库</li>
-<li>当创建可执行程序时，链接器秘密创建某些模块，启动模块，包含了对程序的初始化例程，建立堆栈</li>
-<li>内部链接   外部链接</li>
-<li>内部链接 只对正在编译的文件创建存储空间，内部链接由static</li>
-<li>外部链接为所有编译过的文件创建单独的内存空间</li>
-<li>转换<br>a. static_cast 用于明确定义的转换，包括非强制转换，窄化变换，void*的强制变换，隐式类型转换，类层次静态定位<br>b. const_case 从const转换为非const或从volatile转换为非volatial<br>c. reinterpret_cast 最不安全的一种转换<br>d. dynamic_cast 向下类型转换  </li>
-<li>asm关键字 允许在c++中写汇编代码</li>
-<li>argv[0]程序本身的本身的路径和名字</li>
-<li>函数指针  void(*funcPtr)(); 先右后左顺序读</li>
-<li>分段编译 makefile</li>
-<li>静态存储区 栈  堆<br>a. 静态内存<br>b. 栈<br>c. 堆</li>
-<li>对void* 类型delete   不会调用析构函数</li>
-<li>int const <em> q = new int[10]  或者 const int </em> q = new int [10] 相同  对*q限制</li>
-<li>int *const q = new int [10] 对q限制</li>
-<li>自定义内存分配系统，重载new和delete， new时，需要一个内存分配表</li>
-<li>显式调用析构函数只发生在定位new</li>
-<li>构造函数和析构函数每一层函数都会调用，通常的成员函数，只是这个函数被调用</li>
-<li>对于成员对象，构造函数调用次序完全不受构造函数的初始化表达式表中的次序影响，次序由成员对象在类中的声明次序所决定</li>
-<li>派生类中改变了成员函数参数列表和返回类型，隐藏其他未重载的</li>
-<li>任何在类内部定义的函数自动地成为内敛函数</li>
-<li>对于任何函数，编译器在它的符号表中放入函数类型，当编译器看到内敛函数和对内敛函数体的进行分析没有发现错误时，就将对应于函数体的代码放入符号表</li>
-<li>构造函数和析构函数、赋值运算符布能被继承</li>
-<li>继承中重写拷贝构造函数和赋值运算符，编译器会假定我们已知道所做的一切，并且不再像在默认构造函数中自动调用基类版本</li>
-<li>静态成员函数：<br>a. 均和被继承到派生类中<br>b. 如果重新定义了一个静态成员，所有在基类中的其他重载函数会被隐藏<br>c. 静态成员函数不可以是虚函数</li>
-<li>组合通常是希望新类内部具有已存在类的功能使用，不是希望已存在类作为它的接口</li>
-<li>函数调用捆绑（函数体与函数调用相联系称为捆绑）</li>
-<li>编译器对包含虚函数的类创建了一个表，放置虚函数的地址，在每个带有虚函数的表中，编译器秘密放置一个指针，指向这个表</li>
-<li>当继承一个抽象类，必须实现所有的纯虚函数，否则继承出的类也是一个抽象类</li>
-<li>纯虚函数禁止对抽象类的函数以传值方式调用，防止对象切片</li>
-<li>如果不在构造函数初始化表达式表中显式调用基类构造函数，就调用默认构造函数</li>
-<li>要为纯虚析构函数提供一个函数体</li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;headerlink&quot; title=&quot;基础知识&quot;&gt;&lt;/a&gt;基础知识&lt;/h4&gt;&lt;ol&gt;
-&lt;li&gt;CRC 类职责协同卡片&lt;/li&gt;
-&lt;li&gt;XP 极限编程，“先写测试”“结对编程”&lt;/li&gt;
-&lt;li&gt;链接器如何
-    
-    </summary>
-    
-      <category term="C++" scheme="http://tusko.cn/categories/C/"/>
-    
-    
       <category term="C++" scheme="http://tusko.cn/tags/C/"/>
-    
-      <category term="笔记" scheme="http://tusko.cn/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
