@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tusko.cn/"/>
-  <updated>2017-11-15T19:34:25.000Z</updated>
+  <updated>2017-11-15T19:41:49.000Z</updated>
   <id>http://tusko.cn/</id>
   
   <author>
@@ -20,10 +20,10 @@
     <link href="http://tusko.cn/2017/11/16/%E5%85%A5%E5%9D%91%E5%86%9C%E8%8D%AF%E4%B9%8B%E4%B8%89%E5%A4%A9%E6%84%9F%E5%8F%97/"/>
     <id>http://tusko.cn/2017/11/16/入坑农药之三天感受/</id>
     <published>2017-11-15T18:06:01.000Z</published>
-    <updated>2017-11-15T19:34:25.000Z</updated>
+    <updated>2017-11-15T19:41:49.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h3><p>&#160; &#160; &#160; &#160;心血来潮入坑王者荣耀，也因为年后要做与游戏相关的事情，还是需要对目前火爆的手游做一些简单的了解，然后玩到有些上瘾（上头），两天在线时间较长被系统禁止登陆。</p>
-<p>&#160; &#160; &#160; &#160;一共玩了三天，44场排位，其中40场使用老夫子这个英雄（荣耀战力是1317，不太清楚这个数值含义），室友的理论指导加上自己的好学精神，打到了白银2，其实感觉这个游戏还是比较简单的，在同等段位我已经具备喷队友的能力。<br>战绩：<br><img src="/image_save/王者战绩.png" alt="王者战绩"></p>
+<p>&#160; &#160; &#160; &#160;一共玩了三天，44场排位，其中40场使用老夫子这个英雄（荣耀战力是1317，不太清楚这个数值含义），室友的理论指导加上自己的好学精神，打到了白银2，其实感觉这个游戏还是比较简单的，在同等段位我已经具备喷队友的能力。<br>战绩：<br><img src="/image_save/王者战绩.PNG" alt="王者战绩"></p>
 <h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>&#160; &#160; &#160; &#160;理论是玩游戏的基础，包括有对装备认识、英雄认识、地图上的野怪、Boss等，第一天对游戏设置、基本操作进行熟悉。</p>
 <p>&#160; &#160; &#160; &#160;在游戏基础设置中，关闭角色描边，相机高度、画面质量、粒子质量都为高，关闭局内文字（基本没人打字，可能影响游戏性能）；在操作设置中，我觉的自由攻击模式（进阶，第二种）更舒服，技能轮盘的灵敏度调到最高（有轮盘的技能会默认指向敌方单位，很智能），另外要显示可攻击头像（我认为这点很重要，一方面可以在团战中快速准确定位攻击目标，第二点对于不常看小地图的玩家来说，敌方英雄图标出现意味着有人要包夹你，快速作出应对，当然敌人进入草丛之后这个图标就会消失，所以抓人时候需要贴草丛走）；右侧出装更舒服一点，不信可试试。</p>
 <p>&#160; &#160; &#160; &#160;第一天因为英雄限制只能玩普通匹配，主要玩亚瑟，之后买了老夫子，感觉这个英雄能坑能打，发挥空间很大，所以决定使用这个英雄熟悉这个游戏。<br>&#160; &#160; &#160; &#160;开始还是按照推荐装备买，只要装备一亮就购买，这其实是个很菜鸟的行为，装备的购买顺序以及小件的顺序都是很有讲究的，装备的选择、以及装备的克制在第三天基本熟悉。</p>
@@ -597,9 +597,9 @@
       <category term="游戏" scheme="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
     
     
-      <category term="转载" scheme="http://tusko.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
-    
       <category term="游戏" scheme="http://tusko.cn/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+      <category term="转载" scheme="http://tusko.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
     
   </entry>
   
@@ -651,9 +651,9 @@
       <category term="游戏" scheme="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
     
     
-      <category term="游戏引擎" scheme="http://tusko.cn/tags/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/"/>
-    
       <category term="转载" scheme="http://tusko.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
+    
+      <category term="游戏引擎" scheme="http://tusko.cn/tags/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/"/>
     
   </entry>
   
@@ -704,9 +704,9 @@
       <category term="游戏" scheme="http://tusko.cn/categories/%E6%B8%B8%E6%88%8F/"/>
     
     
-      <category term="转载" scheme="http://tusko.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
-    
       <category term="游戏" scheme="http://tusko.cn/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+      <category term="转载" scheme="http://tusko.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
     
       <category term="服务器" scheme="http://tusko.cn/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
