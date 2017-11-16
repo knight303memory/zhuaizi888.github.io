@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tusko.cn/"/>
-  <updated>2017-11-16T08:53:32.000Z</updated>
+  <updated>2017-11-16T10:08:39.000Z</updated>
   <id>http://tusko.cn/</id>
   
   <author>
@@ -14,6 +14,52 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux文件结构</title>
+    <link href="http://tusko.cn/2017/11/16/Linux%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/"/>
+    <id>http://tusko.cn/2017/11/16/Linux文件结构/</id>
+    <published>2017-11-16T10:08:18.000Z</published>
+    <updated>2017-11-16T10:08:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Linux文件结构"><a href="#Linux文件结构" class="headerlink" title="Linux文件结构"></a>Linux文件结构</h3><p>&#160; &#160; &#160; &#160;Linux任何事物都可以用一个文件来表示</p>
+<p>&#160; &#160; &#160; &#160;文件的属性、创建时间、访问权限等都被保存在文件的inode节点中，是文件系统中的一个特殊的数据块，文的长度和文件在磁盘上存储位置。目录是用于保存其他文件的节点号和名字的文件，删除一个文件实质上是删除文件对应的目录项 ，指向文件的链接数减1。</p>
+<h3 id="库函数"><a href="#库函数" class="headerlink" title="库函数"></a>库函数</h3><p>&#160; &#160; &#160; &#160;使用系统调用效率低，因为需要从运行用户代码切换到执行内核代码，再返回用户代码，使用函数效率高一些。</p>
+<h3 id="底层文件访问"><a href="#底层文件访问" class="headerlink" title="底层文件访问"></a>底层文件访问</h3><p>&#160; &#160; &#160; &#160;每个运行的程序是进程，文件描述符与之关联。0 ： 标准输入 ， 1 ：标准输出， 2 标准错误</p>
+<p>&#160; &#160; &#160; &#160;几个常见的系统调用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">#include &lt;unistd.h&gt;</div><div class="line"></div><div class="line">//把缓冲区buf的前nbytes个字节写入与文件描述符fildes关联的文件中，返回写入的字节数</div><div class="line">size_t write(int fildes, const void *buf, size_t nbytes);</div><div class="line"></div><div class="line">size_t read(int fildes, void *buf, size_t nbytes);</div><div class="line"></div><div class="line">#include &lt;fcntl.h&gt;</div><div class="line">#include &lt;sys/types.h&gt;</div><div class="line">#include &lt;sys/stat.h&gt;</div><div class="line">open(const char *path,int oflags)</div><div class="line">open(const char *path,int oflags, mode_t mode);</div><div class="line"></div><div class="line">//调用成功就返回一个文件描述符，oflags是打开方式，mode是权限 如：S_IRUSR读权限，文件属主</div><div class="line"></div><div class="line">int close(int fildes)</div><div class="line">//调用成功返回0  失败返回1 </div><div class="line"></div><div class="line">int ioctl(int fildes, int cmd, ...)</div><div class="line">//提供了用于控制设备记起描述符行为和配置底层服务接口</div><div class="line"></div><div class="line"></div><div class="line">off_t lseek(int fildes, off_t offset, int whence)</div><div class="line">//设置文件下一个读写位置 ，whence SEEK_SET是一个绝对位置</div><div class="line"></div><div class="line"></div><div class="line">int fstat(int fildes. struct stat *buf)</div><div class="line">//stat 文件的权限和类型  保存文件的设备  文件属主</div></pre></td></tr></table></figure>
+<h3 id="标准IO库"><a href="#标准IO库" class="headerlink" title="标准IO库"></a>标准IO库</h3><p>&#160; &#160; &#160; &#160;为底层系统调用提供了一个通用的接口，下面是常见的库函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">FILE *fopen(const char *filename, const char *mode);</div><div class="line">//打开指定的文件，并且与一个文件流关联起来，mode参数指定文件打开方式</div><div class="line"></div><div class="line">size_t fread(void *ptr, size_t size, size_t nitems, FILE *stream);</div><div class="line">//数据从文件流stream读到由ptr指向的数据缓冲区里，size制定每个数据记录的长度，nitesms是传输的记录个数，返回值是成功读到缓冲区里的记录个数</div><div class="line"></div><div class="line">size_t fwrite(const void *ptr, size_t size, size_t nitems, FILE * stream)</div><div class="line"></div><div class="line"></div><div class="line">int fflush(FILE *stream)</div><div class="line"></div><div class="line">int fgetc(FILE *stream);</div><div class="line">//从文件流里取出下一个字节并把座位一自负返回 </div><div class="line"></div><div class="line">int getc(FILE *stream);</div><div class="line">int getchar()</div><div class="line">//相当于getc(stdin)</div><div class="line"></div><div class="line"></div><div class="line">char *fgets(char *s, int n FILE *stream)</div><div class="line">//从文件流里读一个字符串 不会丢弃换行符 </div><div class="line"></div><div class="line"></div><div class="line">int sprintf(char *s ,const char * format,...)</div><div class="line">int fprintf(FILE *stream , const char * format,...)</div><div class="line"></div><div class="line">FILE 结构有缓冲区</div></pre></td></tr></table></figure>
+<h3 id="文件和目录维护"><a href="#文件和目录维护" class="headerlink" title="文件和目录维护"></a>文件和目录维护</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">#include &lt;sys/stat.h&gt;</div><div class="line">int chmod(const char *path, mode_t mode)</div><div class="line"></div><div class="line">int chown (const char *path, uid_t owner, gid_t group)</div><div class="line"></div><div class="line"></div><div class="line">int chdir(const char *path)</div><div class="line">//切换目录</div><div class="line"></div><div class="line">//目录例子</div><div class="line">//</div><div class="line">// Created by Killua on 2017/10/31.</div><div class="line">//</div><div class="line"></div><div class="line">#ifndef UNTITLED_PRINTDIR_H</div><div class="line">#define UNTITLED_PRINTDIR_H</div><div class="line"></div><div class="line">#include &lt;unistd.h&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;dirent.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;sys/stat.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line"></div><div class="line">void printDir(char *dir, int depth)</div><div class="line">&#123;</div><div class="line">DIR *dp;</div><div class="line">struct dirent *entry;</div><div class="line">struct stat statbuf;</div><div class="line"></div><div class="line">if((dp = opendir(dir)) == NULL)</div><div class="line">&#123;</div><div class="line">fprintf(stderr, &quot;cannot open directory : %s\n&quot;, dir);</div><div class="line">return;</div><div class="line">&#125;</div><div class="line"></div><div class="line">chdir(dir);</div><div class="line"></div><div class="line">while ((entry = readdir(dp)) != NULL)</div><div class="line">&#123;</div><div class="line">lstat(entry-&gt;d_name, &amp;statbuf);</div><div class="line">if(S_ISDIR(statbuf.st_mode))</div><div class="line">&#123;</div><div class="line">if(strcmp(&quot;.&quot;, entry-&gt;d_name) == 0 || strcmp(&quot;..&quot;, entry-&gt;d_name) == 0)</div><div class="line">&#123;</div><div class="line">continue;</div><div class="line">&#125;</div><div class="line">printf(&quot;%*s%s/\n&quot;, depth, &quot;&quot;, entry-&gt;d_name);</div><div class="line">printDir(entry-&gt;d_name, depth + 4);</div><div class="line">&#125; else&#123;</div><div class="line">printf(&quot;%*s%s\n&quot;, depth, &quot;&quot;, entry-&gt;d_name);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">chdir(&quot;..&quot;);</div><div class="line">closedir(dp);</div><div class="line">&#125;</div><div class="line"></div><div class="line">#endif //UNTITLED_PRINTDIR_H</div></pre></td></tr></table></figure>
+<h3 id="共享内存-mmap函数"><a href="#共享内存-mmap函数" class="headerlink" title="共享内存 mmap函数"></a>共享内存 mmap函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line">void *mmap(void *addr , size_t len , int prot , int flags , int fildes ,off_t off);</div><div class="line"></div><div class="line">//</div><div class="line">// Created by Killua on 2017/10/31.</div><div class="line">//</div><div class="line"></div><div class="line">#ifndef UNTITLED_MMAP_H</div><div class="line">#define UNTITLED_MMAP_H</div><div class="line"></div><div class="line">#include &lt;unistd.h&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;sys/mman.h&gt;</div><div class="line">#include &lt;fcntl.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">typedef struct</div><div class="line">&#123;</div><div class="line">int integer;</div><div class="line">char string[24];</div><div class="line">&#125;RECORD;</div><div class="line"></div><div class="line">#define NRECORDS 100</div><div class="line"></div><div class="line">void run()</div><div class="line">&#123;</div><div class="line">RECORD record, *mapped;</div><div class="line">int i;</div><div class="line">int f;</div><div class="line">FILE *fp;</div><div class="line"></div><div class="line">fp = fopen(&quot;record.dat&quot;, &quot;w+&quot;);</div><div class="line">for(i = 0; i &lt; NRECORDS; i++)</div><div class="line">&#123;</div><div class="line">record.integer = i;</div><div class="line">sprintf(record.string, &quot;RECORD-%d&quot;, i);</div><div class="line">fwrite(&amp;record, sizeof(record), 1, fp);</div><div class="line">&#125;</div><div class="line">fclose(fp);</div><div class="line"></div><div class="line">//43 to 143</div><div class="line">fp = fopen(&quot;record.dat&quot;, &quot;r+&quot;);</div><div class="line">fseek(fp, 43 * sizeof(record), SEEK_SET);</div><div class="line">fread(&amp;record, sizeof(record), 1, fp);</div><div class="line"></div><div class="line">record.integer = 143;</div><div class="line">sprintf(record.string, &quot;RECORD-%d&quot;, 143);</div><div class="line"></div><div class="line">fseek(fp, 43 * sizeof(record), SEEK_SET);</div><div class="line">fwrite(&amp;record, sizeof(record), 1, fp);</div><div class="line"></div><div class="line">fclose(fp);</div><div class="line"></div><div class="line">//mmap</div><div class="line">f = open(&quot;record.dat&quot;, O_RDWR);</div><div class="line">mapped = (RECORD *)mmap(0, NRECORDS * sizeof(record), PROT_READ | PROT_WRITE, MAP_SHARED, f, 0);</div><div class="line"></div><div class="line">mapped[43].integer = 243;</div><div class="line">sprintf(mapped[43].string, &quot;RECORD-%d&quot;, mapped[43].integer);</div><div class="line"></div><div class="line">msync((void *)mapped, NRECORDS * sizeof(record), MS_ASYNC);</div><div class="line">munmap((void *)mapped, NRECORDS * sizeof(record));</div><div class="line">close(f);</div><div class="line"></div><div class="line">fp = fopen(&quot;record.dat&quot;, &quot;r+&quot;);</div><div class="line">fseek(fp, 43 * sizeof(record), SEEK_SET);</div><div class="line">fread(&amp;record, sizeof(record), 1, fp);</div><div class="line">std::cout &lt;&lt; record.string;</div><div class="line"></div><div class="line">exit(0);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#endif //UNTITLED_MMAP_H</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;Linux文件结构&quot;&gt;&lt;a href=&quot;#Linux文件结构&quot; class=&quot;headerlink&quot; title=&quot;Linux文件结构&quot;&gt;&lt;/a&gt;Linux文件结构&lt;/h3&gt;&lt;p&gt;&amp;#160; &amp;#160; &amp;#160; &amp;#160;Linux任何事物都可以用一个
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://tusko.cn/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="http://tusko.cn/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux文件操作</title>
+    <link href="http://tusko.cn/2017/11/16/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
+    <id>http://tusko.cn/2017/11/16/Linux文件操作/</id>
+    <published>2017-11-16T08:54:56.000Z</published>
+    <updated>2017-11-16T08:54:56.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>了解Linux和shell编程</title>
@@ -258,6 +304,68 @@
   </entry>
   
   <entry>
+    <title>Thinking in C++读书笔记</title>
+    <link href="http://tusko.cn/2017/11/11/Thinging-in-C-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    <id>http://tusko.cn/2017/11/11/Thinging-in-C-读书笔记/</id>
+    <published>2017-11-11T03:17:37.000Z</published>
+    <updated>2017-11-11T06:03:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ol>
+<li>CRC 类职责协同卡片</li>
+<li>XP 极限编程，“先写测试”“结对编程”</li>
+<li>链接器如何查找库</li>
+<li>当创建可执行程序时，链接器秘密创建某些模块，启动模块，包含了对程序的初始化例程，建立堆栈</li>
+<li>内部链接   外部链接</li>
+<li>内部链接 只对正在编译的文件创建存储空间，内部链接由static</li>
+<li>外部链接为所有编译过的文件创建单独的内存空间</li>
+<li>转换<br>a. static_cast 用于明确定义的转换，包括非强制转换，窄化变换，void*的强制变换，隐式类型转换，类层次静态定位<br>b. const_case 从const转换为非const或从volatile转换为非volatial<br>c. reinterpret_cast 最不安全的一种转换<br>d. dynamic_cast 向下类型转换  </li>
+<li>asm关键字 允许在c++中写汇编代码</li>
+<li>argv[0]程序本身的本身的路径和名字</li>
+<li>函数指针  void(*funcPtr)(); 先右后左顺序读</li>
+<li>分段编译 makefile</li>
+<li>静态存储区 栈  堆<br>a. 静态内存<br>b. 栈<br>c. 堆</li>
+<li>对void* 类型delete   不会调用析构函数</li>
+<li>int const <em> q = new int[10]  或者 const int </em> q = new int [10] 相同  对*q限制</li>
+<li>int *const q = new int [10] 对q限制</li>
+<li>自定义内存分配系统，重载new和delete， new时，需要一个内存分配表</li>
+<li>显式调用析构函数只发生在定位new</li>
+<li>构造函数和析构函数每一层函数都会调用，通常的成员函数，只是这个函数被调用</li>
+<li>对于成员对象，构造函数调用次序完全不受构造函数的初始化表达式表中的次序影响，次序由成员对象在类中的声明次序所决定</li>
+<li>派生类中改变了成员函数参数列表和返回类型，隐藏其他未重载的</li>
+<li>任何在类内部定义的函数自动地成为内敛函数</li>
+<li>对于任何函数，编译器在它的符号表中放入函数类型，当编译器看到内敛函数和对内敛函数体的进行分析没有发现错误时，就将对应于函数体的代码放入符号表</li>
+<li>构造函数和析构函数、赋值运算符布能被继承</li>
+<li>继承中重写拷贝构造函数和赋值运算符，编译器会假定我们已知道所做的一切，并且不再像在默认构造函数中自动调用基类版本</li>
+<li>静态成员函数：<br>a. 均和被继承到派生类中<br>b. 如果重新定义了一个静态成员，所有在基类中的其他重载函数会被隐藏<br>c. 静态成员函数不可以是虚函数</li>
+<li>组合通常是希望新类内部具有已存在类的功能使用，不是希望已存在类作为它的接口</li>
+<li>函数调用捆绑（函数体与函数调用相联系称为捆绑）</li>
+<li>编译器对包含虚函数的类创建了一个表，放置虚函数的地址，在每个带有虚函数的表中，编译器秘密放置一个指针，指向这个表</li>
+<li>当继承一个抽象类，必须实现所有的纯虚函数，否则继承出的类也是一个抽象类</li>
+<li>纯虚函数禁止对抽象类的函数以传值方式调用，防止对象切片</li>
+<li>如果不在构造函数初始化表达式表中显式调用基类构造函数，就调用默认构造函数</li>
+<li>要为纯虚析构函数提供一个函数体</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;headerlink&quot; title=&quot;基础知识&quot;&gt;&lt;/a&gt;基础知识&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;CRC 类职责协同卡片&lt;/li&gt;
+&lt;li&gt;XP 极限编程，“先写测试”“结对编程”&lt;/li&gt;
+&lt;li&gt;链接器如何
+    
+    </summary>
+    
+      <category term="C++" scheme="http://tusko.cn/categories/C/"/>
+    
+    
+      <category term="笔记" scheme="http://tusko.cn/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="C++" scheme="http://tusko.cn/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>C++PrimerPlus读书笔记</title>
     <link href="http://tusko.cn/2017/11/11/C-PrimerPlus%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     <id>http://tusko.cn/2017/11/11/C-PrimerPlus读书笔记/</id>
@@ -434,71 +542,9 @@
       <category term="C++" scheme="http://tusko.cn/categories/C/"/>
     
     
-      <category term="C++" scheme="http://tusko.cn/tags/C/"/>
-    
       <category term="笔记" scheme="http://tusko.cn/tags/%E7%AC%94%E8%AE%B0/"/>
     
-  </entry>
-  
-  <entry>
-    <title>Thinking in C++读书笔记</title>
-    <link href="http://tusko.cn/2017/11/11/Thinging-in-C-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    <id>http://tusko.cn/2017/11/11/Thinging-in-C-读书笔记/</id>
-    <published>2017-11-11T03:17:37.000Z</published>
-    <updated>2017-11-11T06:03:16.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ol>
-<li>CRC 类职责协同卡片</li>
-<li>XP 极限编程，“先写测试”“结对编程”</li>
-<li>链接器如何查找库</li>
-<li>当创建可执行程序时，链接器秘密创建某些模块，启动模块，包含了对程序的初始化例程，建立堆栈</li>
-<li>内部链接   外部链接</li>
-<li>内部链接 只对正在编译的文件创建存储空间，内部链接由static</li>
-<li>外部链接为所有编译过的文件创建单独的内存空间</li>
-<li>转换<br>a. static_cast 用于明确定义的转换，包括非强制转换，窄化变换，void*的强制变换，隐式类型转换，类层次静态定位<br>b. const_case 从const转换为非const或从volatile转换为非volatial<br>c. reinterpret_cast 最不安全的一种转换<br>d. dynamic_cast 向下类型转换  </li>
-<li>asm关键字 允许在c++中写汇编代码</li>
-<li>argv[0]程序本身的本身的路径和名字</li>
-<li>函数指针  void(*funcPtr)(); 先右后左顺序读</li>
-<li>分段编译 makefile</li>
-<li>静态存储区 栈  堆<br>a. 静态内存<br>b. 栈<br>c. 堆</li>
-<li>对void* 类型delete   不会调用析构函数</li>
-<li>int const <em> q = new int[10]  或者 const int </em> q = new int [10] 相同  对*q限制</li>
-<li>int *const q = new int [10] 对q限制</li>
-<li>自定义内存分配系统，重载new和delete， new时，需要一个内存分配表</li>
-<li>显式调用析构函数只发生在定位new</li>
-<li>构造函数和析构函数每一层函数都会调用，通常的成员函数，只是这个函数被调用</li>
-<li>对于成员对象，构造函数调用次序完全不受构造函数的初始化表达式表中的次序影响，次序由成员对象在类中的声明次序所决定</li>
-<li>派生类中改变了成员函数参数列表和返回类型，隐藏其他未重载的</li>
-<li>任何在类内部定义的函数自动地成为内敛函数</li>
-<li>对于任何函数，编译器在它的符号表中放入函数类型，当编译器看到内敛函数和对内敛函数体的进行分析没有发现错误时，就将对应于函数体的代码放入符号表</li>
-<li>构造函数和析构函数、赋值运算符布能被继承</li>
-<li>继承中重写拷贝构造函数和赋值运算符，编译器会假定我们已知道所做的一切，并且不再像在默认构造函数中自动调用基类版本</li>
-<li>静态成员函数：<br>a. 均和被继承到派生类中<br>b. 如果重新定义了一个静态成员，所有在基类中的其他重载函数会被隐藏<br>c. 静态成员函数不可以是虚函数</li>
-<li>组合通常是希望新类内部具有已存在类的功能使用，不是希望已存在类作为它的接口</li>
-<li>函数调用捆绑（函数体与函数调用相联系称为捆绑）</li>
-<li>编译器对包含虚函数的类创建了一个表，放置虚函数的地址，在每个带有虚函数的表中，编译器秘密放置一个指针，指向这个表</li>
-<li>当继承一个抽象类，必须实现所有的纯虚函数，否则继承出的类也是一个抽象类</li>
-<li>纯虚函数禁止对抽象类的函数以传值方式调用，防止对象切片</li>
-<li>如果不在构造函数初始化表达式表中显式调用基类构造函数，就调用默认构造函数</li>
-<li>要为纯虚析构函数提供一个函数体</li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;headerlink&quot; title=&quot;基础知识&quot;&gt;&lt;/a&gt;基础知识&lt;/h4&gt;&lt;ol&gt;
-&lt;li&gt;CRC 类职责协同卡片&lt;/li&gt;
-&lt;li&gt;XP 极限编程，“先写测试”“结对编程”&lt;/li&gt;
-&lt;li&gt;链接器如何
-    
-    </summary>
-    
-      <category term="C++" scheme="http://tusko.cn/categories/C/"/>
-    
-    
       <category term="C++" scheme="http://tusko.cn/tags/C/"/>
-    
-      <category term="笔记" scheme="http://tusko.cn/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
