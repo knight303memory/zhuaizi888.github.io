@@ -75,12 +75,10 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="计算机博弈" />
+  <meta name="keywords" content="Linux," />
 
 
 
-
-  
 
 
   <link rel="alternate" href="/atom.xml" title="Killua's blog" type="application/atom+xml" />
@@ -95,13 +93,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Killua's blog">
-<meta property="og:url" content="http://tusko.cn/404.html">
+<meta name="description" content="了解Linux&amp;#160; &amp;#160; &amp;#160; &amp;#160;Linux只是内核，有内核源代码，可以编译后安装其他软件，组成一个完整的系统，我们常常使用的是Linux发行版，不仅有内核还包含其他应用程序，以及参考文档等。
+&amp;#160; &amp;#160; &amp;#160; &amp;#160;Linux中一切皆文件，应用程序分两种，可执行文件和脚本文件，它们的扩展名可以是任意的，登录进Linux后与一个SHE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="了解Linux和shell编程">
+<meta property="og:url" content="http://tusko.cn/2017/11/16/了解Linux和shell编程/index.html">
 <meta property="og:site_name" content="Killua's blog">
-<meta property="og:updated_time" content="2017-07-22T08:42:40.000Z">
+<meta property="og:description" content="了解Linux&amp;#160; &amp;#160; &amp;#160; &amp;#160;Linux只是内核，有内核源代码，可以编译后安装其他软件，组成一个完整的系统，我们常常使用的是Linux发行版，不仅有内核还包含其他应用程序，以及参考文档等。
+&amp;#160; &amp;#160; &amp;#160; &amp;#160;Linux中一切皆文件，应用程序分两种，可执行文件和脚本文件，它们的扩展名可以是任意的，登录进Linux后与一个SHE">
+<meta property="og:updated_time" content="2017-11-16T08:51:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Killua's blog">
+<meta name="twitter:title" content="了解Linux和shell编程">
+<meta name="twitter:description" content="了解Linux&amp;#160; &amp;#160; &amp;#160; &amp;#160;Linux只是内核，有内核源代码，可以编译后安装其他软件，组成一个完整的系统，我们常常使用的是Linux发行版，不仅有内核还包含其他应用程序，以及参考文档等。
+&amp;#160; &amp;#160; &amp;#160; &amp;#160;Linux中一切皆文件，应用程序分两种，可执行文件和脚本文件，它们的扩展名可以是任意的，登录进Linux后与一个SHE">
 
 
 
@@ -129,19 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://tusko.cn/404.html"/>
+  <link rel="canonical" href="http://tusko.cn/2017/11/16/了解Linux和shell编程/"/>
 
 
 
 
 
-  <title>
-  
-
-  
-     | Killua's blog
-  
-</title>
+  <title> 了解Linux和shell编程 | Killua's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -176,7 +174,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -307,29 +305,220 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h2 class="post-title" itemprop="name headline"></h2>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://tusko.cn/2017/11/16/了解Linux和shell编程/">
 
-</header>
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Killua">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Killua's blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Killua's blog" src="">
+    </span>
+  </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                了解Linux和shell编程
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-16T16:50:14+08:00">
+                2017-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/11/16/了解Linux和shell编程/" class="leancloud_visitors" data-flag-title="了解Linux和shell编程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <!DOCTYPE HTML>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=utf-8;">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="robots" content="all">
-  <meta name="robots" content="index,follow">
-</head>
-<body>
-<script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8" homepageurl="your-site-url" homepagename="�ص��ҵ���ҳ"></script>
-</body>
-</html>
-    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="了解Linux"><a href="#了解Linux" class="headerlink" title="了解Linux"></a>了解Linux</h3><p>&#160; &#160; &#160; &#160;Linux只是内核，有内核源代码，可以编译后安装其他软件，组成一个完整的系统，我们常常使用的是Linux发行版，不仅有内核还包含其他应用程序，以及参考文档等。</p>
+<p>&#160; &#160; &#160; &#160;Linux中一切皆文件，应用程序分两种，可执行文件和脚本文件，它们的扩展名可以是任意的，登录进Linux后与一个SHELL程序交互。</p>
+<p>/bin：二进制目录文件，系统启动时使用<br>/usr/bin： 用户使用的程序，二进制目录<br>/usr/local/bin：本地二进制目录，存放安装的程序</p>
+<p>&#160; &#160; &#160; &#160;Linux中使用冒号：分隔PATH中的变量，WINDOWS使用分号；</p>
+<p>&#160; &#160; &#160; &#160;函数库有静态库和共享库（动态库），前者常以.a结尾，后者.so，C语言函数库是静态库。静态库的缺点是同时运行许多应用程序并且它们都使用来自同一个函数库的函数，函数会在内存中游多个拷贝；共享库是编译好的程序装载到内存中执行时，共享库才加到内存。</p>
+<h3 id="Shell程序"><a href="#Shell程序" class="headerlink" title="Shell程序"></a>Shell程序</h3><p>&#160; &#160; &#160; &#160;shell是Linux系统对用户的接口，用户向操作系统输入需要执行的命令</p>
+<h4 id="管道和重定向"><a href="#管道和重定向" class="headerlink" title="管道和重定向"></a>管道和重定向</h4><p>&#160; &#160; &#160; &#160;&gt;输出重定向到一个文件，&gt;&gt;追加到文件<br>&#160; &#160; &#160; &#160;&lt;输入重定向，可以将文件作为输入<br>&#160; &#160; &#160; &#160;管道例子：ps | sort | more </p>
+<h4 id="shell编程"><a href="#shell编程" class="headerlink" title="shell编程"></a>shell编程</h4><p>&#160; &#160; &#160; &#160;脚本中使用条件语句和shell命令结合，方便查找测试等<br>&#160; &#160; &#160; &#160;脚本例子，查找包含字符串POSIX的文件:</p>
+<p>for file in *<br>do<br>if grep -l POSIX $file<br>then<br>more $file<br>fi<br>done</p>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><p>sa=hello //给sa变量赋值hello<br>echo $sa  //输出helllo<br>read sa //从用户输入赋值</p>
+<p>var=”Hi hello”<br>echo $var   // hi hello<br>echo “$var”  // hi hello<br>echo ‘$var’  // $var<br>echo \$var   // $var</p>
+<p>//环境变量<br>$HOME 当前用户家目录<br>$PATH 系统搜索路径<br>$PS1 命令提示符<br>$PS2 二级命令提示符<br>$0 shell脚本名字<br>$# 脚本参数个数<br>$$ shell脚本进程号<br>$1 $2 参数</p>
+<h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><p>if [ -f file ] //注意两边的空格<br>then<br>fi</p>
+<p>//或者可以这样写<br>if test -f file </p>
+<h4 id="控制结构"><a href="#控制结构" class="headerlink" title="控制结构"></a>控制结构</h4><p>if<br>then<br>elif<br>clse<br>fi<br>exit 0 </p>
+<p>for in<br>do<br>done</p>
+<p>while<br>do<br>done</p>
+<p>//case<br>echo “Is it morning ?”<br>read timeofday<br>case “$timeofday” in<br>yes | y | YES) echo “hehehe”;;<br>esac </p>
+<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>foo(){<br>echo “func foo is executing”<br>}</p>
+<p>//调用<br>foo</p>
+<h4 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h4><p>break<br>continue<br>.<br>echo<br>eval //对参数求值<br>exec //将当前shell替换为一个不同的程序  exec wall ； exec 3 &lt; afile<br>exit n<br>export //将它作为参数的变量导出到子shell中<br>shift //将所有参数变量左移一个位置<br>trap //接收到信号后 要采取的行动  trap ‘rm -f aa’ INT<br>find // find / -name test -printf<br>grep // grep in words.txt</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/16/入坑农药之三天感受/" rel="next" title="入坑农药之三天感受">
+                <i class="fa fa-chevron-left"></i> 入坑农药之三天感受
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_cqq"></a>
+	<a class="jiathis_button_fav"></a>
+	<a href="http://www.jiathis.com/share?uid=2139644" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2139644" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
   </div>
 
           
@@ -363,8 +552,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -447,6 +645,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#了解Linux"><span class="nav-number">1.</span> <span class="nav-text">了解Linux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shell程序"><span class="nav-number">2.</span> <span class="nav-text">Shell程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#管道和重定向"><span class="nav-number">2.1.</span> <span class="nav-text">管道和重定向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shell编程"><span class="nav-number">2.2.</span> <span class="nav-text">shell编程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变量"><span class="nav-number">2.3.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件"><span class="nav-number">2.4.</span> <span class="nav-text">条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#控制结构"><span class="nav-number">2.5.</span> <span class="nav-text">控制结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数"><span class="nav-number">2.6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命令"><span class="nav-number">2.7.</span> <span class="nav-text">命令</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -557,6 +771,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 

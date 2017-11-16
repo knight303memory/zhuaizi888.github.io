@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tusko.cn/"/>
-  <updated>2017-11-15T19:52:59.000Z</updated>
+  <updated>2017-11-16T08:51:03.000Z</updated>
   <id>http://tusko.cn/</id>
   
   <author>
@@ -14,6 +14,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>了解Linux和shell编程</title>
+    <link href="http://tusko.cn/2017/11/16/%E4%BA%86%E8%A7%A3Linux%E5%92%8Cshell%E7%BC%96%E7%A8%8B/"/>
+    <id>http://tusko.cn/2017/11/16/了解Linux和shell编程/</id>
+    <published>2017-11-16T08:50:14.000Z</published>
+    <updated>2017-11-16T08:51:03.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="了解Linux"><a href="#了解Linux" class="headerlink" title="了解Linux"></a>了解Linux</h3><p>&#160; &#160; &#160; &#160;Linux只是内核，有内核源代码，可以编译后安装其他软件，组成一个完整的系统，我们常常使用的是Linux发行版，不仅有内核还包含其他应用程序，以及参考文档等。</p>
+<p>&#160; &#160; &#160; &#160;Linux中一切皆文件，应用程序分两种，可执行文件和脚本文件，它们的扩展名可以是任意的，登录进Linux后与一个SHELL程序交互。</p>
+<p>/bin：二进制目录文件，系统启动时使用<br>/usr/bin： 用户使用的程序，二进制目录<br>/usr/local/bin：本地二进制目录，存放安装的程序</p>
+<p>&#160; &#160; &#160; &#160;Linux中使用冒号：分隔PATH中的变量，WINDOWS使用分号；</p>
+<p>&#160; &#160; &#160; &#160;函数库有静态库和共享库（动态库），前者常以.a结尾，后者.so，C语言函数库是静态库。静态库的缺点是同时运行许多应用程序并且它们都使用来自同一个函数库的函数，函数会在内存中游多个拷贝；共享库是编译好的程序装载到内存中执行时，共享库才加到内存。</p>
+<h3 id="Shell程序"><a href="#Shell程序" class="headerlink" title="Shell程序"></a>Shell程序</h3><p>&#160; &#160; &#160; &#160;shell是Linux系统对用户的接口，用户向操作系统输入需要执行的命令</p>
+<h4 id="管道和重定向"><a href="#管道和重定向" class="headerlink" title="管道和重定向"></a>管道和重定向</h4><p>&#160; &#160; &#160; &#160;&gt;输出重定向到一个文件，&gt;&gt;追加到文件<br>&#160; &#160; &#160; &#160;&lt;输入重定向，可以将文件作为输入<br>&#160; &#160; &#160; &#160;管道例子：ps | sort | more </p>
+<h4 id="shell编程"><a href="#shell编程" class="headerlink" title="shell编程"></a>shell编程</h4><p>&#160; &#160; &#160; &#160;脚本中使用条件语句和shell命令结合，方便查找测试等<br>&#160; &#160; &#160; &#160;脚本例子，查找包含字符串POSIX的文件:</p>
+<p>for file in *<br>do<br>if grep -l POSIX $file<br>then<br>more $file<br>fi<br>done</p>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><p>sa=hello //给sa变量赋值hello<br>echo $sa  //输出helllo<br>read sa //从用户输入赋值</p>
+<p>var=”Hi hello”<br>echo $var   // hi hello<br>echo “$var”  // hi hello<br>echo ‘$var’  // $var<br>echo \$var   // $var</p>
+<p>//环境变量<br>$HOME 当前用户家目录<br>$PATH 系统搜索路径<br>$PS1 命令提示符<br>$PS2 二级命令提示符<br>$0 shell脚本名字<br>$# 脚本参数个数<br>$$ shell脚本进程号<br>$1 $2 参数</p>
+<h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><p>if [ -f file ] //注意两边的空格<br>then<br>fi</p>
+<p>//或者可以这样写<br>if test -f file </p>
+<h4 id="控制结构"><a href="#控制结构" class="headerlink" title="控制结构"></a>控制结构</h4><p>if<br>then<br>elif<br>clse<br>fi<br>exit 0 </p>
+<p>for in<br>do<br>done</p>
+<p>while<br>do<br>done</p>
+<p>//case<br>echo “Is it morning ?”<br>read timeofday<br>case “$timeofday” in<br>yes | y | YES) echo “hehehe”;;<br>esac </p>
+<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>foo(){<br>echo “func foo is executing”<br>}</p>
+<p>//调用<br>foo</p>
+<h4 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h4><p>break<br>continue<br>.<br>echo<br>eval //对参数求值<br>exec //将当前shell替换为一个不同的程序  exec wall ； exec 3 &lt; afile<br>exit n<br>export //将它作为参数的变量导出到子shell中<br>shift //将所有参数变量左移一个位置<br>trap //接收到信号后 要采取的行动  trap ‘rm -f aa’ INT<br>find // find / -name test -printf<br>grep // grep in words.txt</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;了解Linux&quot;&gt;&lt;a href=&quot;#了解Linux&quot; class=&quot;headerlink&quot; title=&quot;了解Linux&quot;&gt;&lt;/a&gt;了解Linux&lt;/h3&gt;&lt;p&gt;&amp;#160; &amp;#160; &amp;#160; &amp;#160;Linux只是内核，有内核源代码，可以编译后安
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://tusko.cn/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="http://tusko.cn/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>入坑农药之三天感受</title>
@@ -747,9 +790,9 @@
     
       <category term="计算机博弈" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88/"/>
     
-      <category term="计算机博弈算法" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88%E7%AE%97%E6%B3%95/"/>
-    
       <category term="算法" scheme="http://tusko.cn/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="计算机博弈算法" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -876,9 +919,9 @@
     
       <category term="计算机博弈" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88/"/>
     
-      <category term="计算机博弈算法" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88%E7%AE%97%E6%B3%95/"/>
-    
       <category term="算法" scheme="http://tusko.cn/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="计算机博弈算法" scheme="http://tusko.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%9A%E5%BC%88%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
